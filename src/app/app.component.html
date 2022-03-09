@@ -1,0 +1,147 @@
+<link
+  href="/assets/vendor/bootstrap-5.1.0-dist/css/bootstrap.min.css"
+  rel="stylesheet"
+/>
+
+
+<div style="background-color: gray">
+  <div style="display: flex;
+">
+    <div class="wrapper"
+         onclick="this.classList.toggle('flipCard')">
+      <div class="card front-face">
+        <!--src="https://s1.cdn.autoevolution.com/images/gallery/HOLDENCommodoreSedan-2901_2.jpg"-->
+        <!--src="https://www.cars-data.com/webp/thumbs/350px/aston-martin/aston-martin-vantage_4120_9.webp"-->
+        <img
+          src="https://s1.cdn.autoevolution.com/images/gallery/CADILLAC-ATS-V-Coupe-5340_24.jpg"
+        />
+        <div class="card-body">
+          <h5 class="card-title">Aston Martin Vantage</h5>
+          <h6 class="card-subtitle mb-2 text-muted">1Ft</h6>
+          <p class="card-text">
+            Igen! Jól látja! NEM ÁTVERÉS!!! Ezt az autót itt és most
+            mindösszesen egy forintért vásárolhatja meg!!!
+          </p>
+          <a href="#" class="btn btn-primary">Add to Cart</a>
+        </div>
+      </div>
+
+      <div class="card back-face"
+           onclick="event.stopPropagation()">
+        <button class="back-face-top"
+             onclick="document.querySelector('.wrapper').classList.remove('flipCard')">
+          &#8656;
+        </button>
+        <ul class="nav nav-tabs" id="back-tabs">
+          <li>
+            <a class="nav-link active" href="#home" data-bs-toggle="tab">Tech</a>
+          </li>
+          <li>
+            <a class="nav-link" href="#profile" data-bs-toggle="tab">Size</a>
+          </li>
+          <li>
+            <a class="nav-link" href="#messages" data-bs-toggle="tab">Option</a>
+          </li>
+          <li>
+            <a class="nav-link" href="#settings" data-bs-toggle="tab">Link</a>
+          </li>
+        </ul>
+
+        <div class="tab-content container-fluid" id="back-tabs-content">
+          <div
+            class="tab-pane active"
+            style="background-color: ivory"
+            id="home">
+            <table class="table table-striped">
+
+              <tbody>
+              <tr>
+                <th scope="row">Name</th>
+                <td>value</td>
+              </tr>
+              <tr>
+                <th scope="row">Name</th>
+                <td>value</td>
+              </tr>
+              <tr>
+                <th scope="row">Name</th>
+                <td>value</td>
+              </tr>
+              <tr>
+                <th scope="row">Name</th>
+                <td>value</td>
+              </tr>
+              <tr>
+                <th scope="row">Name</th>
+                <td>value</td>
+              </tr>
+              <tr>
+                <th scope="row">Name</th>
+                <td>value</td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+          <div class="tab-pane" id="profile">
+            Profike
+          </div>
+          <div class="tab-pane" id="messages">
+            Messages
+          </div>
+          <div class="tab-pane" id="settings">
+            Settings
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+    <div class="wrapper"
+         onclick="this.classList.toggle('flipCard')"
+         style="display: flex">
+      <div class="card front-face">
+        <!--src="https://s1.cdn.autoevolution.com/images/gallery/HOLDENCommodoreSedan-2901_2.jpg"-->
+        <img
+        src="https://www.cars-data.com/webp/thumbs/350px/aston-martin/aston-martin-vantage_4120_9.webp"
+        />
+        <div class="card-body">
+          <h5 class="card-title">Aston Martin Vantage</h5>
+          <h6 class="card-subtitle mb-2 text-muted">1Ft</h6>
+          <p class="card-text">
+            Igen! Jól látja! NEM ÁTVERÉS!!! Ezt az autót itt és most
+            mindösszesen egy forintért vásárolhatja meg!!!
+          </p>
+          <a href="#" class="btn btn-primary">Add to Cart</a>
+        </div>
+      </div>
+
+      <div class="card back-face"
+           onclick="event.stopPropagation()">
+        <div class="back-face-top"
+             onclick="document.querySelector('.wrapper').classList.remove('flipCard')">
+          &#8656;
+        </div>
+        <ul class="nav nav-tabs" id="back1-tabs">
+          <li>
+            <a class="nav-link active" href="#home" data-bs-toggle="tab">Tech</a>
+          </li>
+          <li>
+            <a class="nav-link" href="#profile" data-bs-toggle="tab">Size</a>
+          </li>
+          <li>
+            <a class="nav-link" href="#messages" data-bs-toggle="tab">Option</a>
+          </li>
+          <li>
+            <a class="nav-link" href="#settings" data-bs-toggle="tab">Link</a>
+          </li>
+        </ul>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/vendor/bootstrap-5.1.0-dist/js/bootstrap.min.js"></script>
+
