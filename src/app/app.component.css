@@ -23,7 +23,7 @@ body {
 
 .wrapper {
   display: flex;
-  height: 400px;
+  height: 420px;
   width: 280px;
   flex: none;
   position: relative;
@@ -39,7 +39,7 @@ body {
   width: 100%;
   background: #fff;
   border-radius: 10px;
-  transform: translateY(0deg);
+  /*transform: translateY(0deg);*/
   transform-style: preserve-3d;
   backface-visibility: hidden;
   box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
@@ -66,11 +66,11 @@ body {
 .wrapper .card img {
   border-radius: 10px 10px 0px 0px;
   object-fit: cover;
-  max-height: 200px;
+  max-height: 180px;
   border-radius: 10px 10px 0px 0px;
 
   /*ezek kellenek a db-be*/
-  object-position: right 6rem top 80%;
+  object-position: -9.3vh -10vh;
   width: 155%;
   height: 155%;
 }
@@ -82,7 +82,7 @@ body {
   border-radius: 10px 10px 0px 0px;
   background-color: #dfc2c4;
   border: 0;
-  box-shadow: 0;
+  /*box-shadow: 0;*/
 }
 
 .back-face-top:hover {
