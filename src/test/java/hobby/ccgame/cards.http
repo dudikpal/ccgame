@@ -54,6 +54,13 @@ Content-Type: application/json
     "objectPositionVertical": "23vh"
 }
 ###
+DELETE http://localhost:8080/api/cards
+Content-Type: application/json
+
+{
+    "id": "2007_audi_a4_71215"
+}
+###
 GET http://localhost:8080/api/cards
 Accept: application/json
 
