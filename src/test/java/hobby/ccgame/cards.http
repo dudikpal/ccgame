@@ -1,0 +1,60 @@
+POST http://localhost:8080/api/cards
+Content-Type: application/json
+
+{
+  "id":"2007_audi_a4_71215",
+  "manufacturer":"Audi",
+  "type":"A4 2.0T",
+  "year":2007,
+  "doors":4,
+  "body":"Sedan",
+  "seats":5,
+  "driveWheel":"FWD",
+  "engineType":"Gas",
+  "fuelType":"N/A",
+  "engineCapacity":2000,
+  "powerKW":149,
+  "powerHP":200,
+  "maxTorque":280,
+  "topSpeed":-1,
+  "acceleration":7.58,
+  "weight":1544,
+  "length":4572,
+  "width":1752,
+  "height":1422,
+  "groundClearance":101,
+  "tractionControl":"N/A",
+  "imageUrl":"https://www.carspecs.us/photos/259364f9e0cb9d7bd9fa122bb9f0ae23f7baf8bb-2000.jpg",
+  "logoURL":"N/A",
+  "carPageUrl":"https://www.carspecs.us/cars/2007/audi/a4/71215",
+  "objectPositionHorizontal":"11vh",
+  "objectPositionVertical":"11vh",
+  "objectWidth":"150%",
+  "objectHeight":"150%",
+  "gear1st":3.67,
+  "gear2nd":2.05,
+  "gear3rd":1.37,
+  "gear4th":1.03,
+  "gear5th":0.8,
+  "gear6th":0.66,
+  "finalDrive":3.75,
+  "abs":"yes"}
+###
+PUT http://localhost:8080/api/cards/2007_audi_a4_71215
+Content-Type: application/json
+
+{
+  "year":2017
+  }
+###
+PUT http://localhost:8080/api/cards/2007_audi_a4_71215
+Content-Type: application/json
+
+{
+    "objectPositionVertical": "23vh"
+}
+###
+GET http://localhost:8080/api/cards
+Accept: application/json
+
+###
