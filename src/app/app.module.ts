@@ -6,13 +6,15 @@ import { CardComponent } from './part/card/card.component';
 import { DeckComponent } from './part/deck/deck.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
+import { TabContentComponent } from './part/tab-content/tab-content.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CardComponent,
-    DeckComponent
+    DeckComponent,
+    TabContentComponent
   ],
   imports: [
     BrowserModule,

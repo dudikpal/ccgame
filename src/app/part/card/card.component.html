@@ -1,0 +1,103 @@
+<div class="wrapper"
+     [id]=card.id
+     onclick="this.classList.toggle('flipCard')">
+    <div class="card front-face">
+        <!--src="https://s1.cdn.autoevolution.com/images/gallery/HOLDENCommodoreSedan-2901_2.jpg"-->
+        <!--src="https://www.cars-data.com/webp/thumbs/350px/aston-martin/aston-martin-vantage_4120_9.webp"-->
+        <img
+            [src]=card.imageUrl.value
+        />
+        <div class="card-body"
+        style="resize: both">
+            <div class="card-title"
+            style="font-size: 2.5vh;
+            text-align: center;
+
+            "
+            >{{card.manufacturer.value}}</div>
+            <div class="card-title"
+            style="
+
+            /*width: 100%;
+            height: 100%;*/
+display: inline-flex;
+            height: auto;
+            width: auto;
+            resize: both;
+            white-space: nowrap;
+            border: solid 1px;
+            margin-top: 0px;
+            text-align: center"
+            >{{card.type.value}}</div>
+
+            <table class="table table-striped">
+                <tbody>
+                <tr>
+                    <th scope="row" [innerHTML]="card.engineCapacity.name"></th>
+                    <td>{{card.engineCapacity.value}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">{{card.acceleration.name}}</th>
+                    <td>{{card.acceleration.value}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">{{card.topSpeed.name}}</th>
+                    <td>{{card.topSpeed.value}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">{{card.powerHP.name}}</th>
+                    <td>{{card.powerHP.value}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <a href="#" class="btn btn-primary">Add to Cart</a>
+        </div>
+    </div>
+
+    <div class="card back-face"
+         onclick="event.stopPropagation()">
+        <button class="back-face-top"
+                (click)="flipToFront(card.id)">
+            &#8656;
+        </button>
+
+        <ul class="nav nav-tabs" id="back-tabs{{card.id}}">
+            <li>
+                <a class="nav-link active" href="#chassis{{card.id}}" data-bs-toggle="tab">Chassis</a>
+            </li>
+            <li>
+                <a class="nav-link" href="#drive{{card.id}}" data-bs-toggle="tab">Drive</a>
+            </li>
+            <li>
+                <a class="nav-link" href="#dim{{card.id}}" data-bs-toggle="tab">Dim.</a>
+            </li>
+            <li>
+                <a class="nav-link" href="#transm{{card.id}}" data-bs-toggle="tab">Transm.</a>
+            </li>
+        </ul>
+
+        <div class="tab-content container-fluid" id="back-tabs-content">
+            <div
+                class="tab-pane active"
+                style="background-color: ivory"
+                id="chassis{{card.id}}">
+
+            <app-tab-content
+            [card] = card></app-tab-content>
+
+
+            </div>
+            <div class="tab-pane" id="drive{{card.id}}">
+                Profike
+            </div>
+            <div class="tab-pane" id="dim{{card.id}}">
+                Messages
+            </div>
+            <div class="tab-pane" id="transm{{card.id}}">
+                Settings
+            </div>
+        </div>
+
+
+    </div>
+</div>
