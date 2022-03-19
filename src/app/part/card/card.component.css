@@ -27,24 +27,17 @@
 }
 
 .card-body {
-    /*resize: both;*/
 
 }
 
-.card-title {
 
-    font-family:'Barlow GX';
-    font-weight: 10;
-    margin: 0;
-    line-height: 0.9;
-}
 
 /*.wrapper:hover>.front-face {
   transform: rotateY(-180deg);
 }*/
 
 .wrapper .front-face {
-    overflow: hidden;
+    /*overflow: hidden;*/
     background-color: #fff5d8;
 }
 
@@ -107,7 +100,7 @@
 }
 
 .back-face .info .title {
-    font-size: 1rem;
+    font-size: 10rem;
     font-weight: 50;
 }
 

@@ -1,25 +1,24 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-tab-content',
-  templateUrl: './tab-content.component.html',
-  styleUrls: ['./tab-content.component.css']
+    selector: 'app-tab-content',
+    templateUrl: './tab-content.component.html',
+    styleUrls: ['./tab-content.component.css']
 })
 export class TabContentComponent implements OnInit {
 
-    @Input() card: any;
+    @Input() datas: any;
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-
-  public frontData(): any[] {
-
-      return [
-        this.card.manufacturer
-      ];
+    constructor() {
     }
 
+    ngOnInit(): void {
+
+
+    }
+
+    isNumber(num: any) {
+
+        return typeof num === 'number';
+    }
 }

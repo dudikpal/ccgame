@@ -7,6 +7,8 @@ import { DeckComponent } from './part/deck/deck.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { TabContentComponent } from './part/tab-content/tab-content.component';
+import { FontSizeVariableComponent } from './part/font-size-variable/font-size-variable.component';
+import { TextVarSizeBlockComponent } from './part/text-var-size-block/text-var-size-block.component';
 
 
 @NgModule({
@@ -14,7 +16,9 @@ import { TabContentComponent } from './part/tab-content/tab-content.component';
     AppComponent,
     CardComponent,
     DeckComponent,
-    TabContentComponent
+    TabContentComponent,
+    FontSizeVariableComponent,
+    TextVarSizeBlockComponent
   ],
   imports: [
     BrowserModule,
