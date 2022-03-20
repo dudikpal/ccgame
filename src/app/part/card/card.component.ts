@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {addWarning} from "@angular-devkit/build-angular/src/utils/webpack-diagnostics";
+let flowtype = require('../../../assets/vendor/flowtype');
 
 @Component({
     selector: 'app-card',
@@ -24,6 +25,12 @@ export class CardComponent implements OnInit {
 
     ngOnInit(): void {
 
+
+    }
+
+    sendCard(id: string, event: Event) {
+        console.log(id);
+        event.stopPropagation();
     }
 
    frontDatas() {

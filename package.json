@@ -18,6 +18,7 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
+    "flowtype": "^2.0.0",
     "http": "0.0.1-security",
     "nodejs": "0.0.0",
     "rxjs": "~7.5.0",

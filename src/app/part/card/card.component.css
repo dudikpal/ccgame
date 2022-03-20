@@ -30,7 +30,19 @@
 
 }
 
+.card-title {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bolder;
+    text-align: center;
+    text-transform: uppercase;
+}
 
+.img-logo {
+    height: 40px;
+    background-color: #e1e8ee;
+
+}
 
 /*.wrapper:hover>.front-face {
   transform: rotateY(-180deg);
@@ -49,7 +61,7 @@
     transform: rotateY(0deg);
 }
 
-.wrapper .card img {
+.img-car {
     border-radius: 10px 10px 0px 0px;
     object-fit: cover;
     min-height: 200px;
@@ -99,13 +111,24 @@
     text-align: center;
 }
 
-.back-face .info .title {
-    font-size: 10rem;
-    font-weight: 50;
-}
-
 .nav-link {
     font-size: 0.7rem;
 }
 
 
+.front-table  {
+
+
+    line-height: 0.6;
+
+}
+
+.sendbtn {
+    height: 6.7%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0px 0px 10px 10px;
+    background-color: #dfc2c4;
+    border: 1px solid black;
+    line-height: 1;
+}
