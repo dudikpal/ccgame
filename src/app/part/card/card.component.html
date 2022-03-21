@@ -2,32 +2,31 @@
      [id]=card.id
      onclick="this.classList.toggle('flipCard')">
     <div class="card front-face">
-        <!--src="https://s1.cdn.autoevolution.com/images/gallery/HOLDENCommodoreSedan-2901_2.jpg"-->
-        <!--src="https://www.cars-data.com/webp/thumbs/350px/aston-martin/aston-martin-vantage_4120_9.webp"-->
         <img
             class="img-car"
             [src]=card.imageUrl.value
         />
-        <!--<div class="card-body">-->
 
-            <div class="card-title">
-                <img
-                    class="img-logo"
+<div style="display: flex">
+            <img
+                class="img-logo"
 
-                    [src]=card.logoURL.value >
-                {{card.manufacturer.value}}
-            </div>
+                [src]=card.logoURL.value>
+        <div class="card-title">
+            {{card.manufacturer.value}}
+        </div>
+</div>
+        <app-text-var-size-block
+            [card]="card"
+        ></app-text-var-size-block>
 
-            <app-text-var-size-block
-                [subtitle] = card.type.value
-            ></app-text-var-size-block>
+        <app-tab-content class="front-table"
+                         [datas]="frontDatas()"></app-tab-content>
+        <a id="select_btn_{{card.id}}"
+           type="button"
+           class="btn btn-primary sendbtn"
+           (click)="selectCard(card.id, $event)">Select</a>
 
-            <app-tab-content class="front-table"
-                [datas]="frontDatas()"></app-tab-content>
-            <a href="#" id="sendbtn_{{card.id}}"
-               class="btn btn-primary sendbtn"
-            (click)="sendCard('sendbtn_{{card.id}}', $event)">send to fight</a>
-        <!--</div>-->
     </div>
 
     <div class="card back-face"

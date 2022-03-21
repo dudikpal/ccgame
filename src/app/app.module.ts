@@ -6,9 +6,9 @@ import { CardComponent } from './part/card/card.component';
 import { DeckComponent } from './part/deck/deck.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-import { TabContentComponent } from './part/tab-content/tab-content.component';
+import { TabContentComponent } from './part/card/tab-content/tab-content.component';
 import { FontSizeVariableComponent } from './part/font-size-variable/font-size-variable.component';
-import { TextVarSizeBlockComponent } from './part/text-var-size-block/text-var-size-block.component';
+import { TextVarSizeBlockComponent } from './part/card/text-var-size-block/text-var-size-block.component';
 
 
 @NgModule({

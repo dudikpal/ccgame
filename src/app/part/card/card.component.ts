@@ -18,28 +18,33 @@ export class CardComponent implements OnInit {
     }
 
     public flipToFront(givenId: any) {
+
         let card = document.querySelector(`#${givenId}`)!;
         card.classList.remove('flipCard');
-        //console.log(card.id);
     }
 
     ngOnInit(): void {
 
-
     }
 
-    sendCard(id: string, event: Event) {
-        console.log(id);
+    selectCard(id: string, event: Event) {
+
         event.stopPropagation();
+
+        const card = document.querySelector('#' + id)!;
+        const btn = card.querySelector(`#select_btn_${id}`)!;
+
+        btn.classList.toggle('selected');
+        console.log();
     }
 
    frontDatas() {
 
         return [
-            this.card.acceleration,
             this.card.topSpeed,
+            this.card.acceleration,
+            this.card.driveWheel,
             this.card.engineCapacity,
-            this.card.driveWheel
         ];
     }
 
