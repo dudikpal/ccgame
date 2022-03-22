@@ -17,14 +17,15 @@ export class CardComponent implements OnInit {
     constructor() {
     }
 
+
+    ngOnInit(): void {
+
+    }
+
     public flipToFront(givenId: any) {
 
         let card = document.querySelector(`#${givenId}`)!;
         card.classList.remove('flipCard');
-    }
-
-    ngOnInit(): void {
-
     }
 
     selectCard(id: string, event: Event) {
@@ -56,7 +57,8 @@ export class CardComponent implements OnInit {
             this.card.engineCapacity,
             this.card.maxTorque,
             this.card.weight,
-            this.card.fuelTankCapacity
+            this.card.fuelTankCapacity,
+            this.card.groundClearance,
         ];
     }
 
@@ -80,7 +82,6 @@ export class CardComponent implements OnInit {
             this.card.length,
             this.card.width,
             this.card.height,
-            this.card.groundClearance
         ];
     }
 
@@ -112,4 +113,15 @@ export class CardComponent implements OnInit {
         console.log(jsonData);
     }
 
+    frontClick(id: string) {
+        let card = document.querySelector(`#${id}`)!;
+        card.classList.add('flipCard');
+        const original = card.querySelector(`#select_btn_${id}`)!;
+        let clone = <Element>original.cloneNode(true);
+        clone.removeAttribute('id');
+        let backFace = document.querySelector(`#backSelectButton_${id}`)!;
+        backFace = clone;
+        console.log(clone)
+        console.log(backFace)
+    }
 }

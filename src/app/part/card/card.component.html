@@ -1,31 +1,33 @@
+<!--onclick="this.classList.toggle('flipCard')"-->
 <div class="wrapper"
      [id]=card.id
-     onclick="this.classList.toggle('flipCard')">
+     (click)="frontClick(card.id)"
+>
     <div class="card front-face">
         <img
             class="img-car"
             [src]=card.imageUrl.value
         />
 
-<div style="display: flex">
+        <div style="display: flex">
             <img
                 class="img-logo"
 
                 [src]=card.logoURL.value>
-        <div class="card-title">
-            {{card.manufacturer.value}}
+            <div class="card-title">
+                {{card.manufacturer.value}}
+            </div>
         </div>
-</div>
         <app-text-var-size-block
             [card]="card"
         ></app-text-var-size-block>
 
         <app-tab-content class="front-table"
                          [datas]="frontDatas()"></app-tab-content>
-        <a id="select_btn_{{card.id}}"
-           type="button"
-           class="btn btn-primary sendbtn"
-           (click)="selectCard(card.id, $event)">Select</a>
+        <app-select-button
+            [cardId]=card.id
+
+        ></app-select-button>
 
     </div>
 
@@ -73,7 +75,7 @@
             </div>
         </div>
 
-
+        <div id="backSelectButton_{{card.id}}"></div>
     </div>
 </div>
 

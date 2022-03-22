@@ -1,11 +1,13 @@
 .table th {
-    font-size: 0.85rem;
+    font-family: "Calibri Light";
+    font-size: 1.1rem;
     font-weight: bold;
     text-align: left;
 }
 
 .table td {
-    font-size: 0.9rem;
+    font-family: "Calibri Light";
+    font-size: 1.2rem;
     text-align: right;
 }
 

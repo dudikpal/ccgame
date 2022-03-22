@@ -23,6 +23,8 @@ public class Card {
 
   private Integer year;
 
+  private String country;
+
   private Integer doors;
 
   private String body;

@@ -1,78 +1,81 @@
-export class Card {
+export const CardModel = {
 
-    id: string;
+    id: { name: "ID", value: null },
 
-    manufacturer: {name: string, value: string | number};
+    manufacturer: { name: "Manufacturer", value: null },
 
-    type: {name: string, value: string | number};
+    type: { name: "Car type", value: null },
 
-    year: {name: string, value: string | number};
+    year: { name: "Year", value: null },
 
-    doors: {name: string, value: string | number};
+    country: { name: "Country", value: null },
 
-    body: {name: string, value: string | number};
+    doors: { name: "Doors", value: null },
 
-    seats: {name: string, value: string | number};
+    body: { name: "Body type", value: null },
 
-    driveWheel: {name: string, value: string | number};
+    seats: { name: "Seats", value: null },
 
-    engineType: {name: string, value: string | number};
+    driveWheel: { name: "Drive wheel", value: null },
 
-    fuelType: {name: string, value: string | number};
+    engineType: { name: "Engine type", value: null },
 
-    fuelTankCapacity: {name: string, value: string | number};
+    fuelType: { name: "Fuel type", value: null },
 
-    engineCapacity: {name: string, value: string | number};
+    fuelTankCapacity: { name: "Fuel tank (liter)", value: null },
 
-    powerKW: {name: string, value: string | number};
+    engineCapacity: { name: "Engine capacity (cm<sup>3</sup>)", value: null },
 
-    powerHP: {name: string, value: string | number};
+    powerKW: { name: "Power (KW)", value: null },
 
-    maxTorque: {name: string, value: string | number};
+    powerHP: { name: "Power (HP)", value: null },
 
-    topSpeed: {name: string, value: string | number};
+    maxTorque: { name: "Max Torque (Nm)", value: null },
 
-    acceleration: {name: string, value: string | number};
+    topSpeed: { name: "Top speed (km/h)", value: null },
 
-    weight: {name: string, value: string | number};
+    acceleration: { name: "0-100 km/h (sec)", value: null },
 
-    length: {name: string, value: string | number};
+    weight: { name: "Weight (kg)", value: null },
 
-    width: {name: string, value: string | number};
+    length: { name: "Length (mm)", value: null },
 
-    height: {name: string, value: string | number};
+    width: { name: "Width (mm)", value: null },
 
-    groundClearance: {name: string, value: string | number};
+    height: { name: "Height (mm)", value: null },
 
-    ABS: {name: string, value: string | number};
+    groundClearance: { name: "Ground clearence (mm)", value: null },
 
-    tractionControl: {name: string, value: string | number};
+    ABS: { name: "ABS", value: null },
 
-    imageUrl: {name: string, value: string | number};
+    tractionControl: { name: "Traction control", value: null },
 
-    logoURL: {name: string, value: string | number};
+    imageUrl: { name: "Car image URL", value: null },
 
-    carPageUrl: {name: string, value: string | number};
+    logoURL: { name: "Manufacturer Logo URL", value: null },
 
-    objectPositionHorizontal: {name: string, value: string | number};
+    carPageUrl: { name: "Car page Url", value: null },
 
-    objectPositionVertical: {name: string, value: string | number};
+    objectPositionHorizontal: { name: "Object horizontal position", value: null },
 
-    objectWidth: {name: string, value: string | number};
+    objectPositionVertical: { name: "Object vertical position", value: null },
 
-    objectHeight: {name: string, value: string | number};
+    objectWidth: { name: "Object width", value: null },
 
-    gear1st: {name: string, value: string | number};
+    objectHeight: { name: "Object height", value: null },
 
-    gear2nd: {name: string, value: string | number};
+    gear1st: { name: "1st gear", value: null },
 
-    gear3rd: {name: string, value: string | number};
+    gear2nd: { name: "2nd gear", value: null },
 
-    gear4th: {name: string, value: string | number};
+    gear3rd: { name: "3rd gear", value: null },
 
-    gear5th: {name: string, value: string | number};
+    gear4th: { name: "4th gear", value: null },
 
-    gear6th: {name: string, value: string | number};
+    gear5th: { name: "5th gear", value: null },
 
-    finalDrive: {name: string, value: string | number};
+    gear6th: { name: "6th gear", value: null },
+
+    finalDrive: { name: "Final drive", value: null },
+
 }

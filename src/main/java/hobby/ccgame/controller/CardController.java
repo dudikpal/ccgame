@@ -25,7 +25,7 @@ public class CardController {
 
   @GetMapping
   public JsonNode getAllCards() {
-
+    // élesre
     /*return ccGameService.getAllCards();*/
 
     // tesztre

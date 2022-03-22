@@ -7,8 +7,10 @@ import { DeckComponent } from './part/deck/deck.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { TabContentComponent } from './part/card/tab-content/tab-content.component';
-import { FontSizeVariableComponent } from './part/font-size-variable/font-size-variable.component';
 import { TextVarSizeBlockComponent } from './part/card/text-var-size-block/text-var-size-block.component';
+import { AdminPageComponent } from './part/admin-page/admin-page.component';
+import { SelectButtonComponent } from './part/card/select-button/select-button.component';
+import { InputFieldComponent } from './part/admin-page/input-field/input-field.component';
 
 
 @NgModule({
@@ -17,8 +19,10 @@ import { TextVarSizeBlockComponent } from './part/card/text-var-size-block/text-
     CardComponent,
     DeckComponent,
     TabContentComponent,
-    FontSizeVariableComponent,
-    TextVarSizeBlockComponent
+    TextVarSizeBlockComponent,
+    AdminPageComponent,
+    SelectButtonComponent,
+    InputFieldComponent
   ],
   imports: [
     BrowserModule,
