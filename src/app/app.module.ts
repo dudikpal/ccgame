@@ -11,6 +11,7 @@ import { TextVarSizeBlockComponent } from './part/card/text-var-size-block/text-
 import { AdminPageComponent } from './part/admin-page/admin-page.component';
 import { SelectButtonComponent } from './part/card/select-button/select-button.component';
 import { InputFieldComponent } from './part/admin-page/input-field/input-field.component';
+import { CheckFieldComponent } from './part/admin-page/check-field/check-field.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { InputFieldComponent } from './part/admin-page/input-field/input-field.c
     TextVarSizeBlockComponent,
     AdminPageComponent,
     SelectButtonComponent,
-    InputFieldComponent
+    InputFieldComponent,
+    CheckFieldComponent
   ],
   imports: [
     BrowserModule,
