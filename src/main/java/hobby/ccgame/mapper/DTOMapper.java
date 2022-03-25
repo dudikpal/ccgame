@@ -12,6 +12,7 @@ public final class DTOMapper {
     cardDTO.getManufacturer().setValue(card.getManufacturer());
     cardDTO.getType().setValue(card.getType());
     cardDTO.getYear().setValue(card.getYear());
+    cardDTO.getCountry().setValue(card.getCountry());
     cardDTO.getDoors().setValue(card.getDoors());
     cardDTO.getBody().setValue(card.getBody());
     cardDTO.getSeats().setValue(card.getSeats());
@@ -29,7 +30,7 @@ public final class DTOMapper {
     cardDTO.getWidth().setValue(card.getWidth());
     cardDTO.getHeight().setValue(card.getHeight());
     cardDTO.getGroundClearance().setValue(card.getGroundClearance());
-    cardDTO.getABS().setValue(card.getABS());
+    cardDTO.getAbs().setValue(card.getAbs());
     cardDTO.getTractionControl().setValue(card.getTractionControl());
     cardDTO.getImageUrl().setValue(card.getImageUrl());
     cardDTO.getLogoURL().setValue(card.getLogoURL());

@@ -15,6 +15,7 @@ import { CheckFieldComponent } from './part/admin-page/check-field/check-field.c
 import { CardPreviewComponent } from './part/admin-page/card-preview/card-preview.component';
 import { CardListComponent } from './part/admin-page/card-list/card-list.component';
 import { CardListItemComponent } from './part/admin-page/card-list/card-list-item/card-list-item.component';
+import {EventService} from "./part/event.service";
 
 
 @NgModule({
@@ -37,7 +38,7 @@ import { CardListItemComponent } from './part/admin-page/card-list/card-list-ite
       ReactiveFormsModule,
       HttpClientModule
   ],
-  providers: [],
+  providers: [EventService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

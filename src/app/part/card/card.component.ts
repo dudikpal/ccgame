@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {addWarning} from "@angular-devkit/build-angular/src/utils/webpack-diagnostics";
-let flowtype = require('../../../assets/vendor/flowtype');
 
 @Component({
     selector: 'app-card',
@@ -116,12 +115,12 @@ export class CardComponent implements OnInit {
     frontClick(id: string) {
         let card = document.querySelector(`#${id}`)!;
         card.classList.add('flipCard');
-        const original = card.querySelector(`#select_btn_${id}`)!;
+        /*const original = card.querySelector(`#select_btn_${id}`)!;
         let clone = <Element>original.cloneNode(true);
         clone.removeAttribute('id');
         let backFace = document.querySelector(`#backSelectButton_${id}`)!;
         backFace = clone;
         console.log(clone)
-        console.log(backFace)
+        console.log(backFace)*/
     }
 }

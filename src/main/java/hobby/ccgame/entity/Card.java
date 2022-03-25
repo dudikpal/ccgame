@@ -59,7 +59,7 @@ public class Card {
 
   private Integer groundClearance;
 
-  private String ABS;
+  private String abs;
 
   private String tractionControl;
 

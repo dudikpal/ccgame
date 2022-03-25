@@ -55,7 +55,7 @@ public class CardDTO {
 
     private DataDTO groundClearance = new DataDTO <Integer>("Ground clearence (mm)", null);
 
-    private DataDTO ABS = new DataDTO <String>("ABS", null);
+    private DataDTO abs = new DataDTO <String>("ABS", null);
 
     private DataDTO tractionControl = new DataDTO <String>("Traction control", null);
 
