@@ -16,6 +16,7 @@ import { CardPreviewComponent } from './part/admin-page/card-preview/card-previe
 import { CardListComponent } from './part/admin-page/card-list/card-list.component';
 import { CardListItemComponent } from './part/admin-page/card-list/card-list-item/card-list-item.component';
 import {EventService} from "./part/event.service";
+import { SearchFieldsComponent } from './part/admin-page/search-fields/search-fields.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {EventService} from "./part/event.service";
     CheckFieldComponent,
     CardPreviewComponent,
     CardListComponent,
-    CardListItemComponent
+    CardListItemComponent,
+    SearchFieldsComponent
   ],
   imports: [
     BrowserModule,
