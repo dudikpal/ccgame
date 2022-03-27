@@ -1,7 +1,7 @@
 <!--onclick="this.classList.toggle('flipCard')"-->
 <div class="wrapper"
-     [id]=card.id
-     (click)="frontClick(card.id)"
+     [id]=card.id.value
+     (click)="frontClick(card.id.value)"
 >
     <div class="card front-face">
         <img
@@ -28,7 +28,7 @@
         <app-tab-content class="front-table"
                          [datas]="frontDatas()"></app-tab-content>
         <app-select-button
-            [cardId]=card.id
+            [cardId]=card.id.value
 
         ></app-select-button>
 
@@ -37,22 +37,22 @@
     <div class="card back-face"
          onclick="event.stopPropagation()">
         <button class="back-face-top"
-                (click)="flipToFront(card.id)">
+                (click)="flipToFront(card.id.value)">
             &#8656;
         </button>
 
-        <ul class="nav nav-tabs" id="back-tabs_{{card.id}}">
+        <ul class="nav nav-tabs" id="back-tabs_{{card.id.value}}">
             <li>
-                <a class="nav-link active" href="#chassis_{{card.id}}" data-bs-toggle="tab">Chassis</a>
+                <a class="nav-link active" href="#chassis_{{card.id.value}}" data-bs-toggle="tab">Chassis</a>
             </li>
             <li>
-                <a class="nav-link" href="#drive_{{card.id}}" data-bs-toggle="tab">Drive</a>
+                <a class="nav-link" href="#drive_{{card.id.value}}" data-bs-toggle="tab">Drive</a>
             </li>
             <li>
-                <a class="nav-link" href="#dim_{{card.id}}" data-bs-toggle="tab">Dim.</a>
+                <a class="nav-link" href="#dim_{{card.id.value}}" data-bs-toggle="tab">Dim.</a>
             </li>
             <li>
-                <a class="nav-link" href="#transm_{{card.id}}" data-bs-toggle="tab">Transm.</a>
+                <a class="nav-link" href="#transm_{{card.id.value}}" data-bs-toggle="tab">Transm.</a>
             </li>
         </ul>
 
@@ -60,25 +60,25 @@
             <div
                 class="tab-pane active"
                 style="background-color: ivory"
-                id="chassis_{{card.id}}">
+                id="chassis_{{card.id.value}}">
                 <app-tab-content
                     [datas]=chassisTabDatas()></app-tab-content>
             </div>
-            <div class="tab-pane" id="drive_{{card.id}}">
+            <div class="tab-pane" id="drive_{{card.id.value}}">
                 <app-tab-content
                     [datas]=driveTabDatas()></app-tab-content>
             </div>
-            <div class="tab-pane" id="dim_{{card.id}}">
+            <div class="tab-pane" id="dim_{{card.id.value}}">
                 <app-tab-content
                     [datas]=dimensionTabDatas()></app-tab-content>
             </div>
-            <div class="tab-pane" id="transm_{{card.id}}">
+            <div class="tab-pane" id="transm_{{card.id.value}}">
                 <app-tab-content
                     [datas]=transmissionTabData()></app-tab-content>
             </div>
         </div>
 
-        <div id="backSelectButton_{{card.id}}"></div>
+        <div id="backSelectButton_{{card.id.value}}"></div>
     </div>
 </div>
 

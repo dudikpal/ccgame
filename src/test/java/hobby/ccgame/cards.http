@@ -1,58 +1,26 @@
 POST http://localhost:8080/api/cards
 Content-Type: application/json
 
+{"id":"c_lincoln-continental_59792","manufacturer":"Lincoln","type":"Continental","year":1995,"country":"N/A","doors":4,"body":"sedan","seats":5,"driveWheel":"FWD","engineType":"fuel engine","fuelType":"gasoline","fuelTankCapacity":67,"engineCapacity":4603,"powerKW":194,"powerHP":264,"maxTorque":359,"topSpeed":-1,"acceleration":-1.0,"weight":1760,"length":5240,"width":1870,"height":1420,"groundClearance":-1,"tractionControl":"N/A","imageUrl":"https://www.cars-data.com/webp/thumbs/350px/lincoln/lincoln-continental_3076_1.webp","logoURL":"https://www.cars-data.com/design/images/cars-logo/lincoln-logo-small.jpg","carPageUrl":"https://www.cars-data.com/en/lincoln-continental-specs/59792","objectPositionHorizontal":"0vh","objectPositionVertical":"0vh","objectWidth":"100%","objectHeight":"100%","gear1st":2.77,"gear2nd":1.54,"gear3rd":1.0,"gear4th":0.69,"gear5th":-1.0,"gear6th":-1.0,"finalDrive":3.56,"abs":"yes"}
+
+###
+PUT http://localhost:8080/api/cards
+Content-Type: application/json
+
 {
-  "id":"2007_audi_a4_71215",
-  "manufacturer":"Audi",
-  "type":"A4 2.0T",
-  "year":2007,
-  "doors":4,
-  "body":"Sedan",
-  "seats":5,
-  "driveWheel":"FWD",
-  "engineType":"Gas",
-  "fuelType":"N/A",
-  "engineCapacity":2000,
-  "powerKW":149,
-  "powerHP":200,
-  "maxTorque":280,
-  "topSpeed":-1,
-  "acceleration":7.58,
-  "weight":1544,
-  "length":4572,
-  "width":1752,
-  "height":1422,
-  "groundClearance":101,
-  "tractionControl":"N/A",
-  "imageUrl":"https://www.carspecs.us/photos/259364f9e0cb9d7bd9fa122bb9f0ae23f7baf8bb-2000.jpg",
-  "logoURL":"N/A",
-  "carPageUrl":"https://www.carspecs.us/cars/2007/audi/a4/71215",
-  "objectPositionHorizontal":"11vh",
-  "objectPositionVertical":"11vh",
-  "objectWidth":"150%",
-  "objectHeight":"150%",
-  "gear1st":3.67,
-  "gear2nd":2.05,
-  "gear3rd":1.37,
-  "gear4th":1.03,
-  "gear5th":0.8,
-  "gear6th":0.66,
-  "finalDrive":3.75,
-  "abs":"yes"}
+    "id": "2007_audi_a4_71215",
+    "year": 2017
+}
+
 ###
 PUT http://localhost:8080/api/cards/2007_audi_a4_71215
 Content-Type: application/json
 
 {
-  "year":2017
-  }
-###
-PUT http://localhost:8080/api/cards/2007_audi_a4_71215
-Content-Type: application/json
-
-{
+    "id": "2007_audi_a4_71215",
     "objectPositionVertical": "23vh"
 }
+
 ###
 DELETE http://localhost:8080/api/cards
 Content-Type: application/json
@@ -60,8 +28,13 @@ Content-Type: application/json
 {
     "id": "2007_audi_a4_71215"
 }
+
 ###
 GET http://localhost:8080/api/cards
+Accept: application/json
+
+###
+POST http://localhost:8080/api/cards/uploadfile/cardsToUpload
 Accept: application/json
 
 ###

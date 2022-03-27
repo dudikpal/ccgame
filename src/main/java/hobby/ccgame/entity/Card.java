@@ -8,10 +8,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-//@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Document("cars")
+@Document("cards")
 public class Card {
 
   @Id

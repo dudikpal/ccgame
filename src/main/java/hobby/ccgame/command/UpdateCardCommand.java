@@ -31,6 +31,8 @@ public class UpdateCardCommand {
 
     private String fuelType;
 
+    private Integer fuelTankCapacity;
+
     private Integer engineCapacity;
 
     private Integer powerKW;

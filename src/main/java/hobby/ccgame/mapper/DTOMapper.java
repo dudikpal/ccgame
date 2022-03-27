@@ -5,10 +5,57 @@ import hobby.ccgame.entity.Card;
 
 public final class DTOMapper {
 
+    public static Card CardDTOToCard(CardDTO cardDTO) {
+
+        Card card = new Card();
+
+        card.setId((String) cardDTO.getId().getValue());
+        card.setManufacturer((String) cardDTO.getManufacturer().getValue());
+        card.setType((String) cardDTO.getType().getValue());
+        card.setYear((int) cardDTO.getYear().getValue());
+        card.setCountry((String) cardDTO.getCountry().getValue());
+        card.setDoors((int) cardDTO.getDoors().getValue());
+        card.setBody((String) cardDTO.getBody().getValue());
+        card.setSeats((int) cardDTO.getSeats().getValue());
+        card.setDriveWheel((String) cardDTO.getDriveWheel().getValue());
+        card.setEngineType((String) cardDTO.getEngineType().getValue());
+        card.setFuelType((String) cardDTO.getFuelType().getValue());
+        card.setEngineCapacity((int) cardDTO.getEngineCapacity().getValue());
+        card.setPowerKW((int) cardDTO.getPowerKW().getValue());
+        card.setPowerHP((int) cardDTO.getPowerHP().getValue());
+        card.setMaxTorque((int) cardDTO.getMaxTorque().getValue());
+        card.setTopSpeed((int) cardDTO.getTopSpeed().getValue());
+        card.setAcceleration((double) cardDTO.getAcceleration().getValue());
+        card.setWeight((int) cardDTO.getWeight().getValue());
+        card.setLength((int) cardDTO.getLength().getValue());
+        card.setWidth((int) cardDTO.getWidth().getValue());
+        card.setHeight((int) cardDTO.getHeight().getValue());
+        card.setGroundClearance((int) cardDTO.getGroundClearance().getValue());
+        card.setAbs((String) cardDTO.getAbs().getValue());
+        card.setTractionControl((String) cardDTO.getTractionControl().getValue());
+        card.setImageUrl((String) cardDTO.getImageUrl().getValue());
+        card.setLogoURL((String) cardDTO.getLogoURL().getValue());
+        card.setCarPageUrl((String) cardDTO.getCarPageUrl().getValue());
+        card.setObjectPositionHorizontal((String) cardDTO.getObjectPositionHorizontal().getValue());
+        card.setObjectPositionVertical((String) cardDTO.getObjectPositionVertical().getValue());
+        card.setObjectWidth((String) cardDTO.getObjectWidth().getValue());
+        card.setObjectHeight((String) cardDTO.getObjectHeight().getValue());
+        card.setGear1st((double) cardDTO.getGear1st().getValue());
+        card.setGear2nd((double) cardDTO.getGear2nd().getValue());
+        card.setGear3rd((double) cardDTO.getGear3rd().getValue());
+        card.setGear4th((double) cardDTO.getGear4th().getValue());
+        card.setGear5th((double) cardDTO.getGear5th().getValue());
+        card.setGear6th((double) cardDTO.getGear6th().getValue());
+        card.setFinalDrive((double) cardDTO.getFinalDrive().getValue());
+
+        return card;
+    }
+
+
   public static CardDTO CardToCardDTO(Card card) {
 
     CardDTO cardDTO = new CardDTO();
-    cardDTO.setId(card.getId());
+    cardDTO.getId().setValue(card.getId());
     cardDTO.getManufacturer().setValue(card.getManufacturer());
     cardDTO.getType().setValue(card.getType());
     cardDTO.getYear().setValue(card.getYear());

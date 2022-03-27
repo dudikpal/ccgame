@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CardDTO {
 
-    private String id;
+    private DataDTO id = new DataDTO <String>("ID", null);
 
     private DataDTO manufacturer = new DataDTO <String>("Manufacturer", null);
 

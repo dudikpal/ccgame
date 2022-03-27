@@ -1,5 +1,7 @@
 package hobby.ccgame.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hobby.ccgame.command.CreateCardCommand;
 import hobby.ccgame.command.RemoveCardCommand;
 import hobby.ccgame.command.UpdateCardCommand;
@@ -12,6 +14,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,8 +27,6 @@ public class CCGameService {
     private CCGameRepository ccGameRepository;
 
     private ModelMapper modelMapper;
-
-    //private ICardMapper cardMapper;
 
 
     public List <CardDTO> getAllCards() {
@@ -45,9 +48,9 @@ public class CCGameService {
     }
 
     @Transactional
-    public CardDTO updateCard(String id, UpdateCardCommand command) {
+    public CardDTO updateCard(UpdateCardCommand command) {
 
-        Card card = ccGameRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Cannot fond card with this id: " + id));
+        Card card = ccGameRepository.findById(command.getId()).orElseThrow(() -> new IllegalArgumentException("Cannot fond card with this id: " + command.getId()));
 
         modelMapper.map(command, card);
 
@@ -63,5 +66,26 @@ public class CCGameService {
             .orElseThrow(() -> new IllegalArgumentException("Cannot find card with id: " + command.getId()));
 
         ccGameRepository.delete(card);
+    }
+
+    public void uploadCardsFromFile(String fileName) {
+
+        Path path = Path.of("src/main/resources/" + fileName);
+        String cards;
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+
+            cards = Files.readString(path);
+            List<CreateCardCommand> cardList = mapper.readValue(cards, new TypeReference <List<CreateCardCommand>>(){});
+
+            for (CreateCardCommand card : cardList) {
+                //System.out.println(card);
+                createCard(card);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
