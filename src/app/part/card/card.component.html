@@ -6,6 +6,9 @@
     <div class="card front-face">
         <img
             class="img-car"
+            [style.width]=card.objectWidth.value
+            [style.height]=card.objectHeight.value
+            [style.object-position]="card.objectPositionHorizontal.value + ' ' + card.objectPositionVertical.value"
             [src]=card.imageUrl.value
         />
 

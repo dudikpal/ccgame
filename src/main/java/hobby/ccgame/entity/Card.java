@@ -13,82 +13,84 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("cards")
 public class Card {
 
-  @Id
-  private String id;
+    @Id
+    private String id;
 
-  private String manufacturer;
+    private String manufacturer;
 
-  private String type;
+    private String type;
 
-  private Integer year;
+    private Integer year;
 
-  private String country;
+    private String country;
 
-  private Integer doors;
+    private Integer doors;
 
-  private String body;
+    private String body;
 
-  private Integer seats;
+    private Integer seats;
 
-  private String driveWheel;
+    private String driveWheel;
 
-  private String engineType;
+    private String engineType;
 
-  private String fuelType;
+    private String fuelType;
 
-  private Integer engineCapacity;
+    private Integer fuelTankCapacity;
 
-  private Integer powerKW;
+    private Integer engineCapacity;
 
-  private Integer powerHP;
+    private Integer powerKW;
 
-  private Integer maxTorque;
+    private Integer powerHP;
 
-  private Integer topSpeed;
+    private Integer maxTorque;
 
-  private Double acceleration;
+    private Integer topSpeed;
 
-  private Integer weight;
+    private Double acceleration;
 
-  private Integer length;
+    private Integer weight;
 
-  private Integer width;
+    private Integer length;
 
-  private Integer height;
+    private Integer width;
 
-  private Integer groundClearance;
+    private Integer height;
 
-  private String abs;
+    private Integer groundClearance;
 
-  private String tractionControl;
+    private String abs;
 
-  private String imageUrl;
+    private String tractionControl;
 
-  private String logoURL;
+    private String imageUrl;
 
-  private String carPageUrl;
+    private String logoURL;
 
-  private String objectPositionHorizontal;
+    private String carPageUrl;
 
-  private String objectPositionVertical;
+    private String objectPositionHorizontal;
 
-  private String objectWidth;
+    private String objectPositionVertical;
 
-  private String objectHeight;
+    private String objectWidth;
 
-  private Double gear1st;
+    private String objectHeight;
 
-  private Double gear2nd;
+    private Double gear1st;
 
-  private Double gear3rd;
+    private Double gear2nd;
 
-  private Double gear4th;
+    private Double gear3rd;
 
-  private Double gear5th;
+    private Double gear4th;
 
-  private Double gear6th;
+    private Double gear5th;
 
-  private Double finalDrive;
+    private Double gear6th;
+
+    private Double finalDrive;
 
 
   /*public Card buildCard() {

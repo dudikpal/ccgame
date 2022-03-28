@@ -4,13 +4,13 @@
 .wrapper {
     display: inline-flex;
     height: 350px;
-    width: 230px;
+    width: 250px;
     flex: none;
     position: relative;
     transform-style: preserve-3d;
     perspective: 1000px;
 
-    margin: 2rem 2rem;
+    margin: 1rem 1rem;
 }
 
 .wrapper .card {
@@ -61,6 +61,7 @@
 .wrapper .front-face {
     /*overflow: hidden;*/
     background-color: #fff5d8;
+    overflow: hidden;
 }
 
 .wrapper.flipCard .front-face {
@@ -114,12 +115,16 @@
 
 /*Ezek adják a 100% height-et*/
 .img-car {
+
     border-radius: 10px 10px 0px 0px;
     border-radius: 10px 10px 0px 0px;
     margin-bottom: 0px;
+    object-fit: cover;
+
+    overflow: hidden;
     /*ezek kellenek a db-be*/
     object-position: 0vh 0vh;
-    object-fit: cover;
+
     height: 45%;
 }
 
