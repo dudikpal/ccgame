@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,11 +69,12 @@ public class CCGameService {
         ccGameRepository.delete(card);
     }
 
-    public void uploadCardsFromFile(String fileName) {
+    public List<CardDTO> uploadCardsFromFile(String fileName) {
 
         Path path = Path.of("src/main/resources/" + fileName);
         String cards;
         ObjectMapper mapper = new ObjectMapper();
+        List<CardDTO> cardDTOs = new ArrayList <>();
 
         try {
 
@@ -81,11 +83,13 @@ public class CCGameService {
 
             for (CreateCardCommand card : cardList) {
                 //System.out.println(card);
-                createCard(card);
+                cardDTOs.add(createCard(card));
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return cardDTOs;
     }
 }

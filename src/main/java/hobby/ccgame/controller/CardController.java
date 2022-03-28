@@ -79,7 +79,7 @@ public class CardController {
 
 
     @PostMapping("/uploadfile/{filename}")
-    public void uploadCardsFromFile(@PathVariable String filename) {
-        ccGameService.uploadCardsFromFile(filename);
+    public List<CardDTO> uploadCardsFromFile(@PathVariable String filename) {
+        return ccGameService.uploadCardsFromFile(filename);
     }
 }
