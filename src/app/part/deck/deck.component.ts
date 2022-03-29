@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {EventService} from "../event.service";
 
 @Component({
     selector: 'app-deck',
@@ -7,23 +9,24 @@ import {Component, OnInit} from '@angular/core';
 })
 export class DeckComponent implements OnInit {
 
-    cards = [
+    // tesztre
+/*    cards = [
         {
             "id": {
                 "name": "ID",
-                "value": "c_2007_audi_a4_71215"
+                "value": "c_lincoln-continental_59792"
             },
             "manufacturer": {
                 "name": "Manufacturer",
-                "value": "Audi"
+                "value": "Lincoln"
             },
             "type": {
                 "name": "Car type",
-                "value": "A4 2.0T"
+                "value": "Continental"
             },
             "year": {
                 "name": "Year",
-                "value": 2007
+                "value": 1995
             },
             "country": {
                 "name": "Country",
@@ -35,7 +38,7 @@ export class DeckComponent implements OnInit {
             },
             "body": {
                 "name": "Body type",
-                "value": "Sedan"
+                "value": "sedan"
             },
             "seats": {
                 "name": "Seats",
@@ -47,505 +50,31 @@ export class DeckComponent implements OnInit {
             },
             "engineType": {
                 "name": "Engine type",
-                "value": "Gas"
+                "value": "fuel engine"
             },
             "fuelType": {
                 "name": "Fuel type",
-                "value": "N/A"
+                "value": "gasoline"
             },
             "fuelTankCapacity": {
-                "name": "Fuel tank (liter)",
-                "value": null
+                "name": "Fuel tank (lit.)",
+                "value": 67
             },
             "engineCapacity": {
                 "name": "Engine capacity (cm<sup>3</sup>)",
-                "value": 2000
+                "value": 4603
             },
             "powerKW": {
                 "name": "Power (KW)",
-                "value": 149
+                "value": 194
             },
             "powerHP": {
                 "name": "Power (HP)",
-                "value": 200
-            },
-            "maxTorque": {
-                "name": "Max Torque (Nm)",
-                "value": 280
-            },
-            "topSpeed": {
-                "name": "Top speed (km/h)",
-                "value": -1
-            },
-            "acceleration": {
-                "name": "0-100 km/h (sec)",
-                "value": 7.58
-            },
-            "weight": {
-                "name": "Weight (kg)",
-                "value": 1544
-            },
-            "length": {
-                "name": "Length (mm)",
-                "value": 4572
-            },
-            "width": {
-                "name": "Width (mm)",
-                "value": 1752
-            },
-            "height": {
-                "name": "Height (mm)",
-                "value": 1422
-            },
-            "groundClearance": {
-                "name": "Ground clearence (mm)",
-                "value": 101
-            },
-            "abs": {
-                "name": "ABS",
-                "value": "yes"
-            },
-            "tractionControl": {
-                "name": "Traction control",
-                "value": "N/A"
-            },
-            "imageUrl": {
-                "name": "Car image URL",
-                "value": "https://auto-types.com/wp-content/uploads/_cars/2021/01/audi-qfb7c25.jpg"
-            },
-            "logoURL": {
-                "name": "Manufacturer Logo URL",
-                "value": "N/A"
-            },
-            "carPageUrl": {
-                "name": "Car page Url",
-                "value": "https://www.carspecs.us/cars/2007/audi/a4/71215"
-            },
-            "objectPositionHorizontal": {
-                "name": "Object horizontal position",
-                "value": "0vh"
-            },
-            "objectPositionVertical": {
-                "name": "Object vertical position",
-                "value": "0vh"
-            },
-            "objectWidth": {
-                "name": "Object width",
-                "value": "100%"
-            },
-            "objectHeight": {
-                "name": "Object height",
-                "value": "100%"
-            },
-            "gear1st": {
-                "name": "1st gear",
-                "value": 3.67
-            },
-            "gear2nd": {
-                "name": "2nd gear",
-                "value": 2.05
-            },
-            "gear3rd": {
-                "name": "3rd gear",
-                "value": 1.37
-            },
-            "gear4th": {
-                "name": "4th gear",
-                "value": 1.03
-            },
-            "gear5th": {
-                "name": "5th gear",
-                "value": 0.8
-            },
-            "gear6th": {
-                "name": "6th gear",
-                "value": 0.66
-            },
-            "finalDrive": {
-                "name": "Final drive",
-                "value": 3.75
-            }
-        },
-        {
-            "id": {
-                "name": "ID",
-                "value": "c_2014_dodge_avenger_35821"
-            },
-            "manufacturer": {
-                "name": "Manufacturer",
-                "value": "Dodge"
-            },
-            "type": {
-                "name": "Car type",
-                "value": "Avenger V6"
-            },
-            "year": {
-                "name": "Year",
-                "value": 2014
-            },
-            "country": {
-                "name": "Country",
-                "value": "N/A"
-            },
-            "doors": {
-                "name": "Doors",
-                "value": -1
-            },
-            "body": {
-                "name": "Body type",
-                "value": "Sedan"
-            },
-            "seats": {
-                "name": "Seats",
-                "value": -1
-            },
-            "driveWheel": {
-                "name": "Drive wheel",
-                "value": "FWD"
-            },
-            "engineType": {
-                "name": "Engine type",
-                "value": "Flex Fuel"
-            },
-            "fuelType": {
-                "name": "Fuel type",
-                "value": "N/A"
-            },
-            "fuelTankCapacity": {
-                "name": "Fuel tank (liter)",
-                "value": null
-            },
-            "engineCapacity": {
-                "name": "Engine capacity (cm<sup>3</sup>)",
-                "value": 3600
-            },
-            "powerKW": {
-                "name": "Power (KW)",
-                "value": 211
-            },
-            "powerHP": {
-                "name": "Power (HP)",
-                "value": 283
-            },
-            "maxTorque": {
-                "name": "Max Torque (Nm)",
-                "value": 352
-            },
-            "topSpeed": {
-                "name": "Top speed (km/h)",
-                "value": -1
-            },
-            "acceleration": {
-                "name": "0-100 km/h (sec)",
-                "value": 6.56
-            },
-            "weight": {
-                "name": "Weight (kg)",
-                "value": 1636
-            },
-            "length": {
-                "name": "Length (mm)",
-                "value": 4876
-            },
-            "width": {
-                "name": "Width (mm)",
-                "value": 1828
-            },
-            "height": {
-                "name": "Height (mm)",
-                "value": 1473
-            },
-            "groundClearance": {
-                "name": "Ground clearence (mm)",
-                "value": 152
-            },
-            "abs": {
-                "name": "ABS",
-                "value": "yes"
-            },
-            "tractionControl": {
-                "name": "Traction control",
-                "value": "yes"
-            },
-            "imageUrl": {
-                "name": "Car image URL",
-                "value": "https://www.carspecs.us/photos/1788f258b325d388020a443a59440ad7c82ec6ec-2000.jpg"
-            },
-            "logoURL": {
-                "name": "Manufacturer Logo URL",
-                "value": "N/A"
-            },
-            "carPageUrl": {
-                "name": "Car page Url",
-                "value": "https://www.carspecs.us/cars/2014/dodge/avenger/35821"
-            },
-            "objectPositionHorizontal": {
-                "name": "Object horizontal position",
-                "value": "0vh"
-            },
-            "objectPositionVertical": {
-                "name": "Object vertical position",
-                "value": "0vh"
-            },
-            "objectWidth": {
-                "name": "Object width",
-                "value": "100%"
-            },
-            "objectHeight": {
-                "name": "Object height",
-                "value": "100%"
-            },
-            "gear1st": {
-                "name": "1st gear",
-                "value": -1.0
-            },
-            "gear2nd": {
-                "name": "2nd gear",
-                "value": -1.0
-            },
-            "gear3rd": {
-                "name": "3rd gear",
-                "value": -1.0
-            },
-            "gear4th": {
-                "name": "4th gear",
-                "value": -1.0
-            },
-            "gear5th": {
-                "name": "5th gear",
-                "value": -1.0
-            },
-            "gear6th": {
-                "name": "6th gear",
-                "value": -1.0
-            },
-            "finalDrive": {
-                "name": "Final drive",
-                "value": -1.0
-            }
-        },
-        {
-            "id": {
-                "name": "ID",
-                "value": "c_1991_volvo_940_36963"
-            },
-            "manufacturer": {
-                "name": "Manufacturer",
-                "value": "Volvo"
-            },
-            "type": {
-                "name": "Car type",
-                "value": "940 SE  Turbo"
-            },
-            "year": {
-                "name": "Year",
-                "value": 1991
-            },
-            "country": {
-                "name": "Country",
-                "value": "N/A"
-            },
-            "doors": {
-                "name": "Doors",
-                "value": -1
-            },
-            "body": {
-                "name": "Body type",
-                "value": "Sedan"
-            },
-            "seats": {
-                "name": "Seats",
-                "value": -1
-            },
-            "driveWheel": {
-                "name": "Drive wheel",
-                "value": "RWD"
-            },
-            "engineType": {
-                "name": "Engine type",
-                "value": "Gas"
-            },
-            "fuelType": {
-                "name": "Fuel type",
-                "value": "N/A"
-            },
-            "fuelTankCapacity": {
-                "name": "Fuel tank (liter)",
-                "value": null
-            },
-            "engineCapacity": {
-                "name": "Engine capacity (cm<sup>3</sup>)",
-                "value": 2300
-            },
-            "powerKW": {
-                "name": "Power (KW)",
-                "value": 120
-            },
-            "powerHP": {
-                "name": "Power (HP)",
-                "value": 162
-            },
-            "maxTorque": {
-                "name": "Max Torque (Nm)",
                 "value": 264
             },
-            "topSpeed": {
-                "name": "Top speed (km/h)",
-                "value": -1
-            },
-            "acceleration": {
-                "name": "0-100 km/h (sec)",
-                "value": 8.62
-            },
-            "weight": {
-                "name": "Weight (kg)",
-                "value": 1499
-            },
-            "length": {
-                "name": "Length (mm)",
-                "value": 4851
-            },
-            "width": {
-                "name": "Width (mm)",
-                "value": 1752
-            },
-            "height": {
-                "name": "Height (mm)",
-                "value": 1397
-            },
-            "groundClearance": {
-                "name": "Ground clearence (mm)",
-                "value": 101
-            },
-            "abs": {
-                "name": "ABS",
-                "value": "N/A"
-            },
-            "tractionControl": {
-                "name": "Traction control",
-                "value": "N/A"
-            },
-            "imageUrl": {
-                "name": "Car image URL",
-                "value": "https://www.carspecs.us/photos/071902b9dff386a2fa002262defabde2064e7b80-2000.jpg"
-            },
-            "logoURL": {
-                "name": "Manufacturer Logo URL",
-                "value": "N/A"
-            },
-            "carPageUrl": {
-                "name": "Car page Url",
-                "value": "https://www.carspecs.us/cars/1991/volvo/940/36963"
-            },
-            "objectPositionHorizontal": {
-                "name": "Object horizontal position",
-                "value": "0vh"
-            },
-            "objectPositionVertical": {
-                "name": "Object vertical position",
-                "value": "0vh"
-            },
-            "objectWidth": {
-                "name": "Object width",
-                "value": "100%"
-            },
-            "objectHeight": {
-                "name": "Object height",
-                "value": "100%"
-            },
-            "gear1st": {
-                "name": "1st gear",
-                "value": -1.0
-            },
-            "gear2nd": {
-                "name": "2nd gear",
-                "value": -1.0
-            },
-            "gear3rd": {
-                "name": "3rd gear",
-                "value": -1.0
-            },
-            "gear4th": {
-                "name": "4th gear",
-                "value": -1.0
-            },
-            "gear5th": {
-                "name": "5th gear",
-                "value": -1.0
-            },
-            "gear6th": {
-                "name": "6th gear",
-                "value": -1.0
-            },
-            "finalDrive": {
-                "name": "Final drive",
-                "value": -1.0
-            }
-        },
-        {
-            "id": {
-                "name": "ID",
-                "value": "c_1999_oldsmobile_aurora_7802"
-            },
-            "manufacturer": {
-                "name": "Manufacturer",
-                "value": "Oldsmobile"
-            },
-            "type": {
-                "name": "Car type",
-                "value": "Aurora V8"
-            },
-            "year": {
-                "name": "Year",
-                "value": 1999
-            },
-            "country": {
-                "name": "Country",
-                "value": "N/A"
-            },
-            "doors": {
-                "name": "Doors",
-                "value": 4
-            },
-            "body": {
-                "name": "Body type",
-                "value": "Sedan"
-            },
-            "seats": {
-                "name": "Seats",
-                "value": 5
-            },
-            "driveWheel": {
-                "name": "Drive wheel",
-                "value": "FWD"
-            },
-            "engineType": {
-                "name": "Engine type",
-                "value": "Gas"
-            },
-            "fuelType": {
-                "name": "Fuel type",
-                "value": "N/A"
-            },
-            "fuelTankCapacity": {
-                "name": "Fuel tank (liter)",
-                "value": null
-            },
-            "engineCapacity": {
-                "name": "Engine capacity (cm<sup>3</sup>)",
-                "value": 4000
-            },
-            "powerKW": {
-                "name": "Power (KW)",
-                "value": 186
-            },
-            "powerHP": {
-                "name": "Power (HP)",
-                "value": 250
-            },
             "maxTorque": {
                 "name": "Max Torque (Nm)",
-                "value": 352
+                "value": 359
             },
             "topSpeed": {
                 "name": "Top speed (km/h)",
@@ -553,27 +82,27 @@ export class DeckComponent implements OnInit {
             },
             "acceleration": {
                 "name": "0-100 km/h (sec)",
-                "value": 7.63
+                "value": -1.0
             },
             "weight": {
                 "name": "Weight (kg)",
-                "value": 1770
+                "value": 1760
             },
             "length": {
                 "name": "Length (mm)",
-                "value": 5207
+                "value": 5240
             },
             "width": {
                 "name": "Width (mm)",
-                "value": 1879
+                "value": 1870
             },
             "height": {
                 "name": "Height (mm)",
-                "value": 1397
+                "value": 1420
             },
             "groundClearance": {
                 "name": "Ground clearence (mm)",
-                "value": 127
+                "value": -1
             },
             "abs": {
                 "name": "ABS",
@@ -585,15 +114,15 @@ export class DeckComponent implements OnInit {
             },
             "imageUrl": {
                 "name": "Car image URL",
-                "value": "https://www.carspecs.us/photos/15dfb0b05a2431c7711395ddd0273bce0c133742-2000.jpg"
+                "value": "assets/img/cars/lincoln-continental_59792.webp"
             },
             "logoURL": {
                 "name": "Manufacturer Logo URL",
-                "value": "N/A"
+                "value": "https://www.cars-data.com/design/images/cars-logo/lincoln-logo-small.jpg"
             },
             "carPageUrl": {
                 "name": "Car page Url",
-                "value": "https://www.carspecs.us/cars/1999/oldsmobile/aurora/7802"
+                "value": "https://www.cars-data.com/en/lincoln-continental-specs/59792"
             },
             "objectPositionHorizontal": {
                 "name": "Object horizontal position",
@@ -613,11 +142,11 @@ export class DeckComponent implements OnInit {
             },
             "gear1st": {
                 "name": "1st gear",
-                "value": 2.96
+                "value": 2.77
             },
             "gear2nd": {
                 "name": "2nd gear",
-                "value": 1.63
+                "value": 1.54
             },
             "gear3rd": {
                 "name": "3rd gear",
@@ -625,7 +154,7 @@ export class DeckComponent implements OnInit {
             },
             "gear4th": {
                 "name": "4th gear",
-                "value": 0.68
+                "value": 0.69
             },
             "gear5th": {
                 "name": "5th gear",
@@ -637,25 +166,25 @@ export class DeckComponent implements OnInit {
             },
             "finalDrive": {
                 "name": "Final drive",
-                "value": 3.48
+                "value": 3.56
             }
         },
         {
             "id": {
                 "name": "ID",
-                "value": "c_2015_bentley_continental-gt3-r_44722"
+                "value": "c_mercury-sable-stationwagon-ls_59813"
             },
             "manufacturer": {
                 "name": "Manufacturer",
-                "value": "Bentley"
+                "value": "Mercury"
             },
             "type": {
                 "name": "Car type",
-                "value": "Continental GT3-R V8 Twin turbo"
+                "value": "Sable Stationwagon LS"
             },
             "year": {
                 "name": "Year",
-                "value": 2015
+                "value": 1992
             },
             "country": {
                 "name": "Country",
@@ -663,253 +192,95 @@ export class DeckComponent implements OnInit {
             },
             "doors": {
                 "name": "Doors",
-                "value": -1
+                "value": 5
             },
             "body": {
                 "name": "Body type",
-                "value": "Coupe"
+                "value": "station wagon"
             },
             "seats": {
                 "name": "Seats",
-                "value": -1
+                "value": 5
             },
             "driveWheel": {
                 "name": "Drive wheel",
-                "value": "4WD"
+                "value": "FWD"
             },
             "engineType": {
                 "name": "Engine type",
-                "value": "Gas"
+                "value": "fuel engine"
             },
             "fuelType": {
                 "name": "Fuel type",
-                "value": "N/A"
+                "value": "gasoline"
             },
             "fuelTankCapacity": {
-                "name": "Fuel tank (liter)",
-                "value": null
+                "name": "Fuel tank (lit.)",
+                "value": 61
             },
             "engineCapacity": {
                 "name": "Engine capacity (cm<sup>3</sup>)",
-                "value": 4000
+                "value": 3797
             },
             "powerKW": {
                 "name": "Power (KW)",
-                "value": 426
+                "value": 104
             },
             "powerHP": {
                 "name": "Power (HP)",
-                "value": 572
+                "value": 141
             },
             "maxTorque": {
                 "name": "Max Torque (Nm)",
-                "value": 702
+                "value": 292
             },
             "topSpeed": {
                 "name": "Top speed (km/h)",
-                "value": -1
+                "value": 180
             },
             "acceleration": {
                 "name": "0-100 km/h (sec)",
-                "value": 4.27
+                "value": -1.0
             },
             "weight": {
                 "name": "Weight (kg)",
-                "value": 2194
+                "value": 1580
             },
             "length": {
                 "name": "Length (mm)",
-                "value": 4800
+                "value": 4910
             },
             "width": {
                 "name": "Width (mm)",
-                "value": 1930
+                "value": 1810
             },
             "height": {
                 "name": "Height (mm)",
-                "value": 1397
+                "value": 1400
             },
             "groundClearance": {
                 "name": "Ground clearence (mm)",
-                "value": -25
+                "value": -1
             },
             "abs": {
                 "name": "ABS",
-                "value": "N/A"
-            },
-            "tractionControl": {
-                "name": "Traction control",
                 "value": "yes"
             },
-            "imageUrl": {
-                "name": "Car image URL",
-                "value": "https://www.carspecs.us/photos/e0b374d39f26e28552686a9b1943173e01d2c553-2000.jpg"
-            },
-            "logoURL": {
-                "name": "Manufacturer Logo URL",
-                "value": "N/A"
-            },
-            "carPageUrl": {
-                "name": "Car page Url",
-                "value": "https://www.carspecs.us/cars/2015/bentley/continental-gt3-r/44722"
-            },
-            "objectPositionHorizontal": {
-                "name": "Object horizontal position",
-                "value": "0vh"
-            },
-            "objectPositionVertical": {
-                "name": "Object vertical position",
-                "value": "0vh"
-            },
-            "objectWidth": {
-                "name": "Object width",
-                "value": "100%"
-            },
-            "objectHeight": {
-                "name": "Object height",
-                "value": "100%"
-            },
-            "gear1st": {
-                "name": "1st gear",
-                "value": -1.0
-            },
-            "gear2nd": {
-                "name": "2nd gear",
-                "value": -1.0
-            },
-            "gear3rd": {
-                "name": "3rd gear",
-                "value": -1.0
-            },
-            "gear4th": {
-                "name": "4th gear",
-                "value": -1.0
-            },
-            "gear5th": {
-                "name": "5th gear",
-                "value": -1.0
-            },
-            "gear6th": {
-                "name": "6th gear",
-                "value": -1.0
-            },
-            "finalDrive": {
-                "name": "Final drive",
-                "value": -1.0
-            }
-        },
-        {
-            "id": {
-                "name": "ID",
-                "value": "c_2003_aston-martin_db7-vantage_12032"
-            },
-            "manufacturer": {
-                "name": "Manufacturer",
-                "value": "Aston Martin"
-            },
-            "type": {
-                "name": "Car type",
-                "value": "DB7 Vantage Volante"
-            },
-            "year": {
-                "name": "Year",
-                "value": 2003
-            },
-            "country": {
-                "name": "Country",
-                "value": "N/A"
-            },
-            "doors": {
-                "name": "Doors",
-                "value": -1
-            },
-            "body": {
-                "name": "Body type",
-                "value": "Convertible"
-            },
-            "seats": {
-                "name": "Seats",
-                "value": -1
-            },
-            "driveWheel": {
-                "name": "Drive wheel",
-                "value": "RWD"
-            },
-            "engineType": {
-                "name": "Engine type",
-                "value": "N/A"
-            },
-            "fuelType": {
-                "name": "Fuel type",
-                "value": "N/A"
-            },
-            "fuelTankCapacity": {
-                "name": "Fuel tank (liter)",
-                "value": null
-            },
-            "engineCapacity": {
-                "name": "Engine capacity (cm<sup>3</sup>)",
-                "value": -1000
-            },
-            "powerKW": {
-                "name": "Power (KW)",
-                "value": 313
-            },
-            "powerHP": {
-                "name": "Power (HP)",
-                "value": 420
-            },
-            "maxTorque": {
-                "name": "Max Torque (Nm)",
-                "value": -1
-            },
-            "topSpeed": {
-                "name": "Top speed (km/h)",
-                "value": -1
-            },
-            "acceleration": {
-                "name": "0-100 km/h (sec)",
-                "value": 4.62
-            },
-            "weight": {
-                "name": "Weight (kg)",
-                "value": 1860
-            },
-            "length": {
-                "name": "Length (mm)",
-                "value": -25
-            },
-            "width": {
-                "name": "Width (mm)",
-                "value": -25
-            },
-            "height": {
-                "name": "Height (mm)",
-                "value": -25
-            },
-            "groundClearance": {
-                "name": "Ground clearence (mm)",
-                "value": -25
-            },
-            "abs": {
-                "name": "ABS",
-                "value": "N/A"
-            },
             "tractionControl": {
                 "name": "Traction control",
                 "value": "N/A"
             },
             "imageUrl": {
                 "name": "Car image URL",
-                "value": "https://www.carspecs.us/photos/df342eb3e32b595c2f3cc38359ac4d3da15e13a0-2000.jpg"
+                "value": "assets/img/cars/mercury-sable-stationwagon-ls_59813.webp"
             },
             "logoURL": {
                 "name": "Manufacturer Logo URL",
-                "value": "N/A"
+                "value": "https://www.cars-data.com/design/images/cars-logo/mercury-logo-small.jpg"
             },
             "carPageUrl": {
                 "name": "Car page Url",
-                "value": "https://www.carspecs.us/cars/2003/aston-martin/db7-vantage/12032"
+                "value": "https://www.cars-data.com/en/mercury-sable-stationwagon-ls-specs/59813"
             },
             "objectPositionHorizontal": {
                 "name": "Object horizontal position",
@@ -929,19 +300,19 @@ export class DeckComponent implements OnInit {
             },
             "gear1st": {
                 "name": "1st gear",
-                "value": -1.0
+                "value": 2.77
             },
             "gear2nd": {
                 "name": "2nd gear",
-                "value": -1.0
+                "value": 1.54
             },
             "gear3rd": {
                 "name": "3rd gear",
-                "value": -1.0
+                "value": 1.0
             },
             "gear4th": {
                 "name": "4th gear",
-                "value": -1.0
+                "value": 0.69
             },
             "gear5th": {
                 "name": "5th gear",
@@ -953,7 +324,7 @@ export class DeckComponent implements OnInit {
             },
             "finalDrive": {
                 "name": "Final drive",
-                "value": -1.0
+                "value": 3.37
             }
         },
         {
@@ -1002,8 +373,8 @@ export class DeckComponent implements OnInit {
                 "value": "gasoline"
             },
             "fuelTankCapacity": {
-                "name": "Fuel tank (liter)",
-                "value": null
+                "name": "Fuel tank (lit.)",
+                "value": 45
             },
             "engineCapacity": {
                 "name": "Engine capacity (cm<sup>3</sup>)",
@@ -1059,7 +430,7 @@ export class DeckComponent implements OnInit {
             },
             "imageUrl": {
                 "name": "Car image URL",
-                "value": "https://www.cars-data.com/webp/thumbs/350px/suzuki/suzuki-swift_2559_4.webp"
+                "value": "assets/img/cars/suzuki-swift-1-5-gls_47270.webp"
             },
             "logoURL": {
                 "name": "Manufacturer Logo URL",
@@ -1160,8 +531,8 @@ export class DeckComponent implements OnInit {
                 "value": "gasoline"
             },
             "fuelTankCapacity": {
-                "name": "Fuel tank (liter)",
-                "value": null
+                "name": "Fuel tank (lit.)",
+                "value": 72
             },
             "engineCapacity": {
                 "name": "Engine capacity (cm<sup>3</sup>)",
@@ -1217,7 +588,7 @@ export class DeckComponent implements OnInit {
             },
             "imageUrl": {
                 "name": "Car image URL",
-                "value": "https://www.cars-data.com/webp/thumbs/350px/audi/audi-a8_4133_10.webp"
+                "value": "assets/img/cars/audi-a8-55-tfsi-quattro_80368.webp"
             },
             "logoURL": {
                 "name": "Manufacturer Logo URL",
@@ -1318,8 +689,8 @@ export class DeckComponent implements OnInit {
                 "value": "gasoline"
             },
             "fuelTankCapacity": {
-                "name": "Fuel tank (liter)",
-                "value": null
+                "name": "Fuel tank (lit.)",
+                "value": 50
             },
             "engineCapacity": {
                 "name": "Engine capacity (cm<sup>3</sup>)",
@@ -1375,7 +746,7 @@ export class DeckComponent implements OnInit {
             },
             "imageUrl": {
                 "name": "Car image URL",
-                "value": "https://www.cars-data.com/webp/thumbs/350px/suzuki/suzuki-liana_2538_2.webp"
+                "value": "assets/img/cars/suzuki-liana-1-6-glx_47096.webp"
             },
             "logoURL": {
                 "name": "Manufacturer Logo URL",
@@ -1476,8 +847,8 @@ export class DeckComponent implements OnInit {
                 "value": "gasoline"
             },
             "fuelTankCapacity": {
-                "name": "Fuel tank (liter)",
-                "value": null
+                "name": "Fuel tank (lit.)",
+                "value": 73
             },
             "engineCapacity": {
                 "name": "Engine capacity (cm<sup>3</sup>)",
@@ -1533,7 +904,7 @@ export class DeckComponent implements OnInit {
             },
             "imageUrl": {
                 "name": "Car image URL",
-                "value": "https://www.cars-data.com/webp/thumbs/350px/aston-martin/aston-martin-vantage_4120_9.webp"
+                "value": "assets/img/cars/aston-martin-vantage_79941.webp"
             },
             "logoURL": {
                 "name": "Manufacturer Logo URL",
@@ -1591,15 +962,15 @@ export class DeckComponent implements OnInit {
         {
             "id": {
                 "name": "ID",
-                "value": "c_mercury-sable-stationwagon-ls_59813"
+                "value": "c_1992_buick_park-avenue_36"
             },
             "manufacturer": {
                 "name": "Manufacturer",
-                "value": "Mercury"
+                "value": "Buick"
             },
             "type": {
                 "name": "Car type",
-                "value": "Sable Stationwagon LS"
+                "value": "Park Avenue Ultra  V6 Supercharger"
             },
             "year": {
                 "name": "Year",
@@ -1611,15 +982,15 @@ export class DeckComponent implements OnInit {
             },
             "doors": {
                 "name": "Doors",
-                "value": 5
+                "value": -1
             },
             "body": {
                 "name": "Body type",
-                "value": "station wagon"
+                "value": "Sedan"
             },
             "seats": {
                 "name": "Seats",
-                "value": 5
+                "value": -1
             },
             "driveWheel": {
                 "name": "Drive wheel",
@@ -1627,63 +998,63 @@ export class DeckComponent implements OnInit {
             },
             "engineType": {
                 "name": "Engine type",
-                "value": "fuel engine"
+                "value": "Gas"
             },
             "fuelType": {
                 "name": "Fuel type",
-                "value": "gasoline"
+                "value": "N/A"
             },
             "fuelTankCapacity": {
-                "name": "Fuel tank (liter)",
-                "value": null
+                "name": "Fuel tank (lit.)",
+                "value": 68
             },
             "engineCapacity": {
                 "name": "Engine capacity (cm<sup>3</sup>)",
-                "value": 3797
+                "value": 3800
             },
             "powerKW": {
                 "name": "Power (KW)",
-                "value": 104
+                "value": 152
             },
             "powerHP": {
                 "name": "Power (HP)",
-                "value": 141
+                "value": 205
             },
             "maxTorque": {
                 "name": "Max Torque (Nm)",
-                "value": 292
+                "value": 352
             },
             "topSpeed": {
                 "name": "Top speed (km/h)",
-                "value": 180
+                "value": -1
             },
             "acceleration": {
                 "name": "0-100 km/h (sec)",
-                "value": -1.0
+                "value": 8.41
             },
             "weight": {
                 "name": "Weight (kg)",
-                "value": 1580
+                "value": 1651
             },
             "length": {
                 "name": "Length (mm)",
-                "value": 4910
+                "value": 5207
             },
             "width": {
                 "name": "Width (mm)",
-                "value": 1810
+                "value": 1854
             },
             "height": {
                 "name": "Height (mm)",
-                "value": 1400
+                "value": 1397
             },
             "groundClearance": {
                 "name": "Ground clearence (mm)",
-                "value": -1
+                "value": 127
             },
             "abs": {
                 "name": "ABS",
-                "value": "yes"
+                "value": "N/A"
             },
             "tractionControl": {
                 "name": "Traction control",
@@ -1691,15 +1062,15 @@ export class DeckComponent implements OnInit {
             },
             "imageUrl": {
                 "name": "Car image URL",
-                "value": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnmDON_IsijFf6t_xUDDUk4cKPjYgJufhcXA&usqp=CAU"
+                "value": "assets/img/cars/1992_buick_park-avenue_36.webp"
             },
             "logoURL": {
                 "name": "Manufacturer Logo URL",
-                "value": "https://www.cars-data.com/design/images/cars-logo/mercury-logo-small.jpg"
+                "value": "N/A"
             },
             "carPageUrl": {
                 "name": "Car page Url",
-                "value": "https://www.cars-data.com/en/mercury-sable-stationwagon-ls-specs/59813"
+                "value": "https://www.carspecs.us/cars/1992/buick/park-avenue/36"
             },
             "objectPositionHorizontal": {
                 "name": "Object horizontal position",
@@ -1719,19 +1090,19 @@ export class DeckComponent implements OnInit {
             },
             "gear1st": {
                 "name": "1st gear",
-                "value": 2.77
+                "value": -1.0
             },
             "gear2nd": {
                 "name": "2nd gear",
-                "value": 1.54
+                "value": -1.0
             },
             "gear3rd": {
                 "name": "3rd gear",
-                "value": 1.0
+                "value": -1.0
             },
             "gear4th": {
                 "name": "4th gear",
-                "value": 0.69
+                "value": -1.0
             },
             "gear5th": {
                 "name": "5th gear",
@@ -1743,15 +1114,994 @@ export class DeckComponent implements OnInit {
             },
             "finalDrive": {
                 "name": "Final drive",
-                "value": 3.37
+                "value": -1.0
+            }
+        },
+        {
+            "id": {
+                "name": "ID",
+                "value": "c_2007_audi_a4_71215"
+            },
+            "manufacturer": {
+                "name": "Manufacturer",
+                "value": "Audi"
+            },
+            "type": {
+                "name": "Car type",
+                "value": "A4 2.0T"
+            },
+            "year": {
+                "name": "Year",
+                "value": 2007
+            },
+            "country": {
+                "name": "Country",
+                "value": "N/A"
+            },
+            "doors": {
+                "name": "Doors",
+                "value": 4
+            },
+            "body": {
+                "name": "Body type",
+                "value": "Sedan"
+            },
+            "seats": {
+                "name": "Seats",
+                "value": 5
+            },
+            "driveWheel": {
+                "name": "Drive wheel",
+                "value": "FWD"
+            },
+            "engineType": {
+                "name": "Engine type",
+                "value": "Gas"
+            },
+            "fuelType": {
+                "name": "Fuel type",
+                "value": "N/A"
+            },
+            "fuelTankCapacity": {
+                "name": "Fuel tank (lit.)",
+                "value": 70
+            },
+            "engineCapacity": {
+                "name": "Engine capacity (cm<sup>3</sup>)",
+                "value": 2000
+            },
+            "powerKW": {
+                "name": "Power (KW)",
+                "value": 149
+            },
+            "powerHP": {
+                "name": "Power (HP)",
+                "value": 200
+            },
+            "maxTorque": {
+                "name": "Max Torque (Nm)",
+                "value": 280
+            },
+            "topSpeed": {
+                "name": "Top speed (km/h)",
+                "value": -1
+            },
+            "acceleration": {
+                "name": "0-100 km/h (sec)",
+                "value": 7.58
+            },
+            "weight": {
+                "name": "Weight (kg)",
+                "value": 1544
+            },
+            "length": {
+                "name": "Length (mm)",
+                "value": 4572
+            },
+            "width": {
+                "name": "Width (mm)",
+                "value": 1752
+            },
+            "height": {
+                "name": "Height (mm)",
+                "value": 1422
+            },
+            "groundClearance": {
+                "name": "Ground clearence (mm)",
+                "value": 101
+            },
+            "abs": {
+                "name": "ABS",
+                "value": "yes"
+            },
+            "tractionControl": {
+                "name": "Traction control",
+                "value": "N/A"
+            },
+            "imageUrl": {
+                "name": "Car image URL",
+                "value": "assets/img/cars/2007_audi_a4_71215.webp"
+            },
+            "logoURL": {
+                "name": "Manufacturer Logo URL",
+                "value": "N/A"
+            },
+            "carPageUrl": {
+                "name": "Car page Url",
+                "value": "https://www.carspecs.us/cars/2007/audi/a4/71215"
+            },
+            "objectPositionHorizontal": {
+                "name": "Object horizontal position",
+                "value": "0vh"
+            },
+            "objectPositionVertical": {
+                "name": "Object vertical position",
+                "value": "0vh"
+            },
+            "objectWidth": {
+                "name": "Object width",
+                "value": "100%"
+            },
+            "objectHeight": {
+                "name": "Object height",
+                "value": "100%"
+            },
+            "gear1st": {
+                "name": "1st gear",
+                "value": 3.67
+            },
+            "gear2nd": {
+                "name": "2nd gear",
+                "value": 2.05
+            },
+            "gear3rd": {
+                "name": "3rd gear",
+                "value": 1.37
+            },
+            "gear4th": {
+                "name": "4th gear",
+                "value": 1.03
+            },
+            "gear5th": {
+                "name": "5th gear",
+                "value": 0.8
+            },
+            "gear6th": {
+                "name": "6th gear",
+                "value": 0.66
+            },
+            "finalDrive": {
+                "name": "Final drive",
+                "value": 3.75
+            }
+        },
+        {
+            "id": {
+                "name": "ID",
+                "value": "c_2014_dodge_avenger_35821"
+            },
+            "manufacturer": {
+                "name": "Manufacturer",
+                "value": "Dodge"
+            },
+            "type": {
+                "name": "Car type",
+                "value": "Avenger V6"
+            },
+            "year": {
+                "name": "Year",
+                "value": 2014
+            },
+            "country": {
+                "name": "Country",
+                "value": "N/A"
+            },
+            "doors": {
+                "name": "Doors",
+                "value": -1
+            },
+            "body": {
+                "name": "Body type",
+                "value": "Sedan"
+            },
+            "seats": {
+                "name": "Seats",
+                "value": -1
+            },
+            "driveWheel": {
+                "name": "Drive wheel",
+                "value": "FWD"
+            },
+            "engineType": {
+                "name": "Engine type",
+                "value": "Flex Fuel"
+            },
+            "fuelType": {
+                "name": "Fuel type",
+                "value": "N/A"
+            },
+            "fuelTankCapacity": {
+                "name": "Fuel tank (lit.)",
+                "value": 63
+            },
+            "engineCapacity": {
+                "name": "Engine capacity (cm<sup>3</sup>)",
+                "value": 3600
+            },
+            "powerKW": {
+                "name": "Power (KW)",
+                "value": 211
+            },
+            "powerHP": {
+                "name": "Power (HP)",
+                "value": 283
+            },
+            "maxTorque": {
+                "name": "Max Torque (Nm)",
+                "value": 352
+            },
+            "topSpeed": {
+                "name": "Top speed (km/h)",
+                "value": -1
+            },
+            "acceleration": {
+                "name": "0-100 km/h (sec)",
+                "value": 6.56
+            },
+            "weight": {
+                "name": "Weight (kg)",
+                "value": 1636
+            },
+            "length": {
+                "name": "Length (mm)",
+                "value": 4876
+            },
+            "width": {
+                "name": "Width (mm)",
+                "value": 1828
+            },
+            "height": {
+                "name": "Height (mm)",
+                "value": 1473
+            },
+            "groundClearance": {
+                "name": "Ground clearence (mm)",
+                "value": 152
+            },
+            "abs": {
+                "name": "ABS",
+                "value": "yes"
+            },
+            "tractionControl": {
+                "name": "Traction control",
+                "value": "yes"
+            },
+            "imageUrl": {
+                "name": "Car image URL",
+                "value": "assets/img/cars/2014_dodge_avenger_35821.webp"
+            },
+            "logoURL": {
+                "name": "Manufacturer Logo URL",
+                "value": "N/A"
+            },
+            "carPageUrl": {
+                "name": "Car page Url",
+                "value": "https://www.carspecs.us/cars/2014/dodge/avenger/35821"
+            },
+            "objectPositionHorizontal": {
+                "name": "Object horizontal position",
+                "value": "0vh"
+            },
+            "objectPositionVertical": {
+                "name": "Object vertical position",
+                "value": "0vh"
+            },
+            "objectWidth": {
+                "name": "Object width",
+                "value": "100%"
+            },
+            "objectHeight": {
+                "name": "Object height",
+                "value": "100%"
+            },
+            "gear1st": {
+                "name": "1st gear",
+                "value": -1.0
+            },
+            "gear2nd": {
+                "name": "2nd gear",
+                "value": -1.0
+            },
+            "gear3rd": {
+                "name": "3rd gear",
+                "value": -1.0
+            },
+            "gear4th": {
+                "name": "4th gear",
+                "value": -1.0
+            },
+            "gear5th": {
+                "name": "5th gear",
+                "value": -1.0
+            },
+            "gear6th": {
+                "name": "6th gear",
+                "value": -1.0
+            },
+            "finalDrive": {
+                "name": "Final drive",
+                "value": -1.0
+            }
+        },
+        {
+            "id": {
+                "name": "ID",
+                "value": "c_1991_volvo_940_36963"
+            },
+            "manufacturer": {
+                "name": "Manufacturer",
+                "value": "Volvo"
+            },
+            "type": {
+                "name": "Car type",
+                "value": "940 SE  Turbo"
+            },
+            "year": {
+                "name": "Year",
+                "value": 1991
+            },
+            "country": {
+                "name": "Country",
+                "value": "N/A"
+            },
+            "doors": {
+                "name": "Doors",
+                "value": -1
+            },
+            "body": {
+                "name": "Body type",
+                "value": "Sedan"
+            },
+            "seats": {
+                "name": "Seats",
+                "value": -1
+            },
+            "driveWheel": {
+                "name": "Drive wheel",
+                "value": "RWD"
+            },
+            "engineType": {
+                "name": "Engine type",
+                "value": "Gas"
+            },
+            "fuelType": {
+                "name": "Fuel type",
+                "value": "N/A"
+            },
+            "fuelTankCapacity": {
+                "name": "Fuel tank (lit.)",
+                "value": 79
+            },
+            "engineCapacity": {
+                "name": "Engine capacity (cm<sup>3</sup>)",
+                "value": 2300
+            },
+            "powerKW": {
+                "name": "Power (KW)",
+                "value": 120
+            },
+            "powerHP": {
+                "name": "Power (HP)",
+                "value": 162
+            },
+            "maxTorque": {
+                "name": "Max Torque (Nm)",
+                "value": 264
+            },
+            "topSpeed": {
+                "name": "Top speed (km/h)",
+                "value": -1
+            },
+            "acceleration": {
+                "name": "0-100 km/h (sec)",
+                "value": 8.62
+            },
+            "weight": {
+                "name": "Weight (kg)",
+                "value": 1499
+            },
+            "length": {
+                "name": "Length (mm)",
+                "value": 4851
+            },
+            "width": {
+                "name": "Width (mm)",
+                "value": 1752
+            },
+            "height": {
+                "name": "Height (mm)",
+                "value": 1397
+            },
+            "groundClearance": {
+                "name": "Ground clearence (mm)",
+                "value": 101
+            },
+            "abs": {
+                "name": "ABS",
+                "value": "N/A"
+            },
+            "tractionControl": {
+                "name": "Traction control",
+                "value": "N/A"
+            },
+            "imageUrl": {
+                "name": "Car image URL",
+                "value": "assets/img/cars/1991_volvo_940_36963.webp"
+            },
+            "logoURL": {
+                "name": "Manufacturer Logo URL",
+                "value": "N/A"
+            },
+            "carPageUrl": {
+                "name": "Car page Url",
+                "value": "https://www.carspecs.us/cars/1991/volvo/940/36963"
+            },
+            "objectPositionHorizontal": {
+                "name": "Object horizontal position",
+                "value": "0vh"
+            },
+            "objectPositionVertical": {
+                "name": "Object vertical position",
+                "value": "0vh"
+            },
+            "objectWidth": {
+                "name": "Object width",
+                "value": "100%"
+            },
+            "objectHeight": {
+                "name": "Object height",
+                "value": "100%"
+            },
+            "gear1st": {
+                "name": "1st gear",
+                "value": -1.0
+            },
+            "gear2nd": {
+                "name": "2nd gear",
+                "value": -1.0
+            },
+            "gear3rd": {
+                "name": "3rd gear",
+                "value": -1.0
+            },
+            "gear4th": {
+                "name": "4th gear",
+                "value": -1.0
+            },
+            "gear5th": {
+                "name": "5th gear",
+                "value": -1.0
+            },
+            "gear6th": {
+                "name": "6th gear",
+                "value": -1.0
+            },
+            "finalDrive": {
+                "name": "Final drive",
+                "value": -1.0
+            }
+        },
+        {
+            "id": {
+                "name": "ID",
+                "value": "c_1999_oldsmobile_aurora_7802"
+            },
+            "manufacturer": {
+                "name": "Manufacturer",
+                "value": "Oldsmobile"
+            },
+            "type": {
+                "name": "Car type",
+                "value": "Aurora V8"
+            },
+            "year": {
+                "name": "Year",
+                "value": 1999
+            },
+            "country": {
+                "name": "Country",
+                "value": "N/A"
+            },
+            "doors": {
+                "name": "Doors",
+                "value": 4
+            },
+            "body": {
+                "name": "Body type",
+                "value": "Sedan"
+            },
+            "seats": {
+                "name": "Seats",
+                "value": 5
+            },
+            "driveWheel": {
+                "name": "Drive wheel",
+                "value": "FWD"
+            },
+            "engineType": {
+                "name": "Engine type",
+                "value": "Gas"
+            },
+            "fuelType": {
+                "name": "Fuel type",
+                "value": "N/A"
+            },
+            "fuelTankCapacity": {
+                "name": "Fuel tank (lit.)",
+                "value": 70
+            },
+            "engineCapacity": {
+                "name": "Engine capacity (cm<sup>3</sup>)",
+                "value": 4000
+            },
+            "powerKW": {
+                "name": "Power (KW)",
+                "value": 186
+            },
+            "powerHP": {
+                "name": "Power (HP)",
+                "value": 250
+            },
+            "maxTorque": {
+                "name": "Max Torque (Nm)",
+                "value": 352
+            },
+            "topSpeed": {
+                "name": "Top speed (km/h)",
+                "value": -1
+            },
+            "acceleration": {
+                "name": "0-100 km/h (sec)",
+                "value": 7.63
+            },
+            "weight": {
+                "name": "Weight (kg)",
+                "value": 1770
+            },
+            "length": {
+                "name": "Length (mm)",
+                "value": 5207
+            },
+            "width": {
+                "name": "Width (mm)",
+                "value": 1879
+            },
+            "height": {
+                "name": "Height (mm)",
+                "value": 1397
+            },
+            "groundClearance": {
+                "name": "Ground clearence (mm)",
+                "value": 127
+            },
+            "abs": {
+                "name": "ABS",
+                "value": "yes"
+            },
+            "tractionControl": {
+                "name": "Traction control",
+                "value": "N/A"
+            },
+            "imageUrl": {
+                "name": "Car image URL",
+                "value": "assets/img/cars/1999_oldsmobile_aurora_7802.webp"
+            },
+            "logoURL": {
+                "name": "Manufacturer Logo URL",
+                "value": "N/A"
+            },
+            "carPageUrl": {
+                "name": "Car page Url",
+                "value": "https://www.carspecs.us/cars/1999/oldsmobile/aurora/7802"
+            },
+            "objectPositionHorizontal": {
+                "name": "Object horizontal position",
+                "value": "0vh"
+            },
+            "objectPositionVertical": {
+                "name": "Object vertical position",
+                "value": "0vh"
+            },
+            "objectWidth": {
+                "name": "Object width",
+                "value": "100%"
+            },
+            "objectHeight": {
+                "name": "Object height",
+                "value": "100%"
+            },
+            "gear1st": {
+                "name": "1st gear",
+                "value": 2.96
+            },
+            "gear2nd": {
+                "name": "2nd gear",
+                "value": 1.63
+            },
+            "gear3rd": {
+                "name": "3rd gear",
+                "value": 1.0
+            },
+            "gear4th": {
+                "name": "4th gear",
+                "value": 0.68
+            },
+            "gear5th": {
+                "name": "5th gear",
+                "value": -1.0
+            },
+            "gear6th": {
+                "name": "6th gear",
+                "value": -1.0
+            },
+            "finalDrive": {
+                "name": "Final drive",
+                "value": 3.48
+            }
+        },
+        {
+            "id": {
+                "name": "ID",
+                "value": "c_2015_bentley_continental-gt3-r_44722"
+            },
+            "manufacturer": {
+                "name": "Manufacturer",
+                "value": "Bentley"
+            },
+            "type": {
+                "name": "Car type",
+                "value": "Continental GT3-R V8 Twin turbo"
+            },
+            "year": {
+                "name": "Year",
+                "value": 2015
+            },
+            "country": {
+                "name": "Country",
+                "value": "N/A"
+            },
+            "doors": {
+                "name": "Doors",
+                "value": -1
+            },
+            "body": {
+                "name": "Body type",
+                "value": "Coupe"
+            },
+            "seats": {
+                "name": "Seats",
+                "value": -1
+            },
+            "driveWheel": {
+                "name": "Drive wheel",
+                "value": "4WD"
+            },
+            "engineType": {
+                "name": "Engine type",
+                "value": "Gas"
+            },
+            "fuelType": {
+                "name": "Fuel type",
+                "value": "N/A"
+            },
+            "fuelTankCapacity": {
+                "name": "Fuel tank (lit.)",
+                "value": 90
+            },
+            "engineCapacity": {
+                "name": "Engine capacity (cm<sup>3</sup>)",
+                "value": 4000
+            },
+            "powerKW": {
+                "name": "Power (KW)",
+                "value": 426
+            },
+            "powerHP": {
+                "name": "Power (HP)",
+                "value": 572
+            },
+            "maxTorque": {
+                "name": "Max Torque (Nm)",
+                "value": 702
+            },
+            "topSpeed": {
+                "name": "Top speed (km/h)",
+                "value": -1
+            },
+            "acceleration": {
+                "name": "0-100 km/h (sec)",
+                "value": 4.27
+            },
+            "weight": {
+                "name": "Weight (kg)",
+                "value": 2194
+            },
+            "length": {
+                "name": "Length (mm)",
+                "value": 4800
+            },
+            "width": {
+                "name": "Width (mm)",
+                "value": 1930
+            },
+            "height": {
+                "name": "Height (mm)",
+                "value": 1397
+            },
+            "groundClearance": {
+                "name": "Ground clearence (mm)",
+                "value": -25
+            },
+            "abs": {
+                "name": "ABS",
+                "value": "N/A"
+            },
+            "tractionControl": {
+                "name": "Traction control",
+                "value": "yes"
+            },
+            "imageUrl": {
+                "name": "Car image URL",
+                "value": "assets/img/cars/2015_bentley_continental-gt3-r_44722.webp"
+            },
+            "logoURL": {
+                "name": "Manufacturer Logo URL",
+                "value": "N/A"
+            },
+            "carPageUrl": {
+                "name": "Car page Url",
+                "value": "https://www.carspecs.us/cars/2015/bentley/continental-gt3-r/44722"
+            },
+            "objectPositionHorizontal": {
+                "name": "Object horizontal position",
+                "value": "0vh"
+            },
+            "objectPositionVertical": {
+                "name": "Object vertical position",
+                "value": "0vh"
+            },
+            "objectWidth": {
+                "name": "Object width",
+                "value": "100%"
+            },
+            "objectHeight": {
+                "name": "Object height",
+                "value": "100%"
+            },
+            "gear1st": {
+                "name": "1st gear",
+                "value": -1.0
+            },
+            "gear2nd": {
+                "name": "2nd gear",
+                "value": -1.0
+            },
+            "gear3rd": {
+                "name": "3rd gear",
+                "value": -1.0
+            },
+            "gear4th": {
+                "name": "4th gear",
+                "value": -1.0
+            },
+            "gear5th": {
+                "name": "5th gear",
+                "value": -1.0
+            },
+            "gear6th": {
+                "name": "6th gear",
+                "value": -1.0
+            },
+            "finalDrive": {
+                "name": "Final drive",
+                "value": -1.0
+            }
+        },
+        {
+            "id": {
+                "name": "ID",
+                "value": "c_2003_aston-martin_db7-vantage_12032"
+            },
+            "manufacturer": {
+                "name": "Manufacturer",
+                "value": "Aston Martin"
+            },
+            "type": {
+                "name": "Car type",
+                "value": "DB7 Vantage Volante"
+            },
+            "year": {
+                "name": "Year",
+                "value": 2003
+            },
+            "country": {
+                "name": "Country",
+                "value": "N/A"
+            },
+            "doors": {
+                "name": "Doors",
+                "value": -1
+            },
+            "body": {
+                "name": "Body type",
+                "value": "Convertible"
+            },
+            "seats": {
+                "name": "Seats",
+                "value": -1
+            },
+            "driveWheel": {
+                "name": "Drive wheel",
+                "value": "RWD"
+            },
+            "engineType": {
+                "name": "Engine type",
+                "value": "N/A"
+            },
+            "fuelType": {
+                "name": "Fuel type",
+                "value": "N/A"
+            },
+            "fuelTankCapacity": {
+                "name": "Fuel tank (lit.)",
+                "value": 81
+            },
+            "engineCapacity": {
+                "name": "Engine capacity (cm<sup>3</sup>)",
+                "value": -1000
+            },
+            "powerKW": {
+                "name": "Power (KW)",
+                "value": 313
+            },
+            "powerHP": {
+                "name": "Power (HP)",
+                "value": 420
+            },
+            "maxTorque": {
+                "name": "Max Torque (Nm)",
+                "value": -1
+            },
+            "topSpeed": {
+                "name": "Top speed (km/h)",
+                "value": -1
+            },
+            "acceleration": {
+                "name": "0-100 km/h (sec)",
+                "value": 4.62
+            },
+            "weight": {
+                "name": "Weight (kg)",
+                "value": 1860
+            },
+            "length": {
+                "name": "Length (mm)",
+                "value": -25
+            },
+            "width": {
+                "name": "Width (mm)",
+                "value": -25
+            },
+            "height": {
+                "name": "Height (mm)",
+                "value": -25
+            },
+            "groundClearance": {
+                "name": "Ground clearence (mm)",
+                "value": -25
+            },
+            "abs": {
+                "name": "ABS",
+                "value": "N/A"
+            },
+            "tractionControl": {
+                "name": "Traction control",
+                "value": "N/A"
+            },
+            "imageUrl": {
+                "name": "Car image URL",
+                "value": "assets/img/cars/2003_aston-martin_db7-vantage_12032.webp"
+            },
+            "logoURL": {
+                "name": "Manufacturer Logo URL",
+                "value": "N/A"
+            },
+            "carPageUrl": {
+                "name": "Car page Url",
+                "value": "https://www.carspecs.us/cars/2003/aston-martin/db7-vantage/12032"
+            },
+            "objectPositionHorizontal": {
+                "name": "Object horizontal position",
+                "value": "0vh"
+            },
+            "objectPositionVertical": {
+                "name": "Object vertical position",
+                "value": "0vh"
+            },
+            "objectWidth": {
+                "name": "Object width",
+                "value": "100%"
+            },
+            "objectHeight": {
+                "name": "Object height",
+                "value": "100%"
+            },
+            "gear1st": {
+                "name": "1st gear",
+                "value": -1.0
+            },
+            "gear2nd": {
+                "name": "2nd gear",
+                "value": -1.0
+            },
+            "gear3rd": {
+                "name": "3rd gear",
+                "value": -1.0
+            },
+            "gear4th": {
+                "name": "4th gear",
+                "value": -1.0
+            },
+            "gear5th": {
+                "name": "5th gear",
+                "value": -1.0
+            },
+            "gear6th": {
+                "name": "6th gear",
+                "value": -1.0
+            },
+            "finalDrive": {
+                "name": "Final drive",
+                "value": -1.0
             }
         }
-    ];
-    constructor() {
+    ];*/
+    cardList: any;
+    constructor(
+        private eventService: EventService,
+        private http: HttpClient
+    ) {
     }
 
     ngOnInit(): void {
+
+        this.getAllCard().subscribe(
+            list => this.cardList = list,
+            err => console.error(err),
+            () => console.log('Unsubscribed')
+        );
     }
 
+
+    getAllCard() {
+
+        let url = 'http://localhost:8080/api/cards';
+
+        return this.http.get(url);
+        // erre még rá kell nézni
+        /*const response = fetch(
+            url,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            method: 'GET',
+            mode: "no-cors"
+            }
+        );
+        console.log('response')
+        console.log(response)*/
+
+    }
 
 }

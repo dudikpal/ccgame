@@ -9,7 +9,6 @@ import {addWarning} from "@angular-devkit/build-angular/src/utils/webpack-diagno
 })
 export class CardComponent implements OnInit {
 
-    private url = "http://localhost:4200/api/cards";
     @Input() card: any;
 
 
@@ -107,9 +106,9 @@ export class CardComponent implements OnInit {
 
     async fetchAllCard() {
 
-        const response = await fetch(this.url);
+        /*const response = await fetch(this.url);
         const jsonData = await response.json();
-        console.log(jsonData);
+        console.log(jsonData);*/
     }
 
     frontClick(id: string) {

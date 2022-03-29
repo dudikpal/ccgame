@@ -65,7 +65,7 @@ public class CreateCardCommand {
 
     private String carPageUrl;
 
-    private String objectPositionHorizontal = "0vh";
+    private String objectPositionHorizontal = "0vw";
 
     private String objectPositionVertical = "0vh";
 

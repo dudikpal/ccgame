@@ -4,17 +4,19 @@
      (click)="frontClick(card.id.value)"
 >
     <div class="card front-face">
-        <img
-            class="img-car"
-            [style.width]=card.objectWidth.value
-            [style.height]=card.objectHeight.value
-            [style.object-position]="card.objectPositionHorizontal.value + ' ' + card.objectPositionVertical.value"
-            [src]=card.imageUrl.value
-        />
-
+        <div
+            class="img-container">
+            <img
+                class="img-car"
+                [style.width]=card.objectWidth.value
+                [style.height]=card.objectHeight.value
+                [style.object-position]="card.objectPositionHorizontal.value + ' ' + card.objectPositionVertical.value"
+                [src]=card.imageUrl.value
+            />
+        </div>
         <div
             class="title-row"
-            style="display: flex">
+        >
             <img
                 class="img-logo"
 
