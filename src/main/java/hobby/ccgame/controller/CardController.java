@@ -49,8 +49,6 @@ public class CardController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public String createCard(@RequestBody CreateCardCommand command) {
 
-        //return ccGameService.createCard(command);
-
         ObjectMapper mapper = new ObjectMapper();
 
         try {

@@ -1,3 +1,5 @@
+
+
 export class CardModel {
 
     id = { name: "ID", value: "N/A" };
@@ -77,5 +79,11 @@ export class CardModel {
     gear6th = { name: "6th gear", value: "-1" };
 
     finalDrive = { name: "Final drive", value: "-1" };
+
+
+    getProp(name: any, value: string) {
+
+
+    }
 
 }

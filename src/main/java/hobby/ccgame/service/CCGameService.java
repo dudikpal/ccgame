@@ -41,9 +41,13 @@ public class CCGameService {
 
     public CardDTO createCard(CreateCardCommand command) {
 
-        Card card = modelMapper.map(command, Card.class);
+        Card card = new Card();
 
-        ccGameRepository.save(card);
+        if (ccGameRepository.findById(command.getId()).isEmpty()) {
+
+            card = modelMapper.map(command, Card.class);
+            ccGameRepository.save(card);
+        }
 
         return DTOMapper.CardToCardDTO(card);
     }
