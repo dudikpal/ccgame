@@ -10,7 +10,10 @@ import hobby.ccgame.entity.Card;
 import hobby.ccgame.mapper.DTOMapper;
 import hobby.ccgame.repository.CCGameRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +22,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class CCGameService {
 
     private CCGameRepository ccGameRepository;
@@ -30,12 +35,32 @@ public class CCGameService {
     private ModelMapper modelMapper;
 
 
-    public List <CardDTO> getAllCards() {
+    public List <CardDTO> getCards(Optional<String> jsonData) {
+        List <CardDTO> result;
 
-        return ccGameRepository.findAll()
-            .stream()
-            .map(card -> DTOMapper.CardToCardDTO(card))
-            .collect(Collectors.toList());
+        if (jsonData.isPresent()) {
+
+            Card card = modelMapper.map(jsonData.get(), Card.class);
+
+            ExampleMatcher matcher = ExampleMatcher.matchingAny()
+                .withMatcher("manufacturer", ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase());
+
+            log.debug(String.valueOf(jsonData.get()));
+            Example <Card> example = Example.of(card, matcher);
+            System.out.println("example = " + example);
+
+            result = ccGameRepository.findAll(example)
+                .stream()
+                .map(findedCard -> modelMapper.map(findedCard, CardDTO.class))
+                .collect(Collectors.toList());
+        } else {
+            result = ccGameRepository.findAll()
+                .stream()
+                .map(card -> DTOMapper.CardToCardDTO(card))
+                .collect(Collectors.toList());
+        }
+
+        return result;
     }
 
 

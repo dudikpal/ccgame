@@ -30,8 +30,10 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/api/cards
+GET http://localhost:8080/api/cards?jsonData={"manufacturer":"volvo"}
 Accept: application/json
+
+
 
 ###
 POST http://localhost:8080/api/cards/uploadfile/cardsToUpload
