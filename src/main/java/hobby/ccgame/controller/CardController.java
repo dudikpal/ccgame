@@ -37,7 +37,8 @@ public class CardController {
 
         try {
 
-            return mapper.writeValueAsString(ccGameService.getCards(jsonData));
+            String sol = mapper.writeValueAsString(ccGameService.getCards(jsonData));
+            return sol;
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -80,5 +81,26 @@ public class CardController {
     @PostMapping("/uploadfile/{filename}")
     public List<CardDTO> uploadCardsFromFile(@PathVariable String filename) {
         return ccGameService.uploadCardsFromFile(filename);
+    }
+
+
+    @PostMapping(value = "/find", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String findCards(@RequestBody String params) {
+
+        // tesztre
+        ObjectMapper mapper = new ObjectMapper();
+        //params = "{\"manufacturer\":\"volvo\"}";
+
+        try {
+
+            String sol = mapper.writeValueAsString(ccGameService.findCards(params));
+            System.out.println(sol);
+            return sol;
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+        // tesztre
     }
 }

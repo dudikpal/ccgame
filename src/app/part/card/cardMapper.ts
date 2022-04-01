@@ -81,7 +81,7 @@ export class CardMapper {
     finalDrive!: string;
 
 
-    mapToCardDTO(card: CardModel): string {
+    mapToCard(card: CardModel): string {
 
         this.id = card.id.value;
 

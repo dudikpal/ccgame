@@ -1,5 +1,6 @@
 package hobby.ccgame;
 
+import hobby.ccgame.mapper.DTOMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,6 +21,16 @@ public class CcgameApplication {
     modelMapper.getConfiguration().setSkipNullEnabled(true);
 
     return  modelMapper;
+    }
+
+
+    @Bean
+    public DTOMapper dtoMapper() {
+
+        DTOMapper dtoMapper = new DTOMapper();
+
+
+        return dtoMapper;
     }
 
 
