@@ -14,6 +14,7 @@ import hobby.ccgame.mapper.DTOMapper;
 import hobby.ccgame.repository.CCGameRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONArray;
 import net.minidev.json.parser.JSONParser;
 import org.bson.json.JsonObject;
 import org.modelmapper.ModelMapper;
@@ -25,10 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +39,8 @@ public class CCGameService {
     private CCGameRepository ccGameRepository;
 
     private ModelMapper modelMapper;
+
+    private ObjectMapper objectMapper;
 
 
     public List <CardDTO> getCards(Optional <String> jsonData) {
@@ -160,36 +162,66 @@ public class CCGameService {
 
         if (!params.isEmpty()) {
 
+            String checks = null;
+            List<String> checkedFieldNames = new ArrayList <>();
             JsonNode json = null;
             Card card = null;
 
             try {
                 json = objectMapper.readTree(params);
-                card = objectMapper.readValue(params, Card.class);
+                checks = json.get("checks").toPrettyString();
+
+                Pattern p = Pattern.compile("\\w+");
+                Matcher m = p.matcher(checks);
+
+                while (m.find()) {
+                    checkedFieldNames.add(m.group());
+                    //System.out.println(m.group());
+                }
+
+                card = objectMapper.readValue(json.get("card").toPrettyString(), Card.class);
+
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
 
 
-            ExampleMatcher matcher = ExampleMatcher.matchingAny()
-                .withMatcher("manufacturer", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+            ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase();
+
+
+
 
             System.out.println("params: " + params);
             System.out.println("json: " + json);
+            System.out.println("checks: " + checks);
             System.out.println("card: " + card);
             Example <Card> example = Example.of(card, matcher);
             System.out.println("example = " + example);
 
-            // innen mÉg nem jön ki a volvo
-            /*result = ccGameRepository.findAll(example)
-                .stream()
-                .map(findedCard -> modelMapper.map(findedCard, CardDTO.class))
-                .collect(Collectors.toList());*/
-
             List <Card> cards = ccGameRepository.findAll(example);
+            List<Card> checkedCards = new ArrayList <>();
+
+            int checkedFieldCount = checkedFieldNames.size();
+            for (Card c : cards) {
+
+                Map cardMap = objectMapper.convertValue(c, Map.class);
+                int counter = 0;
+
+                for (int i = 0; i < checkedFieldCount; i++) {
+
+                    if (cardMap.get(checkedFieldNames.get(i)) == null) {
+                        counter++;
+                    }
+                }
+
+                if (counter == checkedFieldCount) {
+
+                    checkedCards.add(c);
+                }
+            }
             result = new ArrayList <>();
 
-            for (Card c : cards) {
+            for (Card c : checkedCards) {
                 result.add(DTOMapper.CardToCardDTO(c));
             }
             System.out.println("result: " + result);

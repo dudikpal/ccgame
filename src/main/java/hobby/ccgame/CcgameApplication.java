@@ -1,5 +1,6 @@
 package hobby.ccgame;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hobby.ccgame.mapper.DTOMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
@@ -21,6 +22,13 @@ public class CcgameApplication {
     modelMapper.getConfiguration().setSkipNullEnabled(true);
 
     return  modelMapper;
+    }
+
+
+    @Bean
+    public ObjectMapper objectMapper() {
+
+        return new ObjectMapper();
     }
 
 
