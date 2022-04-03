@@ -185,18 +185,14 @@ public class CCGameService {
                 e.printStackTrace();
             }
 
-
             ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase();
 
-
-
-
-            System.out.println("params: " + params);
-            System.out.println("json: " + json);
-            System.out.println("checks: " + checks);
-            System.out.println("card: " + card);
+            //System.out.println("params: " + params);
+            //System.out.println("json: " + json);
+            //System.out.println("checks: " + checks);
+            //System.out.println("card: " + card);
             Example <Card> example = Example.of(card, matcher);
-            System.out.println("example = " + example);
+            //System.out.println("example = " + example);
 
             List <Card> cards = ccGameRepository.findAll(example);
             List<Card> checkedCards = new ArrayList <>();
@@ -206,10 +202,15 @@ public class CCGameService {
 
                 Map cardMap = objectMapper.convertValue(c, Map.class);
                 int counter = 0;
+                //System.out.println("cardMap: " + cardMap);
 
                 for (int i = 0; i < checkedFieldCount; i++) {
 
-                    if (cardMap.get(checkedFieldNames.get(i)) == null) {
+                        //System.out.println(checkedFieldNames.get(i));
+                        //System.out.println(cardMap.get(checkedFieldNames.get(i)));
+                    if (cardMap.get(checkedFieldNames.get(i)).equals("N/A")
+                    || cardMap.get(checkedFieldNames.get(i)).toString().matches("-\\d+")) {
+                        //System.out.println("counted");
                         counter++;
                     }
                 }
@@ -224,7 +225,7 @@ public class CCGameService {
             for (Card c : checkedCards) {
                 result.add(DTOMapper.CardToCardDTO(c));
             }
-            System.out.println("result: " + result);
+            //System.out.println("result: " + result);
 
             return result;
         }
