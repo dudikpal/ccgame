@@ -71,13 +71,12 @@
 
 .img-container {
     height: 45%;
+    overflow-x: hidden;
+    border-radius: 10px 10px 0px 0px;
 }
 
 /*Ezek adják a 100% height-et*/
 .img-car {
-
-    border-radius: 10px 10px 0px 0px;
-    border-radius: 10px 10px 0px 0px;
     object-fit: cover;
 }
 
