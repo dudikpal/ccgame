@@ -27,8 +27,6 @@ public class CreateCardCommand {
 
     private String driveWheel;
 
-    private String engineType;
-
     private String fuelType;
 
     private Integer fuelTankCapacity;

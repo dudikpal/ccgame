@@ -20,8 +20,6 @@ export class CardModel {
 
     driveWheel = { name: "Drive wheel", value: "N/A" };
 
-    engineType = { name: "Engine type", value: "N/A" };
-
     fuelType = { name: "Fuel type", value: "N/A" };
 
     fuelTankCapacity = { name: "Fuel tank (lit.)", value: "-1" };
@@ -54,7 +52,7 @@ export class CardModel {
 
     imageUrl = { name: "Car image URL", value: "assets/img/placeholder.png" };
 
-    logoURL = { name: "Logo URL", value: "assets/img/logos/audi.png" };
+    logoURL = { name: "Logo URL", value: "assets/img/placeholder.png" };
 
     carPageUrl = { name: "Car page Url", value: "N/A" };
 

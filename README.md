@@ -1,27 +1,35 @@
-# Static
+# Car card game API documentation
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.5.
+### Program
+Car card game  
+BaseURL: `/api/cards`
 
-## Development server
+### Entities:
+* Card
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+| Http method  | Endpoint                       | Description                         |
+| ------------ | ---------------------------    | ----------------------------------- |
+| GET          | `"/api/cards"`                 | get all cards                     |
+| POST         | `"/api/cards"`                 | create card                   |
+| PUT          | `"/api/cards"`                 | update card|
+| DELETE       | `"/api/cards/{id}"`                 | delete card by id                      |
+| POST         | `"/api/cards/uploadfile/{filename}"`| upload cards from file                |
+| POST         | `"/api/cards/find"`            | find cards by attribute(s)|
+|              | `"/actuator/health"`           | health check                |
+|              | `"/swagger-ui/index.html"`     | swagger UI                |
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+The authentication is commented out in pom.xml and AppSecurityConfig.java, because
+Im confused after a time, while Im trying to passed a test with active authentication.
+So I commanted out instead. This way the tests are passed. The other way(uncomment authentication)
+are the authentication working, everything authenticated, except actuator/health, this one
+I leave public access.  
+Im sorry for this, but unfortunately we dont learn the security on course,
+like the versioning neither.  
+Im working the security only the quiz-game hobby project, where I need to secure only
+the admin page, where user can manage the database.  
+I didnt even start the versioning, just read about it, and its not clear to me, what is
+the good way:
+- URI
+- media type
+- @Projection

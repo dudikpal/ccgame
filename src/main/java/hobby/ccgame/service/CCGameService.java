@@ -14,6 +14,7 @@ import hobby.ccgame.mapper.DTOMapper;
 import hobby.ccgame.repository.CCGameRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import net.minidev.json.JSONArray;
 import net.minidev.json.parser.JSONParser;
 import org.bson.json.JsonObject;
@@ -43,52 +44,18 @@ public class CCGameService {
     private ObjectMapper objectMapper;
 
 
-    public List <CardDTO> getCards(Optional <String> jsonData) {
+    public List <CardDTO> getAllCards() {
 
         List <CardDTO> result;
         ObjectMapper objectMapper = new ObjectMapper();
 
 
-        if (jsonData.isPresent()) {
 
-            JsonNode json = null;
-            Card card = null;
-
-            try {
-                json = objectMapper.readTree(jsonData.get());
-                card = objectMapper.readValue(jsonData.get(), Card.class);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-
-
-            ExampleMatcher matcher = ExampleMatcher.matchingAny()
-                .withMatcher("manufacturer", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
-
-            log.debug(String.valueOf(jsonData.get()));
-            Example <Card> example = Example.of(card, matcher);
-            System.out.println("example = " + example);
-
-            // innen mÉg nem jön ki a volvo
-            /*result = ccGameRepository.findAll(example)
-                .stream()
-                .map(findedCard -> modelMapper.map(findedCard, CardDTO.class))
-                .collect(Collectors.toList());*/
-
-            List <Card> cards = ccGameRepository.findAll(example);
-            result = new ArrayList <>();
-
-            for (Card c : cards) {
-                result.add(DTOMapper.CardToCardDTO(c));
-            }
-
-            return result;
-        } else {
             result = ccGameRepository.findAll()
                 .stream()
                 .map(card -> DTOMapper.CardToCardDTO(card))
                 .collect(Collectors.toList());
-        }
+
 
         return result;
     }
@@ -120,10 +87,10 @@ public class CCGameService {
     }
 
 
-    public void removeCard(RemoveCardCommand command) {
+    public void removeCard(String id) {
 
-        Card card = ccGameRepository.findById(command.getId())
-            .orElseThrow(() -> new IllegalArgumentException("Cannot find card with id: " + command.getId()));
+        Card card = ccGameRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Cannot find card with id: " + id));
 
         ccGameRepository.delete(card);
     }
@@ -156,28 +123,24 @@ public class CCGameService {
 
     public Object findCards(String params) {
 
-        List <CardDTO> result;
-        ObjectMapper objectMapper = new ObjectMapper();
-
-
         if (!params.isEmpty()) {
 
+            ObjectMapper objectMapper = new ObjectMapper();
+            List <String> checkedFieldNames = new ArrayList <>();
+            List <CardDTO> result = new ArrayList <>();
             String checks = null;
-            List<String> checkedFieldNames = new ArrayList <>();
             JsonNode json = null;
+            JsonNode betweens = null;
             Card card = null;
 
             try {
                 json = objectMapper.readTree(params);
+                //System.out.println(json.toPrettyString());
                 checks = json.get("checks").toPrettyString();
+                //System.out.println(json.get("betweens").toPrettyString());
+                betweens = objectMapper.readTree(json.get("betweens").toPrettyString());
 
-                Pattern p = Pattern.compile("\\w+");
-                Matcher m = p.matcher(checks);
-
-                while (m.find()) {
-                    checkedFieldNames.add(m.group());
-                    //System.out.println(m.group());
-                }
+                extractCheckedFieldNames(checkedFieldNames, checks);
 
                 card = objectMapper.readValue(json.get("card").toPrettyString(), Card.class);
 
@@ -186,31 +149,21 @@ public class CCGameService {
             }
 
             ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase();
-
-            //System.out.println("params: " + params);
-            //System.out.println("json: " + json);
-            //System.out.println("checks: " + checks);
-            //System.out.println("card: " + card);
             Example <Card> example = Example.of(card, matcher);
-            //System.out.println("example = " + example);
-
             List <Card> cards = ccGameRepository.findAll(example);
-            List<Card> checkedCards = new ArrayList <>();
-
+            List <Card> checkedCards = new ArrayList <>();
             int checkedFieldCount = checkedFieldNames.size();
+
             for (Card c : cards) {
 
                 Map cardMap = objectMapper.convertValue(c, Map.class);
                 int counter = 0;
-                //System.out.println("cardMap: " + cardMap);
 
                 for (int i = 0; i < checkedFieldCount; i++) {
 
-                        //System.out.println(checkedFieldNames.get(i));
-                        //System.out.println(cardMap.get(checkedFieldNames.get(i)));
                     if (cardMap.get(checkedFieldNames.get(i)).equals("N/A")
-                    || cardMap.get(checkedFieldNames.get(i)).toString().matches("-\\d+")) {
-                        //System.out.println("counted");
+                        || cardMap.get(checkedFieldNames.get(i)).toString().matches("-\\d+(\\.\\d+)?")) {
+
                         counter++;
                     }
                 }
@@ -220,15 +173,73 @@ public class CCGameService {
                     checkedCards.add(c);
                 }
             }
-            result = new ArrayList <>();
+
+            if (checkedCards.size() == 0) {
+                checkedCards = cards;
+            }
+
+            List<Card> afterBetweens = new ArrayList <>();
 
             for (Card c : checkedCards) {
+
+                Map cardMap = objectMapper.convertValue(c, Map.class);
+                int counter = 0;
+
+                for (int i = 0; i < betweens.size(); i++) {
+
+                    String attrName = betweens.get(i).get("name").asText();
+
+                    if (betweens.get(i).get("values").get(0).toString().contains(".")) {
+
+                        double firstParam = betweens.get(i).get("values").get(0).asDouble();
+                        double secondParam = betweens.get(i).get("values").get(1).asDouble();
+
+                        if ((double)cardMap.get(attrName) >= firstParam
+                            && (double)cardMap.get(attrName) <= secondParam) {
+
+                            counter++;
+                        }
+
+                    } else {
+
+                        int firstParam = betweens.get(i).get("values").get(0).asInt();
+                        int secondParam = betweens.get(i).get("values").get(1).asInt();
+
+                        if ((int)cardMap.get(attrName) >= firstParam
+                            && (int)cardMap.get(attrName) <= secondParam) {
+
+                            counter++;
+                        }
+                    }
+
+                }
+
+                if (counter == betweens.size()) {
+
+                    afterBetweens.add(c);
+                }
+            }
+
+            for (Card c : afterBetweens) {
+
                 result.add(DTOMapper.CardToCardDTO(c));
             }
-            //System.out.println("result: " + result);
 
             return result;
         }
-        return getCards(Optional.empty());
+
+        return getAllCards();
+    }
+
+
+    private void extractCheckedFieldNames(List<String> checkedFieldNames, String checks) {
+
+        Pattern p = Pattern.compile("\\w+");
+        Matcher m = p.matcher(checks);
+
+        while (m.find()) {
+
+            checkedFieldNames.add(m.group());
+        }
     }
 }

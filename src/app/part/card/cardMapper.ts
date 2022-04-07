@@ -20,8 +20,6 @@ export class CardMapper {
 
     driveWheel!: string;
 
-    engineType!: string;
-
     fuelType!: string;
 
     fuelTankCapacity!: string;
@@ -100,8 +98,6 @@ export class CardMapper {
         this.seats = card.seats.value;
 
         this.driveWheel = card.driveWheel.value;
-
-        this.engineType = card.engineType.value;
 
         this.fuelType = card.fuelType.value;
 

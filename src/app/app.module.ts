@@ -16,6 +16,7 @@ import { CardListComponent } from './part/admin-page/card-list/card-list.compone
 import { CardListItemComponent } from './part/admin-page/card-list/card-list-item/card-list-item.component';
 import {EventService} from "./part/event.service";
 import { SearchFieldsComponent } from './part/admin-page/search-fields/search-fields.component';
+import { FightTableComponent } from './part/fight-table/fight-table.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { SearchFieldsComponent } from './part/admin-page/search-fields/search-fi
     CardPreviewComponent,
     CardListComponent,
     CardListItemComponent,
-    SearchFieldsComponent
+    SearchFieldsComponent,
+    FightTableComponent
   ],
   imports: [
     BrowserModule,

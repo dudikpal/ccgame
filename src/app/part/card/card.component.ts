@@ -47,7 +47,7 @@ export class CardComponent implements OnInit {
         ];
     }
 
-    chassisTabDatas() {
+    iTabDatas() {
 
         return [
             this.card.acceleration,
@@ -60,18 +60,19 @@ export class CardComponent implements OnInit {
         ];
     }
 
-    driveTabDatas() {
+    iiTabDatas() {
 
         return [
+            this.card.year,
+            this.card.country,
             this.card.driveWheel,
-            this.card.engineType,
             this.card.fuelType,
             this.card.abs,
             this.card.tractionControl
         ];
     }
 
-    dimensionTabDatas() {
+    iiiTabDatas() {
 
         return [
             this.card.body,

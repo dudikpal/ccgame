@@ -48,16 +48,13 @@
 
         <ul class="nav nav-tabs" id="back-tabs_{{card.id.value}}">
             <li>
-                <a class="nav-link active" href="#chassis_{{card.id.value}}" data-bs-toggle="tab">Chassis</a>
+                <a class="nav-link active" href="#i_{{card.id.value}}" data-bs-toggle="tab">I</a>
             </li>
             <li>
-                <a class="nav-link" href="#drive_{{card.id.value}}" data-bs-toggle="tab">Drive</a>
+                <a class="nav-link" href="#ii_{{card.id.value}}" data-bs-toggle="tab">II</a>
             </li>
             <li>
-                <a class="nav-link" href="#dim_{{card.id.value}}" data-bs-toggle="tab">Dim.</a>
-            </li>
-            <li>
-                <a class="nav-link" href="#transm_{{card.id.value}}" data-bs-toggle="tab">Transm.</a>
+                <a class="nav-link" href="#iii_{{card.id.value}}" data-bs-toggle="tab">III</a>
             </li>
         </ul>
 
@@ -65,21 +62,17 @@
             <div
                 class="tab-pane active"
                 style="background-color: ivory"
-                id="chassis_{{card.id.value}}">
+                id="i_{{card.id.value}}">
                 <app-tab-content
-                    [datas]=chassisTabDatas()></app-tab-content>
+                    [datas]=iTabDatas()></app-tab-content>
             </div>
-            <div class="tab-pane" id="drive_{{card.id.value}}">
+            <div class="tab-pane" id="ii_{{card.id.value}}">
                 <app-tab-content
-                    [datas]=driveTabDatas()></app-tab-content>
+                    [datas]=iiTabDatas()></app-tab-content>
             </div>
-            <div class="tab-pane" id="dim_{{card.id.value}}">
+            <div class="tab-pane" id="iii_{{card.id.value}}">
                 <app-tab-content
-                    [datas]=dimensionTabDatas()></app-tab-content>
-            </div>
-            <div class="tab-pane" id="transm_{{card.id.value}}">
-                <app-tab-content
-                    [datas]=transmissionTabData()></app-tab-content>
+                    [datas]=iiiTabDatas()></app-tab-content>
             </div>
         </div>
 

@@ -18,7 +18,6 @@ public final class DTOMapper {
         card.setBody((String) cardDTO.getBody().getValue());
         card.setSeats((int) cardDTO.getSeats().getValue());
         card.setDriveWheel((String) cardDTO.getDriveWheel().getValue());
-        card.setEngineType((String) cardDTO.getEngineType().getValue());
         card.setFuelType((String) cardDTO.getFuelType().getValue());
         card.setFuelTankCapacity((int) cardDTO.getFuelTankCapacity().getValue());
         card.setEngineCapacity((int) cardDTO.getEngineCapacity().getValue());
@@ -65,7 +64,6 @@ public final class DTOMapper {
     cardDTO.getBody().setValue(card.getBody());
     cardDTO.getSeats().setValue(card.getSeats());
     cardDTO.getDriveWheel().setValue(card.getDriveWheel());
-    cardDTO.getEngineType().setValue(card.getEngineType());
     cardDTO.getFuelType().setValue(card.getFuelType());
     cardDTO.getFuelTankCapacity().setValue(card.getFuelTankCapacity());
     cardDTO.getEngineCapacity().setValue(card.getEngineCapacity());

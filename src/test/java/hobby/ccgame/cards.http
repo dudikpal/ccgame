@@ -1,7 +1,7 @@
 POST http://localhost:8080/api/cards
 Content-Type: application/json
 
-{"id":"c_lincoln-continental_59792","manufacturer":"Lincoln","type":"Continental","year":1995,"country":"N/A","doors":4,"body":"sedan","seats":5,"driveWheel":"FWD","engineType":"fuel engine","fuelType":"gasoline","fuelTankCapacity":67,"engineCapacity":4603,"powerKW":194,"powerHP":264,"maxTorque":359,"topSpeed":-1,"acceleration":-1.0,"weight":1760,"length":5240,"width":1870,"height":1420,"groundClearance":-1,"tractionControl":"N/A","imageUrl":"https://www.cars-data.com/webp/thumbs/350px/lincoln/lincoln-continental_3076_1.webp","logoURL":"https://www.cars-data.com/design/images/cars-logo/lincoln-logo-small.jpg","carPageUrl":"https://www.cars-data.com/en/lincoln-continental-specs/59792","objectPositionHorizontal":"0vh","objectPositionVertical":"0vh","objectWidth":"100%","objectHeight":"100%","gear1st":2.77,"gear2nd":1.54,"gear3rd":1.0,"gear4th":0.69,"gear5th":-1.0,"gear6th":-1.0,"finalDrive":3.56,"abs":"yes"}
+{"id":"c_0-20v-154hp-7278","manufacturer":"Fiat","type":"Coupe 2.0 20V","year":1993,"country":"N/A","doors":2,"body":"Coupe","seats":4,"driveWheel":"FWD","fuelType":"Petrol","fuelTankCapacity":63,"engineCapacity":1998,"powerKW":114,"powerHP":154,"maxTorque":186,"topSpeed":215,"acceleration":8.4,"weight":1270,"length":4250,"width":1768,"height":1355,"groundClearance":-1,"abs":"yes","tractionControl":"N/A","imageUrl":"assets/img/cars/fiat-coupe-fa-175-2.0-20v-154hp-7278.webp","logoURL":"assets/img/cars/logos/","carPageUrl":"https://www.auto-data.net/en/fiat-coupe-fa-175-2.0-20v-154hp-7278","objectPositionHorizontal":"","objectPositionVertical":"","objectWidth":"100%","objectHeight":"100%","gear1st":-1.0,"gear2nd":-1.0,"gear3rd":-1.0,"gear4th":-1.0,"gear5th":-1.0,"gear6th":-1.0,"finalDrive":-1.0}
 
 ###
 PUT http://localhost:8080/api/cards
@@ -22,15 +22,12 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/api/cards
+DELETE http://localhost:8080/api/cards/c_0-20v-154hp-7278
 Content-Type: application/json
 
-{
-    "id": "2007_audi_a4_71215"
-}
 
 ###
-GET http://localhost:8080/api/cards?jsonData={"manufacturer":"volvo"}
+GET http://localhost:8080/api/cards
 Accept: application/json
 
 
