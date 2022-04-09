@@ -25,11 +25,12 @@ public class CardController {
 
     private CCGameService ccGameService;
 
+    private ObjectMapper mapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public String getAllCards() {
 
-        ObjectMapper mapper = new ObjectMapper();
+        //ObjectMapper mapper = new ObjectMapper();
 
         try {
 
@@ -84,20 +85,16 @@ public class CardController {
     @PostMapping(value = "/find", produces = MediaType.APPLICATION_JSON_VALUE)
     public String findCards(@RequestBody String params) {
 
-        // tesztre
-        ObjectMapper mapper = new ObjectMapper();
-        //params = "{\"manufacturer\":\"volvo\"}";
-
         try {
 
             String sol = mapper.writeValueAsString(ccGameService.findCards(params));
-            System.out.println(sol);
+
             return sol;
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+
         return null;
-        // tesztre
     }
 }

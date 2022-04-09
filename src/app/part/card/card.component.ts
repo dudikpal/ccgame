@@ -18,6 +18,16 @@ export class CardComponent implements OnInit {
 
     ngOnInit(): void {
 
+        /*const image = document.querySelector(".img-car") as HTMLElement;
+        image.style.width = this.card.objectWidth.value;
+        image.style.height = this.card.objectHeight.value;
+        image.style.objectPosition = this.card.objectPositionHorizontal.value + ' ' + this.card.objectPositionVertical.value;
+        image.setAttribute("src", this.card.imageUrl.value);*/
+        /*[style.width]=
+            [style.height]=card.objectHeight.value
+            [style.object-position]="card.objectPositionHorizontal.value + ' ' + card.objectPositionVertical.value"
+            [src]=card.imageUrl.value*/
+
     }
 
     public flipToFront(givenId: any) {
