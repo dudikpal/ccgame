@@ -67,9 +67,9 @@ public class CreateCardCommand {
 
     private String objectPositionVertical;
 
-    private String objectWidth = "100%";
+    private String objectWidth;
 
-    private String objectHeight = "100%";
+    private String objectHeight;
 
     private Double gear1st;
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hobby.ccgame.command.CreateCardCommand;
+import hobby.ccgame.command.FilterCardsCommand;
 import hobby.ccgame.command.UpdateCardCommand;
 import hobby.ccgame.dto.CardDTO;
 import hobby.ccgame.entity.Card;
@@ -112,9 +113,9 @@ public class CCGameService {
     }
 
 
-    public Object findCards(String params) {
+    public List<CardDTO> findCards(String command) {
 
-        if (!params.isEmpty()) {
+        if (!command.isEmpty()) {
 
             Card card = null;
             List <String> checkedFieldNames = new ArrayList <>();
@@ -124,7 +125,7 @@ public class CCGameService {
 
             try {
 
-                json = objectMapper.readTree(params);
+                json = objectMapper.readTree(command);
                 checks = json.get("checks").toPrettyString();
                 betweens = objectMapper.readTree(json.get("betweens").toPrettyString());
                 card = objectMapper.readValue(json.get("card").toPrettyString(), Card.class);

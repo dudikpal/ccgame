@@ -18,7 +18,7 @@ Content-Type: application/json
 
 {
     "id": "2007_audi_a4_71215",
-    "objectPositionVertical": "23vh"
+    "objectPositionVertical": "3rem"
 }
 
 ###

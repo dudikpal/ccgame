@@ -34,7 +34,7 @@ import { FightTableComponent } from './part/fight-table/fight-table.component';
     CardListComponent,
     CardListItemComponent,
     SearchFieldsComponent,
-    FightTableComponent
+    FightTableComponent,
   ],
   imports: [
     BrowserModule,

@@ -13,6 +13,16 @@
                 [style.object-position]="card.objectPositionHorizontal.value + ' ' + card.objectPositionVertical.value"
                 [src]=card.imageUrl.value
             />
+            <button
+                class="popup-btn"
+                (click)="popUpImage($any($event))">
+                <img
+                    src="https://icon-library.com/images/pop-up-icon/pop-up-icon-15.jpg"
+
+width="100%"
+                style="
+top: 0px;
+"></button>
         </div>
         <div
             class="title-row"
@@ -45,23 +55,25 @@
                 (click)="flipToFront(card.id.value)">
             &#8656;
         </button>
-
-        <ul class="nav nav-tabs" id="back-tabs_{{card.id.value}}">
-            <li>
-                <a class="nav-link active" href="#i_{{card.id.value}}" data-bs-toggle="tab">I</a>
-            </li>
-            <li>
-                <a class="nav-link" href="#ii_{{card.id.value}}" data-bs-toggle="tab">II</a>
-            </li>
-            <li>
-                <a class="nav-link" href="#iii_{{card.id.value}}" data-bs-toggle="tab">III</a>
-            </li>
-        </ul>
-
+        <div class="container-fluid">
+            <ul class="nav nav-tabs nav-fill nav-justified" id="back-tabs_{{card.id.value}}">
+                <li
+                    class="nav-item">
+                    <a class="nav-link active" href="#i_{{card.id.value}}" data-bs-toggle="tab">I</a>
+                </li>
+                <li
+                    class="nav-item">
+                    <a class="nav-link" href="#ii_{{card.id.value}}" data-bs-toggle="tab">II</a>
+                </li>
+                <li
+                    class="nav-item">
+                    <a class="nav-link" href="#iii_{{card.id.value}}" data-bs-toggle="tab">III</a>
+                </li>
+            </ul>
+        </div>
         <div class="tab-content container-fluid" id="back-tabs-content">
             <div
                 class="tab-pane active"
-                style="background-color: ivory"
                 id="i_{{card.id.value}}">
                 <app-tab-content
                     [datas]=iTabDatas()></app-tab-content>
@@ -76,7 +88,7 @@
             </div>
         </div>
 
-        <div id="backSelectButton_{{card.id.value}}"></div>
+        se
     </div>
 </div>
 

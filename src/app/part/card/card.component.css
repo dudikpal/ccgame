@@ -75,9 +75,21 @@
     border-radius: 10px 10px 0px 0px;
 }
 
-/*Ezek adják a 100% height-et*/
 .img-car {
     object-fit: cover;
+}
+
+.popup-btn {
+    position: absolute;
+    top: 0rem;
+    right: 0rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0px 10px 0px 0px;
+    opacity: 20%;
+    cursor: zoom-in;
+
+    line-height: 0rem;
 }
 
 .wrapper.flipCard .front-face {
@@ -127,15 +139,17 @@
 
 .nav-link {
     font-size: 0.9rem;
-font-family: "Bookman Old Style";
-font-weight: bolder;
+    font-family: "Bookman Old Style";
+    font-weight: bolder;
 }
 
+.tab-pane {
+    background-color: ivory;
+}
 
+.front-table {
 
-.front-table  {
-
-height: 26.8%;
+    height: 26.8%;
     line-height: 0.4;
 
 }

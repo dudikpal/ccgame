@@ -2,7 +2,7 @@
 
 export class CardModel {
 
-    id = { name: "ID", value: "N/A" };
+    id = { name: "ID", value: "empty-id" };
 
     manufacturer = { name: "Manufacturer", value: "N/A" };
 
@@ -56,7 +56,7 @@ export class CardModel {
 
     carPageUrl = { name: "Car page Url", value: "N/A" };
 
-    objectPositionHorizontal = { name: "Object horizontal position", value: "" };
+    objectPositionHorizontal = { name: "Object horizontal position", value: "center" };
 
     objectPositionVertical = { name: "Object vertical position", value: "" };
 
@@ -80,8 +80,6 @@ export class CardModel {
 
 
     getProp(name: any, value: string) {
-
-
     }
 
 }

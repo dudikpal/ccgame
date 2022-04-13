@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {addWarning} from "@angular-devkit/build-angular/src/utils/webpack-diagnostics";
+import {Event} from "@angular/router";
 
 @Component({
     selector: 'app-card',
@@ -36,18 +37,12 @@ export class CardComponent implements OnInit {
         card.classList.remove('flipCard');
     }
 
-    selectCard(id: string, event: Event) {
-
+    popUpImage(event: Event) {
+        // @ts-ignore
         event.stopPropagation();
-
-        const card = document.querySelector('#' + id)!;
-        const btn = card.querySelector(`#select_btn_${id}`)!;
-
-        btn.classList.toggle('selected');
-        console.log();
     }
 
-   frontDatas() {
+    frontDatas() {
 
         return [
             this.card.topSpeed,
@@ -110,9 +105,6 @@ export class CardComponent implements OnInit {
     ngOnChanges() {
 //        console.log('data', this.cardValue);
     }
-
-
-
 
 
     async fetchAllCard() {
