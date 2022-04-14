@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {addWarning} from "@angular-devkit/build-angular/src/utils/webpack-diagnostics";
 import {Event} from "@angular/router";
+import {EventService} from "../event.service";
 
 @Component({
     selector: 'app-card',
@@ -13,7 +14,10 @@ export class CardComponent implements OnInit {
     @Input() card: any;
 
 
-    constructor() {
+
+    constructor(
+        private eventService: EventService,
+    ) {
     }
 
 
@@ -31,16 +35,19 @@ export class CardComponent implements OnInit {
 
     }
 
+    showPopUpImage(event: Event) {
+        // @ts-ignore
+        event.stopPropagation();
+        return this.eventService.emitChildEvent(this.card);
+    }
+
     public flipToFront(givenId: any) {
 
         let card = document.querySelector(`#${givenId}`)!;
         card.classList.remove('flipCard');
     }
 
-    popUpImage(event: Event) {
-        // @ts-ignore
-        event.stopPropagation();
-    }
+
 
     frontDatas() {
 

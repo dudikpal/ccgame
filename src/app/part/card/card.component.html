@@ -13,9 +13,10 @@
                 [style.object-position]="card.objectPositionHorizontal.value + ' ' + card.objectPositionVertical.value"
                 [src]=card.imageUrl.value
             />
+
             <button
                 class="popup-btn"
-                (click)="popUpImage($any($event))">
+                (click)="showPopUpImage($any($event))">
                 <img
                     src="https://icon-library.com/images/pop-up-icon/pop-up-icon-15.jpg"
 

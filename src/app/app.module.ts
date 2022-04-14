@@ -17,6 +17,7 @@ import { CardListItemComponent } from './part/admin-page/card-list/card-list-ite
 import {EventService} from "./part/event.service";
 import { SearchFieldsComponent } from './part/admin-page/search-fields/search-fields.component';
 import { FightTableComponent } from './part/fight-table/fight-table.component';
+import { PopupImgComponent } from './part/card/popup-img/popup-img.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { FightTableComponent } from './part/fight-table/fight-table.component';
     CardListItemComponent,
     SearchFieldsComponent,
     FightTableComponent,
+    PopupImgComponent,
   ],
   imports: [
     BrowserModule,
