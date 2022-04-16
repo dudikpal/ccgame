@@ -18,6 +18,9 @@ import {EventService} from "./part/event.service";
 import { SearchFieldsComponent } from './part/admin-page/search-fields/search-fields.component';
 import { FightTableComponent } from './part/fight-table/fight-table.component';
 import { PopupImgComponent } from './part/card/popup-img/popup-img.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDialogModule} from "@angular/material/dialog";
+
 
 
 @NgModule({
@@ -42,7 +45,9 @@ import { PopupImgComponent } from './part/card/popup-img/popup-img.component';
     BrowserModule,
       ReactiveFormsModule,
       HttpClientModule,
-      FormsModule
+      FormsModule,
+      NoopAnimationsModule,
+      MatDialogModule,
   ],
   providers: [EventService],
   bootstrap: [AppComponent]

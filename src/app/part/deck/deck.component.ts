@@ -1,14 +1,17 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnChanges, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {EventService} from "../event.service";
 import {Event} from "@angular/router";
+import {window} from "rxjs";
+import {MatDialog} from "@angular/material/dialog";
+import {PopupImgComponent} from "../card/popup-img/popup-img.component";
 
 @Component({
     selector: 'app-deck',
     templateUrl: './deck.component.html',
     styleUrls: ['./deck.component.css']
 })
-export class DeckComponent implements OnInit, OnChanges {
+export class DeckComponent implements OnInit, OnChanges, AfterViewInit {
 
     showPopup = false;
     cardList: any;
@@ -16,7 +19,8 @@ export class DeckComponent implements OnInit, OnChanges {
 
     constructor(
         private eventService: EventService,
-        private http: HttpClient
+        private http: HttpClient,
+        private dialog: MatDialog,
     ) {
     }
 
@@ -25,17 +29,31 @@ export class DeckComponent implements OnInit, OnChanges {
         this.getAllCard().subscribe(
             list => this.cardList = list,
             err => console.error(err),
-            () => console.log('Unsubscribed')
+            //() => console.log('Unsubscribed')
         );
 
         this.eventService.childEventListener().subscribe(card => {
 
-            this.showPopup = !this.showPopup;
             this.popupCard = card;
+
+            if (Object.keys(card).length !== 0) {
+                this.popupImg();
+            }
         });
     }
 
     ngOnChanges() {
+
+    }
+
+    ngAfterViewInit() {
+    }
+
+    popupImg() {
+        let dialogRef = this.dialog.open(PopupImgComponent, {
+            width: '400px'
+        });
+        dialogRef.componentInstance.popupCard = this.popupCard;
 
     }
 
