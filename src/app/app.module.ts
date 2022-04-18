@@ -20,6 +20,7 @@ import { FightTableComponent } from './part/fight-table/fight-table.component';
 import { PopupImgComponent } from './part/card/popup-img/popup-img.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDialogModule} from "@angular/material/dialog";
+import { PopupButtonComponent } from './part/card/popup-button/popup-button.component';
 
 
 
@@ -40,6 +41,7 @@ import {MatDialogModule} from "@angular/material/dialog";
     SearchFieldsComponent,
     FightTableComponent,
     PopupImgComponent,
+    PopupButtonComponent,
   ],
   imports: [
     BrowserModule,

@@ -50,9 +50,7 @@ export class DeckComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     popupImg() {
-        let dialogRef = this.dialog.open(PopupImgComponent, {
-            width: '400px'
-        });
+        let dialogRef = this.dialog.open(PopupImgComponent);
         dialogRef.componentInstance.popupCard = this.popupCard;
 
     }

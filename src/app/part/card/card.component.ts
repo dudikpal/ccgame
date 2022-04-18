@@ -35,11 +35,7 @@ export class CardComponent implements OnInit {
 
     }
 
-    showPopUpImage(event: Event) {
-        // @ts-ignore
-        event.stopPropagation();
-        return this.eventService.emitChildEvent(this.card);
-    }
+
 
     public flipToFront(givenId: any) {
 
@@ -96,7 +92,7 @@ export class CardComponent implements OnInit {
         ];
     }
 
-    transmissionTabData() {
+    ivTabDatas() {
 
         return [
             this.card.gear1st,

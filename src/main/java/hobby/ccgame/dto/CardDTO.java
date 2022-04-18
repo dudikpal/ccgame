@@ -84,4 +84,6 @@ public class CardDTO {
     private DataDTO gear6th = new DataDTO <Double>("6th gear", null);
 
     private DataDTO finalDrive = new DataDTO <Double>("Final drive", null);
+
+    private DataDTO locked = new DataDTO <Boolean>("Locked", null);
 }
