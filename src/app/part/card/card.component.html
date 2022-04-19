@@ -13,22 +13,12 @@
                 [src]=card.imageUrl.value
             />
 
-            <button
-                class="locked-btn"
+            <app-locked-img>
 
-                data-toggle = "tooltip"
-                data-placement = "right"
-                title = "Locked"
-                >
-                <img
-                    src="../assets/img/locked-icon.png"
-
-                    width="150%"
-                    style="top: 0px;">
-            </button>
+            </app-locked-img>
 
             <app-popup-button
-            [cardImg] = card.imageUrl.value>
+            [card] = card>
 
             </app-popup-button>
         </div>

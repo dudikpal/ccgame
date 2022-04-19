@@ -48,6 +48,7 @@ public final class DTOMapper {
         card.setGear6th((double) cardDTO.getGear6th().getValue());
         card.setFinalDrive((double) cardDTO.getFinalDrive().getValue());
 
+
         return card;
     }
 
@@ -93,6 +94,7 @@ public final class DTOMapper {
     cardDTO.getGear5th().setValue(card.getGear5th());
     cardDTO.getGear6th().setValue(card.getGear6th());
     cardDTO.getFinalDrive().setValue(card.getFinalDrive());
+
 
     return cardDTO;
   }

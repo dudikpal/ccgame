@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {addWarning} from "@angular-devkit/build-angular/src/utils/webpack-diagnostics";
 import {Event} from "@angular/router";
 import {EventService} from "../event.service";
+import {CardModel} from "./card.model";
 
 @Component({
     selector: 'app-card',
@@ -11,7 +12,7 @@ import {EventService} from "../event.service";
 })
 export class CardComponent implements OnInit {
 
-    @Input() card: any;
+    @Input() card!: CardModel;
 
 
 

@@ -15,12 +15,11 @@ export class DeckComponent implements OnInit, OnChanges, AfterViewInit {
 
     showPopup = false;
     cardList: any;
-    popupCard: any;
+
 
     constructor(
         private eventService: EventService,
         private http: HttpClient,
-        private dialog: MatDialog,
     ) {
     }
 
@@ -32,14 +31,7 @@ export class DeckComponent implements OnInit, OnChanges, AfterViewInit {
             //() => console.log('Unsubscribed')
         );
 
-        this.eventService.childEventListener().subscribe(card => {
 
-            this.popupCard = card;
-
-            if (Object.keys(card).length !== 0) {
-                this.popupImg();
-            }
-        });
     }
 
     ngOnChanges() {
@@ -47,12 +39,6 @@ export class DeckComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     ngAfterViewInit() {
-    }
-
-    popupImg() {
-        let dialogRef = this.dialog.open(PopupImgComponent);
-        dialogRef.componentInstance.popupCard = this.popupCard;
-
     }
 
 

@@ -21,6 +21,7 @@ import { PopupImgComponent } from './part/card/popup-img/popup-img.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDialogModule} from "@angular/material/dialog";
 import { PopupButtonComponent } from './part/card/popup-button/popup-button.component';
+import { LockedImgComponent } from './part/card/locked-img/locked-img.component';
 
 
 
@@ -42,6 +43,7 @@ import { PopupButtonComponent } from './part/card/popup-button/popup-button.comp
     FightTableComponent,
     PopupImgComponent,
     PopupButtonComponent,
+    LockedImgComponent,
   ],
   imports: [
     BrowserModule,

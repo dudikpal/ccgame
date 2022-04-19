@@ -85,5 +85,4 @@ public class CardDTO {
 
     private DataDTO finalDrive = new DataDTO <Double>("Final drive", null);
 
-    private DataDTO locked = new DataDTO <Boolean>("Locked", null);
 }

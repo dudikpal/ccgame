@@ -91,6 +91,8 @@ public class Card {
     private Double finalDrive;
 
 
+
+
   /*public Card buildCard() {
 
     return new Card(id, manufacturer, type, year, doors, body, seats, driveWheel, engineType, fuelType, engineCapacity, powerKW, powerHP, maxTorque, topSpeed, acceleration, weight, length, width, height, groundClearance, ABS, tractionControl, imageUrl, logoURL, carPageUrl, objectPositionHorizontal, objectPositionVertical, objectWidth, objectHeight, gear1st, gear2nd, gear3rd, gear4th, gear5th, gear6th, finalDrive);
