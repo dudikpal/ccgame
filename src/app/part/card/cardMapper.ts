@@ -79,7 +79,7 @@ export class CardMapper {
     finalDrive!: string;
 
 
-    mapToCard(card: CardModel): string {
+    mapToCard(card: CardModel): any {
 
         this.id = card.id.value;
 
@@ -157,6 +157,6 @@ export class CardMapper {
 
         this.finalDrive = card.finalDrive.value;
 
-        return JSON.stringify(this);
+        return this;
     }
 }
