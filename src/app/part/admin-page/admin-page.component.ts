@@ -73,10 +73,10 @@ export class AdminPageComponent implements OnInit, OnChanges {
     createFileContent(cardList: CardModel[]): any {
 
         let cards: any[] = [];
-        const mapper = new CardMapper();
 
-        for (const cardModel of cardList) {
-            cards.push(mapper.mapToCard(cardModel))
+        for (let cardModel of cardList) {
+
+            cards.push(new CardMapper().mapToCard(cardModel));
         }
 
         return JSON.stringify(cards);

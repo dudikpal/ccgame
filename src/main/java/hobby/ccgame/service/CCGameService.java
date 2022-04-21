@@ -98,11 +98,20 @@ public class CCGameService {
         try {
 
             cards = Files.readString(path);
-            List <CreateCardCommand> cardList = mapper.readValue(cards, new TypeReference <List <CreateCardCommand>>() {});
+            List <Card> cardList = mapper.readValue(cards, new TypeReference <List <Card>>() {
+            });
 
-            for (CreateCardCommand card : cardList) {
+            for (Card card : cardList) {
 
-                cardDTOs.add(createCard(card));
+                if (ccGameRepository.findById(card.getId()).isEmpty()) {
+
+                    CreateCardCommand createCardCommand = modelMapper.map(card, CreateCardCommand.class);
+                    cardDTOs.add(createCard(createCardCommand));
+                } else {
+
+                    UpdateCardCommand updateCardCommand = modelMapper.map(card, UpdateCardCommand.class);
+                    cardDTOs.add(updateCard(updateCardCommand));
+                }
             }
 
         } catch (IOException e) {
@@ -113,7 +122,7 @@ public class CCGameService {
     }
 
 
-    public List<CardDTO> findCards(String command) {
+    public List <CardDTO> findCards(String command) {
 
         if (!command.isEmpty()) {
 
@@ -149,7 +158,7 @@ public class CCGameService {
     }
 
 
-    private List<CardDTO> getFilteredCards(List <Card> afterBetweens) {
+    private List <CardDTO> getFilteredCards(List <Card> afterBetweens) {
 
         List <CardDTO> filteredCards = new ArrayList <>();
 
@@ -175,7 +184,7 @@ public class CCGameService {
     }
 
 
-    private List<Card> extractCheckedCards(List <String> checkedFieldNames, List <Card> exampledCards) {
+    private List <Card> extractCheckedCards(List <String> checkedFieldNames, List <Card> exampledCards) {
 
         List <Card> checkedCards = new ArrayList <>();
 

@@ -40,7 +40,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8080/api/cards/uploadfile/cardsToUpload
+POST http://localhost:8080/api/cards/uploadfile/updatecards
 Accept: application/json
 
 ###
