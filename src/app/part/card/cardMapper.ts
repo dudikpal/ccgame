@@ -2,81 +2,81 @@ import {CardModel} from "./card.model";
 
 export class CardMapper {
 
-    id!: string;
+    id?: string;
 
-    manufacturer!: string;
+    manufacturer?: string;
 
-    type!: string;
+    type?: string;
 
-    year!: string;
+    year?: string;
 
-    country!: string;
+    country?: string;
 
-    doors!: string;
+    doors?: string;
 
-    body!: string;
+    body?: string;
 
-    seats!: string;
+    seats?: string;
 
-    driveWheel!: string;
+    driveWheel?: string;
 
-    fuelType!: string;
+    fuelType?: string;
 
-    fuelTankCapacity!: string;
+    fuelTankCapacity?: string;
 
-    engineCapacity!: string;
+    engineCapacity?: string;
 
-    powerKW!: string;
+    powerKW?: string;
 
-    powerHP!: string;
+    powerHP?: string;
 
-    maxTorque!: string;
+    maxTorque?: string;
 
-    topSpeed!: string;
+    topSpeed?: string;
 
-    acceleration!: string;
+    acceleration?: string;
 
-    weight!: string;
+    weight?: string;
 
-    length!: string;
+    length?: string;
 
-    width!: string;
+    width?: string;
 
-    height!: string;
+    height?: string;
 
-    groundClearance!: string;
+    groundClearance?: string;
 
-    abs!: string;
+    abs?: string;
 
-    tractionControl!: string;
+    tractionControl?: string;
 
-    imageUrl!: string;
+    imageUrl?: string;
 
-    logoURL!: string;
+    logoURL?: string;
 
-    carPageUrl!: string;
+    carPageUrl?: string;
 
-    objectPositionHorizontal!: string;
+    objectPositionHorizontal?: string;
 
-    objectPositionVertical!: string;
+    objectPositionVertical?: string;
 
-    objectWidth!: string;
+    objectWidth?: string;
 
-    objectHeight!: string;
+    objectHeight?: string;
 
-    gear1st!: string;
+    gear1st?: string;
 
-    gear2nd!: string;
+    gear2nd?: string;
 
-    gear3rd!: string;
+    gear3rd?: string;
 
-    gear4th!: string;
+    gear4th?: string;
 
-    gear5th!: string;
+    gear5th?: string;
 
-    gear6th!: string;
+    gear6th?: string;
 
-    finalDrive!: string;
+    finalDrive?: string;
 
 
     mapToCard(card: CardModel): any {
