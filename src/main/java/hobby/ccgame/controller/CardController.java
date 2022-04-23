@@ -49,10 +49,17 @@ public class CardController {
     }
 
 
-    @PostMapping("/uploadfile/{filename}")
-    public List <CardDTO> uploadCardsFromFile(@PathVariable String filename) {
+    @DeleteMapping
+    public void removeAllCard() {
 
-        return ccGameService.uploadCardsFromFile(filename);
+        ccGameService.removeAllCard();
+    }
+
+
+    @PostMapping("/uploadfile")
+    public List <CardDTO> uploadCardsFromFile(@RequestBody String cardsJson) {
+
+        return ccGameService.uploadCardsFromFile(cardsJson);
     }
 
 

@@ -88,17 +88,16 @@ public class CCGameService {
         ccGameRepository.delete(card);
     }
 
-    public List <CardDTO> uploadCardsFromFile(String fileName) {
+    
+    public List <CardDTO> uploadCardsFromFile(String cardsJson) {
 
-        Path path = Path.of("src/main/resources/" + fileName);
         String cards;
         ObjectMapper mapper = new ObjectMapper();
         List <CardDTO> cardDTOs = new ArrayList <>();
 
         try {
 
-            cards = Files.readString(path);
-            List <Card> cardList = mapper.readValue(cards, new TypeReference <List <Card>>() {
+            List <Card> cardList = mapper.readValue(cardsJson, new TypeReference <List <Card>>() {
             });
 
             for (Card card : cardList) {
@@ -301,5 +300,11 @@ public class CCGameService {
 
             checkedFieldNames.add(m.group());
         }
+    }
+
+
+    public void removeAllCard() {
+
+        ccGameRepository.deleteAll();
     }
 }

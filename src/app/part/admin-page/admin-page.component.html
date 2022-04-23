@@ -25,9 +25,28 @@
             (click)="findCards()">Select cards
         </button>
         <button
+            id="read-from-file-btn"
+
+            (click)="readCardsFromFile()">Read from file(POST)
+        </button>
+        <!--<input id="uploadInput" type="file" style="display:none" />-->
+        <button
             id="write-to-file-btn"
 
             (click)="writeCardsToFile(cardList)">Write to file
+        </button>
+        <button
+            id="reset-cardlist-btn"
+
+            (click)="resetCardList()">Reset card list
+        </button>
+        <button
+            id="delete-card-btn"
+            (click)="deleteCard()">Delete card
+        </button>
+        <button
+            id="reset-cards-table-btn"
+            (click)="resetCardsTable()">Reset 'cards' table
         </button>
 
     </div>

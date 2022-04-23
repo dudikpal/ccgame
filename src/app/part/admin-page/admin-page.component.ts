@@ -2,7 +2,7 @@ import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {CardModel} from "../../part/card/card.model";
 import {EventService} from "../event.service";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, window} from "rxjs";
 import {log} from "util";
 import {CardMapper} from "../card/cardMapper";
 import {environment} from "../../../environments/environment";
@@ -50,14 +50,74 @@ export class AdminPageComponent implements OnInit, OnChanges {
     }
 
 
+    deleteCard() {
+
+        fetch(this.url + '/' + this.selectedCard.id.value, {
+            method: 'delete'
+        });
+    }
+
+
+    resetCardsTable() {
+
+        if (confirm('Will be delete all cards from document!\nAre you sure?')) {
+
+            fetch(this.url, {
+                method: 'delete'
+            });
+        }
+    }
+
+
+    readCardsFromFile() {
+
+        let input = document.createElement('input');
+        const button = document.querySelector('#read-from-file-btn');
+        input.type = 'file';
+        console.log('in the opener')
+
+        input.onchange = e => {
+
+
+            let file = input.files![0];
+            console.log(file);
+
+            let reader = new FileReader();
+            reader.readAsText(file, 'UTF-8');
+
+            reader.onload = readerEvent => {
+                let content = readerEvent.target!.result;
+
+                fetch(this.url + '/uploadfile', {
+                    method: "POST",
+                    body: content,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+
+            }
+        }
+
+        input.click();
+    }
+
+
     writeCardsToFile(cardList: CardModel[]) {
 
         let fileName: string;
+        const d = new Date();
+        const dateTime = d.getFullYear() + '-'
+        + d.getMonth() + '-'
+        + d.getUTCDay() + '-'
+        + d.getHours() + '-'
+        + d.getMinutes() + '-'
+        + d.getSeconds() + '-';
 
         if (this.concatenatedFilename === '') {
-            fileName = 'all-card.txt';
+            fileName = dateTime.concat('all-card.txt');
         } else {
-            fileName = this.concatenatedFilename + '.txt';
+            fileName = dateTime.concat(this.concatenatedFilename + '.txt');
         }
 
         const fileContent = this.createFileContent(cardList);
@@ -118,15 +178,7 @@ export class AdminPageComponent implements OnInit, OnChanges {
         }
 
         const tupleQuery = JSON.stringify({card: this.cardDTO, checks: isNullFields, betweens: betweenValues});
-        const result = this.fetchCards(tupleQuery);
-
-        return result;
-    }
-
-
-    updateCardList(json: CardModel[]) {
-
-        this.cardList = json;
+        this.fetchCards(tupleQuery);
     }
 
 
@@ -141,9 +193,7 @@ export class AdminPageComponent implements OnInit, OnChanges {
                 }
             });
             const jsonResponse = await response.json();
-            this.updateCardList(jsonResponse);
-
-            return jsonResponse;
+            this.cardList = jsonResponse;
         };
 
         return result();
@@ -174,17 +224,65 @@ export class AdminPageComponent implements OnInit, OnChanges {
     }
 
 
-    updateCard() {
+    update() {
 
-        const updatedCard = new CardMapper().mapToCard(this.selectedCard);
+        const idInputField = (document.querySelector('#input_id') as HTMLInputElement).value;
+
+        if (idInputField === 'empty-id') {
+            this.updateBulkCards()
+
+        } else {
+            this.updateCard();
+        }
+    }
+
+
+    updateCard(card?: any) {
+
+        let updatedCard;
+
+        if (card) {
+            updatedCard = card;
+        } else {
+            updatedCard = new CardMapper().mapToCard(this.selectedCard);
+        }
 
         fetch(this.url, {
             method: "PUT",
-            body: updatedCard,
+            body: JSON.stringify(updatedCard),
             headers: {
                 "Content-Type": "application/json"
             }
         });
+    }
+
+
+    updateBulkCards() {
+
+        const attributes = Object.entries(this.selectedCard).map(item => item[0]);
+        const refCard = new CardMapper().mapToCard(new CardModel());
+
+        for (const cardModel of this.cardList) {
+
+            let card = new CardMapper().mapToCard(cardModel);
+
+            for (const attribute of attributes) {
+
+                if (this.selectedCard[`${attribute}`].value !== refCard[`${attribute}`]) {
+
+                    card[`${attribute}`] = this.selectedCard[`${attribute}`].value;
+                    console.log(card[`${attribute}`])
+                    console.log(this.selectedCard[`${attribute}`].value)
+                }
+            }
+            this.updateCard(card);
+        }
+    }
+
+
+    resetCardList() {
+        this.cardList = [];
+        this.selectedCard = new CardModel();
     }
 
 
