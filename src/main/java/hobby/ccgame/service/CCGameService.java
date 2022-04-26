@@ -88,7 +88,7 @@ public class CCGameService {
         ccGameRepository.delete(card);
     }
 
-    
+
     public List <CardDTO> uploadCardsFromFile(String cardsJson) {
 
         String cards;
@@ -130,12 +130,14 @@ public class CCGameService {
             String checks;
             JsonNode json;
             JsonNode betweens = null;
+            JsonNode moreOptions = null;
 
             try {
 
                 json = objectMapper.readTree(command);
                 checks = json.get("checks").toPrettyString();
                 betweens = objectMapper.readTree(json.get("betweens").toPrettyString());
+                moreOptions = objectMapper.readTree(json.get("moreOptions").toPrettyString());
                 card = objectMapper.readValue(json.get("card").toPrettyString(), Card.class);
                 extractCheckedFieldNames(checkedFieldNames, checks);
 
@@ -145,10 +147,11 @@ public class CCGameService {
 
             List <Card> exampledCards = getExampledCards(card);
             List <Card> checkedCards = getCheckedCards(checkedFieldNames, exampledCards);
-
             List <Card> afterBetweens = getCardsAfterBetweens(betweens, checkedCards);
-
-            List <CardDTO> filteredCards = getFilteredCards(afterBetweens);
+            List <Card> afterMoreOptions = getCardsAfterMoreOptions(moreOptions, afterBetweens);
+            List <CardDTO> filteredCards = afterMoreOptions.stream()
+                .map(item -> DTOMapper.CardToCardDTO(item))
+                .collect(Collectors.toList());
 
             return filteredCards;
         }
@@ -157,16 +160,36 @@ public class CCGameService {
     }
 
 
-    private List <CardDTO> getFilteredCards(List <Card> afterBetweens) {
+    private List <Card> getCardsAfterMoreOptions(JsonNode moreOptions, List <Card> afterBetweens) {
 
-        List <CardDTO> filteredCards = new ArrayList <>();
+        if (moreOptions.size() == 0) {
 
-        for (Card c : afterBetweens) {
-
-            filteredCards.add(DTOMapper.CardToCardDTO(c));
+            return afterBetweens;
         }
 
-        return filteredCards;
+        Set <Card> afterMoreOptions = new HashSet <>();
+
+        for (int i = 0; i < moreOptions.size(); i++) {
+
+            String attrName = moreOptions.get(0).get("name").asText();
+
+            for (JsonNode option : moreOptions.get(0).get("values")) {
+
+                for (Card c : afterBetweens) {
+
+                    Map cardMap = objectMapper.convertValue(c, Map.class);
+
+                    if (cardMap.get(attrName).toString().toLowerCase().contains(option.asText().toLowerCase())) {
+
+                        afterMoreOptions.add(c);
+                        continue;
+                    }
+                }
+            }
+        }
+
+        return afterMoreOptions.stream()
+            .collect(Collectors.toList());
     }
 
 
@@ -306,5 +329,13 @@ public class CCGameService {
     public void removeAllCard() {
 
         ccGameRepository.deleteAll();
+    }
+
+
+    private List<Card> sortByAlphabetAsc(List<Card> cards) {
+
+        return cards.stream()
+            .sorted()
+            .collect(Collectors.toList());
     }
 }
