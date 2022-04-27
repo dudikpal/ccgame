@@ -74,13 +74,10 @@ export class AdminPageComponent implements OnInit, OnChanges {
         let input = document.createElement('input');
         const button = document.querySelector('#read-from-file-btn');
         input.type = 'file';
-        console.log('in the opener')
 
         input.onchange = e => {
 
-
             let file = input.files![0];
-            console.log(file);
 
             let reader = new FileReader();
             reader.readAsText(file, 'UTF-8');
@@ -108,11 +105,11 @@ export class AdminPageComponent implements OnInit, OnChanges {
         let fileName: string;
         const d = new Date();
         const dateTime = d.getFullYear() + '-'
-        + d.getMonth() + '-'
-        + d.getUTCDay() + '-'
-        + d.getHours() + '-'
-        + d.getMinutes() + '-'
-        + d.getSeconds() + '-';
+            + d.getMonth() + '-'
+            + d.getUTCDay() + '-'
+            + d.getHours() + '-'
+            + d.getMinutes() + '-'
+            + d.getSeconds() + '-';
 
         if (this.concatenatedFilename === '') {
             fileName = dateTime.concat('all-card.txt');
@@ -148,6 +145,7 @@ export class AdminPageComponent implements OnInit, OnChanges {
         const selectButton = document.querySelector('#select-btn') as HTMLElement;
         const inputFields = document.querySelectorAll('[data-search]');
         let betweenValues = [];
+        let moreOptions = [];
         this.concatenatedFilename = '';
 
         for (const inputField of Array.from(inputFields)) {
@@ -158,7 +156,13 @@ export class AdminPageComponent implements OnInit, OnChanges {
                 this.concatenatedFilename += '(' + attrName + '-' + value + ')';
             }
 
-            if (value.includes('-')) {
+            if (value.includes(',')) {
+                moreOptions.push({
+                    name: attrName,
+                    values: [...value.split(',')]
+                });
+                (this.cardDTO as any)[attrName] = null;
+            } else if (value.includes('-')) {
                 betweenValues.push({
                     name: attrName,
                     values: [value.match(/^\d+(\.\d+)?/)![0], value.match(/(\d+\.)?\d+$/)![0]]
@@ -177,7 +181,12 @@ export class AdminPageComponent implements OnInit, OnChanges {
             isNullFields.push(attrName);
         }
 
-        const tupleQuery = JSON.stringify({card: this.cardDTO, checks: isNullFields, betweens: betweenValues});
+        const tupleQuery = JSON.stringify({
+            card: this.cardDTO,
+            checks: isNullFields,
+            betweens: betweenValues,
+            moreOptions: moreOptions
+        });
         this.fetchCards(tupleQuery);
     }
 
@@ -194,6 +203,7 @@ export class AdminPageComponent implements OnInit, OnChanges {
             });
             const jsonResponse = await response.json();
             this.cardList = jsonResponse;
+            this.cardList.sort((a, b) => a.manufacturer.value.localeCompare(b.manufacturer.value));
         };
 
         return result();
@@ -271,8 +281,6 @@ export class AdminPageComponent implements OnInit, OnChanges {
                 if (this.selectedCard[`${attribute}`].value !== refCard[`${attribute}`]) {
 
                     card[`${attribute}`] = this.selectedCard[`${attribute}`].value;
-                    console.log(card[`${attribute}`])
-                    console.log(this.selectedCard[`${attribute}`].value)
                 }
             }
             this.updateCard(card);
