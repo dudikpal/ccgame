@@ -4,10 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import hobby.ccgame.command.CreateCardCommand;
 import hobby.ccgame.command.FilterCardsCommand;
 import hobby.ccgame.command.UpdateCardCommand;
 import hobby.ccgame.dto.CardDTO;
+import hobby.ccgame.dto.FindCardsParamsDTO;
 import hobby.ccgame.entity.Card;
 import hobby.ccgame.mapper.DTOMapper;
 import hobby.ccgame.repository.CCGameRepository;
@@ -19,6 +21,8 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -57,7 +61,7 @@ public class CCGameService {
 
         Card card = new Card();
 
-        if (ccGameRepository.findById(command.getId()).isEmpty()) {
+        if (ccGameRepository.existsById(command.getId())) {
 
             card = modelMapper.map(command, Card.class);
             ccGameRepository.save(card);
@@ -125,30 +129,17 @@ public class CCGameService {
 
         if (!command.isEmpty()) {
 
-            Card card = null;
-            List <String> checkedFieldNames = new ArrayList <>();
-            String checks;
-            JsonNode json;
-            JsonNode betweens = null;
-            JsonNode moreOptions = null;
+            FindCardsParamsDTO findParams = stringToParams(command);
 
-            try {
-
-                json = objectMapper.readTree(command);
-                checks = json.get("checks").toPrettyString();
-                betweens = objectMapper.readTree(json.get("betweens").toPrettyString());
-                moreOptions = objectMapper.readTree(json.get("moreOptions").toPrettyString());
-                card = objectMapper.readValue(json.get("card").toPrettyString(), Card.class);
-                extractCheckedFieldNames(checkedFieldNames, checks);
-
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
+            Card card = findParams.getCard();
+            List <String> checkedFieldNames = findParams.getCheckedFieldNames();
+            JsonNode betweens = findParams.getBetweens();
+            JsonNode multipleValues = findParams.getMultipleValues();
 
             List <Card> exampledCards = getExampledCards(card);
             List <Card> checkedCards = getCheckedCards(checkedFieldNames, exampledCards);
             List <Card> afterBetweens = getCardsAfterBetweens(betweens, checkedCards);
-            List <Card> afterMoreOptions = getCardsAfterMoreOptions(moreOptions, afterBetweens);
+            List <Card> afterMoreOptions = getCardsAfterMoreOptions(multipleValues, afterBetweens);
             List <CardDTO> filteredCards = afterMoreOptions.stream()
                 .map(item -> DTOMapper.CardToCardDTO(item))
                 .collect(Collectors.toList());
@@ -157,6 +148,50 @@ public class CCGameService {
         }
 
         return getAllCards();
+    }
+
+
+    private FindCardsParamsDTO stringToParams(String command) {
+
+        String checks = "";
+        JsonNode json = null;
+        Card card = null;
+        List <String> checkedFieldNames = null;
+        JsonNode betweens = null;
+        JsonNode multipleValues = null;
+        FindCardsParamsDTO result = new FindCardsParamsDTO();
+
+        try {
+
+            json = objectMapper.readTree(command);
+            checks = json.get("checks").toPrettyString();
+            betweens = objectMapper.readTree(json.get("betweens").toPrettyString());
+            multipleValues = objectMapper.readTree(json.get("multipleValues").toPrettyString());
+            card = objectMapper.readValue(json.get("card").toPrettyString(), Card.class);
+            checkedFieldNames = extractCheckedFieldNames(checks);
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        result.setChecks(checks);
+        result.setBetweens(betweens);
+        result.setMultipleValues(multipleValues);
+        result.setCard(card);
+        result.setCheckedFieldNames(checkedFieldNames);
+
+        return result;
+    }
+
+
+    private List <Card> getExampledCards2(Card card) {
+
+
+        ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase();
+        Example <Card> example = Example.of(card, matcher);
+        List <Card> cards = ccGameRepository.findAll(example);
+
+        return cards;
     }
 
 
@@ -179,7 +214,7 @@ public class CCGameService {
 
                     Map cardMap = objectMapper.convertValue(c, Map.class);
 
-                    if (cardMap.get(attrName).toString().toLowerCase().contains(option.asText().toLowerCase())) {
+                    if (cardMap.get(attrName).toString().trim().toLowerCase().contains(option.asText().trim().toLowerCase())) {
 
                         afterMoreOptions.add(c);
                         continue;
@@ -314,15 +349,18 @@ public class CCGameService {
     }
 
 
-    private void extractCheckedFieldNames(List <String> checkedFieldNames, String checks) {
+    private List<String> extractCheckedFieldNames(String checks) {
 
         Pattern p = Pattern.compile("\\w+");
         Matcher m = p.matcher(checks);
+        List<String> checkedFields = new ArrayList <>();
 
         while (m.find()) {
 
-            checkedFieldNames.add(m.group());
+            checkedFields.add(m.group());
         }
+
+        return checkedFields;
     }
 
 
