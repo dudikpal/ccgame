@@ -145,7 +145,7 @@ export class AdminPageComponent implements OnInit, OnChanges {
         const selectButton = document.querySelector('#select-btn') as HTMLElement;
         const inputFields = document.querySelectorAll('[data-search]');
         let betweenValues = [];
-        let moreOptions = [];
+        let multipleValues = [];
         this.concatenatedFilename = '';
 
         for (const inputField of Array.from(inputFields)) {
@@ -157,7 +157,7 @@ export class AdminPageComponent implements OnInit, OnChanges {
             }
 
             if (value.includes(',')) {
-                moreOptions.push({
+                multipleValues.push({
                     name: attrName,
                     values: [...value.split(',')]
                 });
@@ -181,11 +181,12 @@ export class AdminPageComponent implements OnInit, OnChanges {
             isNullFields.push(attrName);
         }
 
+        // in DTO just the simple values left
         const tupleQuery = JSON.stringify({
             card: this.cardDTO,
             checks: isNullFields,
             betweens: betweenValues,
-            moreOptions: moreOptions
+            multipleValues: multipleValues
         });
         this.fetchCards(tupleQuery);
     }
