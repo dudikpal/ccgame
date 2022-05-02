@@ -6,13 +6,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import hobby.ccgame.command.CreateCardCommand;
-import hobby.ccgame.command.FilterCardsCommand;
 import hobby.ccgame.command.UpdateCardCommand;
 import hobby.ccgame.dto.CardDTO;
 import hobby.ccgame.dto.FindCardsParamsDTO;
 import hobby.ccgame.entity.Card;
 import hobby.ccgame.mapper.DTOMapper;
 import hobby.ccgame.repository.CCGameRepository;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,20 +21,18 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+
 @Service
 @AllArgsConstructor
-@Slf4j
+//@Slf4j
 public class CCGameService {
 
     private CCGameRepository ccGameRepository;
@@ -127,27 +125,113 @@ public class CCGameService {
 
     public List <CardDTO> findCards(String command) {
 
-        if (!command.isEmpty()) {
+        /*Ez j9ön
+        {
+    "card":{
+        "id":null,
+        "manufacturer":"au",
+        "type":null,
+        "year":null,
+        "country":null,
+        "doors":null,
+        "body":null,
+        "seats":null,
+        "driveWheel":null,
+        "fuelType":null,
+        "fuelTankCapacity":null,
+        "engineCapacity":null,
+        "powerKW":null,
+        "powerHP":null,
+        "maxTorque":null,
+        "topSpeed":null,
+        "acceleration":null,
+        "weight":null,
+        "length":null,
+        "width":null,
+        "height":null,
+        "groundClearance":null,
+        "abs":null,
+        "tractionControl":null,
+        "imageUrl":null,
+        "logoURL":null,
+        "carPageUrl":null,
+        "objectPositionHorizontal":null,
+        "objectPositionVertical":null,
+        "objectWidth":null,
+        "objectHeight":null,
+        "gear1st":null,
+        "gear2nd":null,
+        "gear3rd":null,
+        "gear4th":null,
+        "gear5th":null,
+        "gear6th":null,
+        "finalDrive":null
+    },
+    "checks":[
 
-            FindCardsParamsDTO findParams = stringToParams(command);
+    ],
+    "betweens":[
 
-            Card card = findParams.getCard();
+    ],
+    "multipleValues":[
+
+    ]
+}
+        */
+        FindCardsParamsDTO findParams = stringToParams(command);
+
+        if (!findParamsIsEmpty(findParams)) {
+
+
+            JsonNode simpleValues = findParams.getSimpleValues();
             List <String> checkedFieldNames = findParams.getCheckedFieldNames();
             JsonNode betweens = findParams.getBetweens();
             JsonNode multipleValues = findParams.getMultipleValues();
 
-            List <Card> exampledCards = getExampledCards(card);
-            List <Card> checkedCards = getCheckedCards(checkedFieldNames, exampledCards);
+
+            //List <Card> exampledCards = getExampledCards(card);
+            List <Card> simpleValuesCards = getSimpleValues(simpleValues);
+            List <Card> checkedCards = getCheckedCards(checkedFieldNames, simpleValuesCards);
             List <Card> afterBetweens = getCardsAfterBetweens(betweens, checkedCards);
             List <Card> afterMoreOptions = getCardsAfterMoreOptions(multipleValues, afterBetweens);
             List <CardDTO> filteredCards = afterMoreOptions.stream()
                 .map(item -> DTOMapper.CardToCardDTO(item))
                 .collect(Collectors.toList());
 
+            /*System.out.println(command);
+            List <CardDTO> filteredCards = findCardsRepository.findCards("Audi")
+            .stream()
+            .map(filteredCard -> DTOMapper.CardToCardDTO(filteredCard))
+            .collect(Collectors.toList());
+            System.out.println(filteredCards);*/
+
+            System.out.println("innerempty");
             return filteredCards;
         }
 
+        /*QCard qCard = new QCard("c1");
+        Predicate predicate = qCard.manufacturer.like("a");
+        List<CardDTO> sss = StreamSupport.stream(findCardsRepository.findAll(predicate).spliterator(), false)
+            .map(c -> DTOMapper.CardToCardDTO(c))
+            .collect(Collectors.toList());
+
+        System.out.println(command);
+        System.out.println(qCard);
+        System.out.println(predicate);
+        System.out.println(sss);
+        return sss;*/
+
+        //System.out.println(cardDao.findCardsByAllParams());
         return getAllCards();
+    }
+
+
+    private boolean findParamsIsEmpty(FindCardsParamsDTO params) {
+
+        return params.getCheckedFieldNames().size() == 0
+            && params.getBetweens().size() == 0
+            && params.getMultipleValues().size() == 0
+            && params.getSimpleValues().size() == 0;
     }
 
 
@@ -155,7 +239,7 @@ public class CCGameService {
 
         String checks = "";
         JsonNode json = null;
-        Card card = null;
+        JsonNode simpleValues = null;
         List <String> checkedFieldNames = null;
         JsonNode betweens = null;
         JsonNode multipleValues = null;
@@ -163,11 +247,12 @@ public class CCGameService {
 
         try {
 
+
             json = objectMapper.readTree(command);
             checks = json.get("checks").toPrettyString();
             betweens = objectMapper.readTree(json.get("betweens").toPrettyString());
             multipleValues = objectMapper.readTree(json.get("multipleValues").toPrettyString());
-            card = objectMapper.readValue(json.get("card").toPrettyString(), Card.class);
+            simpleValues = objectMapper.readTree(json.get("simpleValues").toPrettyString());
             checkedFieldNames = extractCheckedFieldNames(checks);
 
         } catch (JsonProcessingException e) {
@@ -177,21 +262,48 @@ public class CCGameService {
         result.setChecks(checks);
         result.setBetweens(betweens);
         result.setMultipleValues(multipleValues);
-        result.setCard(card);
+        result.setSimpleValues(simpleValues);
         result.setCheckedFieldNames(checkedFieldNames);
 
         return result;
     }
 
 
-    private List <Card> getExampledCards2(Card card) {
+    private List <Card> getSimpleValues(JsonNode simpleValues) {
 
+        List <Card> allCards = getAllCards().stream()
+            .map(c -> DTOMapper.CardDTOToCard(c))
+            .collect(Collectors.toList());
 
-        ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase();
-        Example <Card> example = Example.of(card, matcher);
-        List <Card> cards = ccGameRepository.findAll(example);
+        if (simpleValues.size() == 0) {
 
-        return cards;
+            return allCards;
+        }
+
+        Set <Card> afterSimpleValues = new HashSet <>();
+
+        for (int i = 0; i < simpleValues.size(); i++) {
+
+            String attrName = simpleValues.get(0).get("name").asText();
+
+            for (JsonNode option : simpleValues.get(0).get("values")) {
+
+                for (Card c : allCards) {
+
+                    Map cardMap = objectMapper.convertValue(c, Map.class);
+
+                    if (cardMap.get(attrName).toString().trim().toLowerCase().contains(option.asText().trim().toLowerCase())) {
+
+                        afterSimpleValues.add(c);
+                        continue;
+                    }
+                }
+            }
+        }
+
+        return afterSimpleValues.stream()
+            .collect(Collectors.toList());
+
     }
 
 
@@ -349,11 +461,11 @@ public class CCGameService {
     }
 
 
-    private List<String> extractCheckedFieldNames(String checks) {
+    private List <String> extractCheckedFieldNames(String checks) {
 
         Pattern p = Pattern.compile("\\w+");
         Matcher m = p.matcher(checks);
-        List<String> checkedFields = new ArrayList <>();
+        List <String> checkedFields = new ArrayList <>();
 
         while (m.find()) {
 
@@ -370,7 +482,7 @@ public class CCGameService {
     }
 
 
-    private List<Card> sortByAlphabetAsc(List<Card> cards) {
+    private List <Card> sortByAlphabetAsc(List <Card> cards) {
 
         return cards.stream()
             .sorted()

@@ -144,6 +144,7 @@ export class AdminPageComponent implements OnInit, OnChanges {
 
         const selectButton = document.querySelector('#select-btn') as HTMLElement;
         const inputFields = document.querySelectorAll('[data-search]');
+        let simpleValues = [];
         let betweenValues = [];
         let multipleValues = [];
         this.concatenatedFilename = '';
@@ -161,14 +162,22 @@ export class AdminPageComponent implements OnInit, OnChanges {
                     name: attrName,
                     values: [...value.split(',')]
                 });
-                (this.cardDTO as any)[attrName] = null;
+                //(this.cardDTO as any)[attrName] = null;
+                (this.cardDTO as any)[attrName] = value.split(',');
             } else if (value.includes('-')) {
                 betweenValues.push({
                     name: attrName,
                     values: [value.match(/^\d+(\.\d+)?/)![0], value.match(/(\d+\.)?\d+$/)![0]]
                 });
-                (this.cardDTO as any)[attrName] = null;
-            } else {
+                //(this.cardDTO as any)[attrName] = null;
+                (this.cardDTO as any)[attrName] = value;
+            } else if (value !== '') {
+            /*console.log(attrName);
+            console.log(value);*/
+                simpleValues.push({
+                    name: attrName,
+                    values: [value]
+                });
                 (this.cardDTO as any)[attrName] = this.convertEmptyToNull(value);
             }
         }
@@ -179,15 +188,21 @@ export class AdminPageComponent implements OnInit, OnChanges {
         for (const checkField of Array.from(selectedCheckFields)) {
             const attrName = checkField.getAttribute('data-check')!;
             isNullFields.push(attrName);
+            (this.cardDTO as any)[attrName] = null;
         }
 
         // in DTO just the simple values left
         const tupleQuery = JSON.stringify({
-            card: this.cardDTO,
+            //card: this.cardDTO,
+            simpleValues: simpleValues,
             checks: isNullFields,
             betweens: betweenValues,
             multipleValues: multipleValues
         });
+        /*console.log(this.cardDTO)
+        const tupleQuery = this.cardDTO;*/
+
+        console.log(tupleQuery)
         this.fetchCards(tupleQuery);
     }
 
@@ -204,6 +219,7 @@ export class AdminPageComponent implements OnInit, OnChanges {
             });
             const jsonResponse = await response.json();
             this.cardList = jsonResponse;
+
             this.cardList.sort((a, b) => a.manufacturer.value.localeCompare(b.manufacturer.value));
         };
 
