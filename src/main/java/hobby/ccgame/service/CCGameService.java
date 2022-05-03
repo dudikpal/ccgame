@@ -19,6 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +44,8 @@ public class CCGameService {
     private ModelMapper modelMapper;
 
     private ObjectMapper objectMapper;
+
+    private MongoTemplate mongoTemplate;
 
 
     public List <CardDTO> getAllCards() {
@@ -190,39 +196,109 @@ public class CCGameService {
 
 
             //List <Card> exampledCards = getExampledCards(card);
-            List <Card> simpleValuesCards = getSimpleValues(simpleValues);
+            /*List <Card> simpleValuesCards = getSimpleValues(simpleValues);
             List <Card> checkedCards = getCheckedCards(checkedFieldNames, simpleValuesCards);
             List <Card> afterBetweens = getCardsAfterBetweens(betweens, checkedCards);
             List <Card> afterMoreOptions = getCardsAfterMoreOptions(multipleValues, afterBetweens);
             List <CardDTO> filteredCards = afterMoreOptions.stream()
                 .map(item -> DTOMapper.CardToCardDTO(item))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
 
-            /*System.out.println(command);
-            List <CardDTO> filteredCards = findCardsRepository.findCards("Audi")
-            .stream()
-            .map(filteredCard -> DTOMapper.CardToCardDTO(filteredCard))
-            .collect(Collectors.toList());
-            System.out.println(filteredCards);*/
+            Query query = new Query();
+            List <CardDTO> filteredCards = new ArrayList <>();
+            List <Criteria> criterias = new ArrayList <>();
 
-            System.out.println("innerempty");
+            criterias.addAll(simpleCriterias(simpleValues));
+            criterias.addAll(isNullCriterias(checkedFieldNames));
+
+            query.addCriteria(new Criteria().orOperator(criterias.toArray(new Criteria[criterias.size()])));
+
+            filteredCards.addAll(Arrays.stream(mongoTemplate.find(query, Card.class).toArray())
+                .map(c -> DTOMapper.CardToCardDTO((Card) c))
+                .collect(Collectors.toList()));
+
             return filteredCards;
         }
 
-        /*QCard qCard = new QCard("c1");
-        Predicate predicate = qCard.manufacturer.like("a");
-        List<CardDTO> sss = StreamSupport.stream(findCardsRepository.findAll(predicate).spliterator(), false)
-            .map(c -> DTOMapper.CardToCardDTO(c))
-            .collect(Collectors.toList());
-
-        System.out.println(command);
-        System.out.println(qCard);
-        System.out.println(predicate);
-        System.out.println(sss);
-        return sss;*/
-
-        //System.out.println(cardDao.findCardsByAllParams());
         return getAllCards();
+    }
+
+
+    private List <Criteria> multipleCriterias(JsonNode multipleValues) {
+
+        List <Criteria> criterias = new ArrayList <>();
+
+        for (JsonNode node : multipleValues) {
+            String attrName = node.get("name").asText();
+            String regex = "";
+
+            try {
+                for (JsonNode values : objectMapper.readTree(node.get("values").toPrettyString())) {
+
+                    regex = "(?i).*" + values.asText() + ".*";
+                }
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+
+            criterias.add(Criteria.where(attrName).regex(regex));
+        }
+
+        return criterias;
+    }
+
+
+    private List <Criteria> isNullCriterias(List <String> fieldNames) {
+
+        List <Criteria> criterias = new ArrayList <>();
+
+        for (String fieldName : fieldNames) {
+
+            criterias.add(new Criteria().orOperator(
+                Criteria.where(fieldName).regex("N/A"),
+                Criteria.where(fieldName).lt(0)
+            ));
+        }
+
+        return criterias;
+    }
+
+
+    private List <Criteria> simpleCriterias(JsonNode simpleValues) {
+
+        List <Criteria> criterias = new ArrayList <>();
+
+        for (JsonNode node : simpleValues) {
+            String attrName = node.get("name").asText();
+            String regex = "";
+
+            try {
+                String value = objectMapper.readTree(node.get("values").toPrettyString()).get(0).asText();
+                regex = "(?i).*" + value + ".*";
+
+                if (value.chars().allMatch(Character::isDigit) || value.contains(".")) {
+
+                    Number parsedValue;
+
+                    if (value.contains(".")) {
+                        parsedValue = Double.parseDouble(value);
+                    } else {
+                        parsedValue = Integer.parseInt(value);
+                    }
+
+                    criterias.add(Criteria.where(attrName).is(parsedValue));
+
+                } else {
+                    criterias.add(Criteria.where(attrName).regex(regex));
+                }
+
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return criterias;
     }
 
 
