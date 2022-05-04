@@ -131,78 +131,15 @@ public class CCGameService {
 
     public List <CardDTO> findCards(String command) {
 
-        /*Ez j9ön
-        {
-    "card":{
-        "id":null,
-        "manufacturer":"au",
-        "type":null,
-        "year":null,
-        "country":null,
-        "doors":null,
-        "body":null,
-        "seats":null,
-        "driveWheel":null,
-        "fuelType":null,
-        "fuelTankCapacity":null,
-        "engineCapacity":null,
-        "powerKW":null,
-        "powerHP":null,
-        "maxTorque":null,
-        "topSpeed":null,
-        "acceleration":null,
-        "weight":null,
-        "length":null,
-        "width":null,
-        "height":null,
-        "groundClearance":null,
-        "abs":null,
-        "tractionControl":null,
-        "imageUrl":null,
-        "logoURL":null,
-        "carPageUrl":null,
-        "objectPositionHorizontal":null,
-        "objectPositionVertical":null,
-        "objectWidth":null,
-        "objectHeight":null,
-        "gear1st":null,
-        "gear2nd":null,
-        "gear3rd":null,
-        "gear4th":null,
-        "gear5th":null,
-        "gear6th":null,
-        "finalDrive":null
-    },
-    "checks":[
-
-    ],
-    "betweens":[
-
-    ],
-    "multipleValues":[
-
-    ]
-}
-        */
         FindCardsParamsDTO findParams = stringToParams(command);
 
         if (!findParamsIsEmpty(findParams)) {
 
-
+            System.out.println("innerParams");
             JsonNode simpleValues = findParams.getSimpleValues();
             List <String> checkedFieldNames = findParams.getCheckedFieldNames();
             JsonNode betweens = findParams.getBetweens();
             JsonNode multipleValues = findParams.getMultipleValues();
-
-
-            //List <Card> exampledCards = getExampledCards(card);
-            /*List <Card> simpleValuesCards = getSimpleValues(simpleValues);
-            List <Card> checkedCards = getCheckedCards(checkedFieldNames, simpleValuesCards);
-            List <Card> afterBetweens = getCardsAfterBetweens(betweens, checkedCards);
-            List <Card> afterMoreOptions = getCardsAfterMoreOptions(multipleValues, afterBetweens);
-            List <CardDTO> filteredCards = afterMoreOptions.stream()
-                .map(item -> DTOMapper.CardToCardDTO(item))
-                .collect(Collectors.toList());*/
 
             Query query = new Query();
             List <CardDTO> filteredCards = new ArrayList <>();
@@ -210,6 +147,8 @@ public class CCGameService {
 
             criterias.addAll(simpleCriterias(simpleValues));
             criterias.addAll(isNullCriterias(checkedFieldNames));
+            criterias.addAll(multipleCriterias(multipleValues));
+            criterias.addAll(betweensCriterias(betweens));
 
             query.addCriteria(new Criteria().orOperator(criterias.toArray(new Criteria[criterias.size()])));
 
@@ -224,24 +163,55 @@ public class CCGameService {
     }
 
 
+    private List <Criteria> betweensCriterias(JsonNode betweensValues) {
+
+        List <Criteria> criterias = new ArrayList <>();
+
+        for (JsonNode node : betweensValues) {
+            String attrName = node.get("name").asText();
+
+            try {
+                String valueFrom = objectMapper.readTree(node.get("values").toPrettyString()).get(0).asText().trim();
+                String valueTo = objectMapper.readTree(node.get("values").toPrettyString()).get(1).asText().trim();
+                Number parsedFrom;
+                Number parsedTo;
+
+                if (valueFrom.contains(".") || valueTo.contains(".")) {
+
+                    parsedFrom = Double.parseDouble(valueFrom);
+                    parsedTo = Double.parseDouble(valueTo);
+                } else {
+
+                    parsedFrom = Integer.parseInt(valueFrom);
+                    parsedTo = Integer.parseInt(valueTo);
+                }
+
+                criterias.add(Criteria.where(attrName).gte(parsedFrom).lte(parsedTo));
+
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return criterias;
+    }
+
+
     private List <Criteria> multipleCriterias(JsonNode multipleValues) {
 
         List <Criteria> criterias = new ArrayList <>();
 
         for (JsonNode node : multipleValues) {
             String attrName = node.get("name").asText();
-            String regex = "";
 
             try {
-                for (JsonNode values : objectMapper.readTree(node.get("values").toPrettyString())) {
+                for (JsonNode value : objectMapper.readTree(node.get("values").toPrettyString())) {
 
-                    regex = "(?i).*" + values.asText() + ".*";
+                    criterias.add(createCriteriaWithParsedValue(attrName, value.asText().trim()));
                 }
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
-
-            criterias.add(Criteria.where(attrName).regex(regex));
         }
 
         return criterias;
@@ -270,35 +240,42 @@ public class CCGameService {
 
         for (JsonNode node : simpleValues) {
             String attrName = node.get("name").asText();
-            String regex = "";
 
             try {
-                String value = objectMapper.readTree(node.get("values").toPrettyString()).get(0).asText();
-                regex = "(?i).*" + value + ".*";
+                String value = objectMapper.readTree(node.get("values").toPrettyString()).get(0).asText().trim();
 
-                if (value.chars().allMatch(Character::isDigit) || value.contains(".")) {
-
-                    Number parsedValue;
-
-                    if (value.contains(".")) {
-                        parsedValue = Double.parseDouble(value);
-                    } else {
-                        parsedValue = Integer.parseInt(value);
-                    }
-
-                    criterias.add(Criteria.where(attrName).is(parsedValue));
-
-                } else {
-                    criterias.add(Criteria.where(attrName).regex(regex));
-                }
+                criterias.add(createCriteriaWithParsedValue(attrName, value));
 
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
-
         }
 
         return criterias;
+    }
+
+
+    private Criteria createCriteriaWithParsedValue(String attrName, String value) {
+
+        String regex = "";
+
+        if (value.chars().allMatch(Character::isDigit) || value.contains(".")) {
+
+            Number parsedValue;
+
+            if (value.contains(".")) {
+                parsedValue = Double.parseDouble(value);
+            } else {
+                parsedValue = Integer.parseInt(value);
+            }
+
+            return Criteria.where(attrName).is(parsedValue);
+
+        } else {
+
+            regex = "(?i).*" + value + ".*";
+            return Criteria.where(attrName).regex(regex);
+        }
     }
 
 
@@ -314,16 +291,14 @@ public class CCGameService {
     private FindCardsParamsDTO stringToParams(String command) {
 
         String checks = "";
-        JsonNode json = null;
-        JsonNode simpleValues = null;
-        List <String> checkedFieldNames = null;
+        JsonNode json;
         JsonNode betweens = null;
+        JsonNode simpleValues = null;
         JsonNode multipleValues = null;
+        List <String> checkedFieldNames = null;
         FindCardsParamsDTO result = new FindCardsParamsDTO();
 
         try {
-
-
             json = objectMapper.readTree(command);
             checks = json.get("checks").toPrettyString();
             betweens = objectMapper.readTree(json.get("betweens").toPrettyString());
@@ -345,198 +320,6 @@ public class CCGameService {
     }
 
 
-    private List <Card> getSimpleValues(JsonNode simpleValues) {
-
-        List <Card> allCards = getAllCards().stream()
-            .map(c -> DTOMapper.CardDTOToCard(c))
-            .collect(Collectors.toList());
-
-        if (simpleValues.size() == 0) {
-
-            return allCards;
-        }
-
-        Set <Card> afterSimpleValues = new HashSet <>();
-
-        for (int i = 0; i < simpleValues.size(); i++) {
-
-            String attrName = simpleValues.get(0).get("name").asText();
-
-            for (JsonNode option : simpleValues.get(0).get("values")) {
-
-                for (Card c : allCards) {
-
-                    Map cardMap = objectMapper.convertValue(c, Map.class);
-
-                    if (cardMap.get(attrName).toString().trim().toLowerCase().contains(option.asText().trim().toLowerCase())) {
-
-                        afterSimpleValues.add(c);
-                        continue;
-                    }
-                }
-            }
-        }
-
-        return afterSimpleValues.stream()
-            .collect(Collectors.toList());
-
-    }
-
-
-    private List <Card> getCardsAfterMoreOptions(JsonNode moreOptions, List <Card> afterBetweens) {
-
-        if (moreOptions.size() == 0) {
-
-            return afterBetweens;
-        }
-
-        Set <Card> afterMoreOptions = new HashSet <>();
-
-        for (int i = 0; i < moreOptions.size(); i++) {
-
-            String attrName = moreOptions.get(0).get("name").asText();
-
-            for (JsonNode option : moreOptions.get(0).get("values")) {
-
-                for (Card c : afterBetweens) {
-
-                    Map cardMap = objectMapper.convertValue(c, Map.class);
-
-                    if (cardMap.get(attrName).toString().trim().toLowerCase().contains(option.asText().trim().toLowerCase())) {
-
-                        afterMoreOptions.add(c);
-                        continue;
-                    }
-                }
-            }
-        }
-
-        return afterMoreOptions.stream()
-            .collect(Collectors.toList());
-    }
-
-
-    private List <Card> getCheckedCards(List <String> checkedFieldNames, List <Card> exampledCards) {
-
-        List <Card> checkedCards = extractCheckedCards(checkedFieldNames, exampledCards);
-
-        if (checkedCards.size() == 0) {
-
-            return exampledCards;
-        }
-
-        return checkedCards;
-    }
-
-
-    private List <Card> extractCheckedCards(List <String> checkedFieldNames, List <Card> exampledCards) {
-
-        List <Card> checkedCards = new ArrayList <>();
-
-        for (Card c : exampledCards) {
-
-            Map cardMap = objectMapper.convertValue(c, Map.class);
-
-            if (isNullFieldCount(checkedFieldNames, cardMap) == checkedFieldNames.size()) {
-
-                checkedCards.add(c);
-            }
-        }
-
-        return checkedCards;
-    }
-
-
-    private int isNullFieldCount(List <String> checkedFieldNames, Map cardMap) {
-
-        int counter = 0;
-
-        for (int i = 0; i < checkedFieldNames.size(); i++) {
-
-            if (cardMap.get(checkedFieldNames.get(i)).equals("N/A")
-                || cardMap.get(checkedFieldNames.get(i)).toString().matches("-\\d+(\\.\\d+)?")) {
-
-                counter++;
-            }
-        }
-
-        return counter;
-    }
-
-
-    private List <Card> getCardsAfterBetweens(JsonNode betweens, List <Card> checkedCards) {
-
-        List <Card> afterBetweens = new ArrayList <>();
-
-        for (Card c : checkedCards) {
-
-            Map cardMap = objectMapper.convertValue(c, Map.class);
-            int counter = 0;
-
-            for (int i = 0; i < betweens.size(); i++) {
-
-                String attrName = betweens.get(i).get("name").asText();
-
-                if (betweens.get(i).get("values").get(0).toString().contains(".")) {
-
-                    double firstParam = betweens.get(i).get("values").get(0).asDouble();
-                    double secondParam = betweens.get(i).get("values").get(1).asDouble();
-
-                    counter += getAsDouble(cardMap, attrName, firstParam, secondParam);
-
-                } else {
-
-                    int firstParam = betweens.get(i).get("values").get(0).asInt();
-                    int secondParam = betweens.get(i).get("values").get(1).asInt();
-
-                    counter += getAsInt(cardMap, attrName, firstParam, secondParam);
-                }
-            }
-
-            if (counter == betweens.size()) {
-
-                afterBetweens.add(c);
-            }
-        }
-
-        return afterBetweens;
-    }
-
-
-    private int getAsInt(Map cardMap, String attrName, int firstParam, int secondParam) {
-
-        if ((int) cardMap.get(attrName) >= firstParam
-            && (int) cardMap.get(attrName) <= secondParam) {
-
-            return 1;
-        }
-
-        return 0;
-    }
-
-
-    private int getAsDouble(Map cardMap, String attrName, double firstParam, double secondParam) {
-
-        if ((double) cardMap.get(attrName) >= firstParam
-            && (double) cardMap.get(attrName) <= secondParam) {
-
-            return 1;
-        }
-
-        return 0;
-    }
-
-
-    private List <Card> getExampledCards(Card card) {
-
-        ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase();
-        Example <Card> example = Example.of(card, matcher);
-        List <Card> cards = ccGameRepository.findAll(example);
-
-        return cards;
-    }
-
-
     private List <String> extractCheckedFieldNames(String checks) {
 
         Pattern p = Pattern.compile("\\w+");
@@ -555,13 +338,5 @@ public class CCGameService {
     public void removeAllCard() {
 
         ccGameRepository.deleteAll();
-    }
-
-
-    private List <Card> sortByAlphabetAsc(List <Card> cards) {
-
-        return cards.stream()
-            .sorted()
-            .collect(Collectors.toList());
     }
 }
